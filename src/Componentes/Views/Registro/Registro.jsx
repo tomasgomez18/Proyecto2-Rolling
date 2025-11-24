@@ -1,9 +1,16 @@
 import { Modal } from "react-bootstrap";
+import FormRegistro from "./ComponenteRegistro/FormRegistro";
 
-export const Registro = () => {
+export const Registro = ({ onClose }) => {
+  const onSubmit = (data) => {
+    console.log("Usuario creado", data);
+
+    onClose();
+  };
 
   return (
     <>
+      {" "}
       <Modal
         show={true}
         onHide={onClose}
@@ -12,11 +19,11 @@ export const Registro = () => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton >
+        <Modal.Header closeButton onClose={onClose}>
           <Modal.Title>Registro</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormRegistro />
+          <FormRegistro onSubmit={onSubmit} />
         </Modal.Body>
       </Modal>
     </>
