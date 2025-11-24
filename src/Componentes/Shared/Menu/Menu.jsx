@@ -1,7 +1,12 @@
-import React from 'react'
+import { NavBarPrincipal } from "./ComponentesMenu/NavBarPrincipal";
+import { Registro } from "../../Views/Registro/Registro";
 
-export const Menu = () => {
+const Menu = () => {
+
   return (
-    <div>Menu</div>
-  )
-}
+    <>
+      <NavBarPrincipal/>
+    </>
+  );
+};
+export default Menu;
