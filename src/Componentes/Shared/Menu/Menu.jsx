@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavBarPrincipal } from "./NavbarPrincipal/NavBarPrincipal";
+import { Login } from "../../Views/Login/Login"; // ← AÑADIR ESTO
 import { Registro } from "../../Views/Registro/Registro";
 
 const Menu = () => {

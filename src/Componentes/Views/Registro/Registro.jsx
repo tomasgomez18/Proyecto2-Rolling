@@ -19,7 +19,7 @@ export const Registro = ({ onClose }) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton onClose={onClose}>
+        <Modal.Header closeButton>
           <Modal.Title>Registro</Modal.Title>
         </Modal.Header>
         <Modal.Body>

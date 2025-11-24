@@ -1,8 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import ValidacionesForm from "../../../Utils/ValidacionesForm";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { FECHA_MAXIMA, FECHA_MINIMA } from "../../../Utils/ValidacionesForm";
+import ValidacionesForm, { PAISES_VALIDOS, FECHA_MINIMA, FECHA_MAXIMA } from "../../../Utils/ValidacionesForm";
 import "./FormRegistro.css";
 
 const FormRegistro = ({ onSubmit, onClose }) => {
