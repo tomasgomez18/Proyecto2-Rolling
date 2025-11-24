@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 export const FECHA_MINIMA = new Date(1945, 0, 1);
 export const FECHA_MAXIMA = new Date(2006, 11, 31);
@@ -56,7 +55,6 @@ const PAISES_POR_REGION = {
   Europa: ["España"],
 };
 
-// zod una libreria de validacion de datos tipo "nivel backend pero frontend"
 const ValidacionesForm = z
   .object({
     nombreDeUsuario: z
@@ -67,7 +65,7 @@ const ValidacionesForm = z
         /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/,
         "Solo letras, números y guión bajo"
       )
-      .transform((val) => val.normalize("NFKC")), //Normaliza los caracteres Unicode (los que se ven igual pero tecnicamente son diferentes)
+      .transform((val) => val.normalize("NFKC")),
 
     email: z
       .string()
@@ -77,7 +75,6 @@ const ValidacionesForm = z
         "Email inválido"
       ),
 
-    // Nuevo campo: País
     pais: z
       .string()
       .min(1, "El país es requerido")
@@ -106,15 +103,13 @@ const ValidacionesForm = z
 
     confirmarContraseña: z.string(),
   })
-  // .refine permite crear validaciones personalizadas
   .refine(
-    (data) => data.contraseña === data.confirmarContraseña, //  conficion de true o false
+    (data) => data.contraseña === data.confirmarContraseña,
     {
-      //objeto de configuracion
-      message: "Las contraseñas no coinciden", //mensaje si falla
-      path: ["confirmarContraseña"], // donde mostrar el error
+      message: "Las contraseñas no coinciden",
+      path: ["confirmarContraseña"],
     }
   );
 
 export default ValidacionesForm;
-export { FECHA_MINIMA, FECHA_MAXIMA,PAISES_VALIDOS,PAISES_POR_REGION };
+export { FECHA_MINIMA, FECHA_MAXIMA, PAISES_VALIDOS, PAISES_POR_REGION };

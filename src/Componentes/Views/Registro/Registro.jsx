@@ -1,5 +1,5 @@
 import { Modal } from "react-bootstrap";
-import FormRegistro from "./ComponenteRegistro/FormRegistro";
+import FormRegistro from "./FormRegistro/FormRegistro";
 
 export const Registro = ({ onClose }) => {
   const onSubmit = (data) => {
