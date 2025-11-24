@@ -6,6 +6,7 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
   return (
     <Navbar expand="lg" className="barra-navegacion">
       <Container className="contenedor-navegacion">
+        
         <Navbar.Brand as={Link} to="/" className="logo-navegacion">
           <img
             src="#"
@@ -23,6 +24,7 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
           />
         </Form>
 
+       
         <Nav className="menu-derecha">
           <Nav.Item className="item-navegacion">
             <Nav.Link as={Link} to="/">
@@ -37,13 +39,13 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
           </Nav.Item>
 
           <Nav.Item className="item-navegacion">
-            <Button className="boton-login">
+            <Button className="boton-login" onClick={onAbrirLogin}>
               Login
             </Button>
           </Nav.Item>
 
           <Nav.Item className="item-navegacion">
-            <Button className="boton-registro" >
+            <Button className="boton-registro" onClick={onAbrirRegistro}>
               Registro
             </Button>
           </Nav.Item>
