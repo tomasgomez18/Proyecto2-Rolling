@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const FECHA_MINIMA = new Date(1945, 0, 1);
-export const FECHA_MAXIMA = new Date(2006, 11, 31);
+const FECHA_MINIMA = new Date(1945, 0, 1);
+const FECHA_MAXIMA = new Date(2006, 11, 31);
 
 const PAISES_VALIDOS = [
   "Argentina",
@@ -103,13 +103,10 @@ const ValidacionesForm = z
 
     confirmarContraseña: z.string(),
   })
-  .refine(
-    (data) => data.contraseña === data.confirmarContraseña,
-    {
-      message: "Las contraseñas no coinciden",
-      path: ["confirmarContraseña"],
-    }
-  );
+  .refine((data) => data.contraseña === data.confirmarContraseña, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmarContraseña"],
+  });
 
 export default ValidacionesForm;
 export { FECHA_MINIMA, FECHA_MAXIMA, PAISES_VALIDOS, PAISES_POR_REGION };
