@@ -27,7 +27,18 @@ const Cards = () => {
         </div>
       </Col>
       </Row>
-
+      <Row  className='rounded-3 my-3 text-center' style ={{backgroundColor: '#ebebebff', color:'#636262'}}>
+        <p className='fs-2 fw-bolder'>Sumate a nuestras rodadas <hr /></p>
+<Form>
+    <Form.Label>Ingresa tu correo electronico</Form.Label>
+    <Form.Control type="email" placeholder="Ingrese su correo electrónico" />
+      <Form.Group className="mb-3" controlId="formBasicConsulta">
+        <Form.Label>Tu Consulta</Form.Label>
+        <Form.Control as="textarea" rows={3} placeholder="Escribe aquí tu consulta..." />
+      </Form.Group>
+      <Button variant="primary" type="submit">Quiero sumarme!</Button>
+    </Form>
+    </Row>
     </Container>
   )
 }
