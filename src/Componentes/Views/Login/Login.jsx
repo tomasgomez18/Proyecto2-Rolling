@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap";
 import { FormLogin } from "./FormLogin/FormLogin";
 import "./Login.css";
 
-const Login = ({ onClose }) => {
+const Login = ({ onClose,onAbrirRegistro }) => {
   const onSubmit = (data) => {
     console.log("Datos de login:", data);
     onClose();
@@ -22,7 +22,7 @@ const Login = ({ onClose }) => {
         <Modal.Title>Bienvenido de vuelta a Rolling Motors</Modal.Title>
       </Modal.Header>
       <Modal.Body className="modal-body-custom p-0">
-        <FormLogin onSubmit={onSubmit} onClose={onClose} />
+        <FormLogin onSubmit={onSubmit} onClose={onClose} onAbrirRegistro={onAbrirRegistro} />
       </Modal.Body>
     </Modal>
   );

@@ -4,7 +4,7 @@ import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import ValidacionesForm from "../../../Utils/ValidacionesForm";
 import "./FormLogin.css";
 
-export const FormLogin = ({ onSubmit, onClose }) => {
+export const FormLogin = ({ onSubmit, onClose,onAbrirRegistro }) => {
   const {
     register,
     handleSubmit,
@@ -13,6 +13,11 @@ export const FormLogin = ({ onSubmit, onClose }) => {
     resolver: zodResolver(ValidacionesForm),
   });
 
+   const manejarClickRegistro = (e) => {
+    e.preventDefault();
+    console.log("clickeado redirigir registro");
+    onAbrirRegistro?.();
+  }
   const procesarEnvio = (data) => {
     console.log("Datos de login válidos:", data);
     onSubmit?.(data);
@@ -92,7 +97,7 @@ export const FormLogin = ({ onSubmit, onClose }) => {
             {/* Enlace de registro */}
             <div className="text-center mt-4">
               <p className="texto-registro">
-                ¿NO TIENES CUENTA? <a href="#" className="enlace-dorado">REGÍSTRATE AQUÍ</a>
+                ¿NO TIENES CUENTA? <a href="#" className="enlace-dorado" onClick={manejarClickRegistro}>REGÍSTRATE AQUÍ</a>
               </p>
             </div>
           </Form>
