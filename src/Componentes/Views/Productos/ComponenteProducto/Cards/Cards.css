@@ -3,3 +3,17 @@
     margin: 0;
     box-sizing: border-box;
 }
+.card-img{
+    width: 40%;
+    border-radius: 5%;
+    mask-image: linear-gradient(
+        rgb(0, 0, 0) 85%, transparent
+    );
+    padding: 3px;
+}
+.contenedor-card{
+    width: 60%;
+    padding: 30px;
+    background-color: rgb(226, 222, 222);
+    border-radius: 5%;
+}

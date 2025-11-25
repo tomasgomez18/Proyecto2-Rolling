@@ -3,6 +3,7 @@ import { BrowserRouter,Routes,Route } from "react-router"
 import Menu from "./Componentes/Shared/Menu/Menu"
 import { Home } from './Componentes/Views/Home/Home'
 import './App.css'
+import Productos from './Componentes/Views/Productos/Productos'
 
 function App() {
 
