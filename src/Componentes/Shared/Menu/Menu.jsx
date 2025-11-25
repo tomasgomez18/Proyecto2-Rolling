@@ -1,14 +1,17 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { NavBarPrincipal } from "./NavbarPrincipal/NavbarPrincipal";
-import { Login } from "../../Views/Login/Login"; // ← AÑADIR ESTO
+ feature/Login
+import { NavBarPrincipal } from "./NavBarPrincipal/NavBarPrincipal";
 import { Registro } from "../../Views/Registro/Registro";
-
+import Login from "../../Views/Login/Login";
 const Menu = () => {
   const navigate = useNavigate();
 
   const ubicacion = useLocation();
   const parametroBusqueda = new URLSearchParams(ubicacion.search);
   const tipoModal = parametroBusqueda.get("modal");
+  console.log("Parámetro modal:", tipoModal);
+  console.log("Ubicación completa:", ubicacion);
+
 
   const onClose = () => {
     console.log("Cerrar modal ejecutado");
@@ -31,7 +34,8 @@ const Menu = () => {
         onAbrirRegistro={abrirRegistro}
         onAbrirLogin={abrirLogin}
       />
-      {tipoModal === "login" && <Login onClose={onClose} />}{" "}
+          
+      {tipoModal === "login" && <Login onClose={onClose} onAbrirRegistro={abrirRegistro} />}
       {tipoModal === "registro" && <Registro onClose={onClose} />}
     </>
   );
