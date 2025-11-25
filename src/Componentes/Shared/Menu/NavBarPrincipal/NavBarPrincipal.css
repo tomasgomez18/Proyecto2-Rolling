@@ -1,0 +1,179 @@
+/* NavbarPrincipal.css */
+
+/* Importar fuentes estilo Royal Enfield */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+
+.barra-royal {
+  background: linear-gradient(135deg, #e0d3d3 0%, #2d2d2d 100%);
+  height: 70px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #d4af37;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.barra-royal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+.contenedor-royal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+/* Logo y marca */
+.logo-royal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  height: 150px;
+}
+
+.logo-royal:hover {
+  transform: scale(1.05);
+}
+
+.icono-moto {
+  color: #d4af37;
+  font-size: 24px;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.3));
+}
+
+.nombre-marca {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: linear-gradient(45deg, #ffffff, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Menú de opciones */
+.menu-royal {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-left: auto;
+}
+
+.opcion-royal {
+  color: #e8e8e8;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.opcion-royal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.opcion-royal:hover::before {
+  left: 100%;
+}
+
+.opcion-royal:hover {
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Botón destacado */
+.boton-probar {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #1a1a1a;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.boton-probar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.boton-probar:hover::before {
+  left: 100%;
+}
+
+.boton-probar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, #e0b845 0%, #c9a028 100%);
+}
+
+.boton-probar:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contenedor-royal {
+    padding: 0 1rem;
+  }
+  
+  .menu-royal {
+    gap: 15px;
+  }
+  
+  .opcion-royal {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  
+  .boton-probar {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  
+  .nombre-marca {
+    font-size: 20px;
+  }
+}
