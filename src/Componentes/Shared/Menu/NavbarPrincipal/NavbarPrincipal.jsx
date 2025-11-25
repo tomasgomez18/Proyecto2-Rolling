@@ -1,54 +1,35 @@
-import { Navbar, Nav, Button, Form, Container } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { FaGlobe, FaShoppingCart, FaUser, FaMotorcycle } from "react-icons/fa";
+import "./NavbarPrincipal.css";
 
 export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
   return (
-    <Navbar expand="lg" className="barra-navegacion">
-      <Container className="contenedor-navegacion">
+    <Navbar expand="lg" className="barra-royal">
+      <Container fluid className="contenedor-royal">
         
-        <Navbar.Brand as={Link} to="/" className="logo-navegacion">
-          <img
-            src="#"
-            alt="Rolling Market"
-            width={160}
-            height={50}
-          />
+        
+        <Navbar.Brand as={Link} to="/" className="logo-royal">
+          <img src="Public/Logo.png" alt="logo"  className="logo-royal" />
         </Navbar.Brand>
 
-        <Form className="formulario-busqueda">
-          <Form.Control
-            type="search"
-            placeholder="Buscar productos..."
-            className="input-busqueda"
-          />
-        </Form>
-
        
-        <Nav className="menu-derecha">
-          <Nav.Item className="item-navegacion">
-            <Nav.Link as={Link} to="/">
-              Home
-            </Nav.Link>
-          </Nav.Item>
+        <Nav className="ms-auto menu-royal">
+          <span className="opcion-royal">
+            <FaGlobe size={14} /> ES–EUR
+          </span>
 
-          <Nav.Item className="item-navegacion">
-            <Nav.Link as={Link} to="/">
-              Contacto
-            </Nav.Link>
-          </Nav.Item>
+          <span className="opcion-royal">
+            <FaShoppingCart size={16} />
+          </span>
 
-          <Nav.Item className="item-navegacion">
-            <Button className="boton-login" onClick={onAbrirLogin}>
-              Login
-            </Button>
-          </Nav.Item>
+          <span className="opcion-royal" onClick={onAbrirLogin}>
+            <FaUser size={14} /> Iniciar sesión
+          </span>
 
-          <Nav.Item className="item-navegacion">
-            <Button className="boton-registro" onClick={onAbrirRegistro}>
-              Registro
-            </Button>
-          </Nav.Item>
+          <button className="boton-probar" onClick={onAbrirRegistro}>
+            Registrarse
+          </button>
         </Nav>
       </Container>
     </Navbar>
