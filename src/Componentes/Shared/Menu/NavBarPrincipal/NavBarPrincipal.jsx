@@ -1,6 +1,6 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FaGlobe, FaShoppingCart, FaUser, FaMotorcycle } from "react-icons/fa";
+import { FaGlobe, FaShoppingCart, FaUser } from "react-icons/fa";
 import "./NavbarPrincipal.css";
 
 export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
@@ -10,7 +10,7 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
         
         
         <Navbar.Brand as={Link} to="/" className="logo-royal">
-          <img src="Public/Logo.png" alt="logo"  className="logo-royal" />
+          <img src="#" alt="logo"  className="logo-royal" />
         </Navbar.Brand>
 
        

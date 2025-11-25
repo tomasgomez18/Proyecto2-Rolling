@@ -1,7 +1,31 @@
-import React from 'react'
+import { FormLogin } from "./FormLogin/FormLogin";
+import Modal from "react-bootstrap/Modal";
 
-export const Login = () => {
+const Login = ({ onClose }) => {
+  const onSubmit = (data) => {
+    console.log("Usuario creado", data);
+    onClose();
+  };
   return (
-    <div>Login</div>
-  )
-}
+    <>
+      <Modal
+        show={true}
+        onHide={onClose}
+        centered
+        size="lg"
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton >
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <FormLogin onSubmit={onSubmit} onClose={onClose} />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
+
+export default Login;
