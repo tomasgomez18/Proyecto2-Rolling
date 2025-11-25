@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaGlobe, FaShoppingCart, FaUser, FaMotorcycle } from "react-icons/fa";
-import "./NavbarPrincipal.css";
+import "./NavBarPrincipal.css";
 
 export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
   return (
