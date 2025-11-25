@@ -15,19 +15,19 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
 
        
         <Nav className="ms-auto menu-royal">
-          <span className="opcion-royal">
+          <span  key="idioma" className="opcion-royal">
             <FaGlobe size={14} /> ES–EUR
           </span>
 
-          <span className="opcion-royal">
+          <span key="carrito" className="opcion-royal">
             <FaShoppingCart size={16} />
           </span>
 
-          <span className="opcion-royal" onClick={onAbrirLogin}>
+          <span key="login" className="opcion-royal" onClick={onAbrirLogin}>
             <FaUser size={14} /> Iniciar sesión
           </span>
 
-          <button className="boton-probar" onClick={onAbrirRegistro}>
+          <button key="registro" className="boton-probar" onClick={onAbrirRegistro}>
             Registrarse
           </button>
         </Nav>
