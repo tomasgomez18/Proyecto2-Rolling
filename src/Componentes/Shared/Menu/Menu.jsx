@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
+ feature/Login
 import { NavBarPrincipal } from "./NavBarPrincipal/NavBarPrincipal";
 import { Registro } from "../../Views/Registro/Registro";
 import Login from "../../Views/Login/Login";
-
 const Menu = () => {
   const navigate = useNavigate();
 
@@ -15,7 +15,10 @@ const Menu = () => {
 
   const onClose = () => {
     console.log("Cerrar modal ejecutado");
+    console.log("Ruta actual que cerramos:", ubicacion.pathname);
+
     navigate(ubicacion.pathname);
+    return;
   };
   const abrirLogin = () => {
     console.log("entra modal registro login");
@@ -31,6 +34,7 @@ const Menu = () => {
         onAbrirRegistro={abrirRegistro}
         onAbrirLogin={abrirLogin}
       />
+          
       {tipoModal === "login" && <Login onClose={onClose} onAbrirRegistro={abrirRegistro} />}
       {tipoModal === "registro" && <Registro onClose={onClose} />}
     </>
