@@ -1,9 +1,9 @@
 import React from 'react'
-import Cards from './ComponenteProducto/Cards/Cards'
+import Categorias from './ComponenteProducto/Cards/Categorias.jsx'
 const Productos = () => {
   return (
     <div>
-        <Cards />
+        <Categorias/>
     </div>
   )
 }

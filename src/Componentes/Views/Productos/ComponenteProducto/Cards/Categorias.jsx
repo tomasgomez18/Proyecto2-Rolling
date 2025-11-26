@@ -1,5 +1,5 @@
 import React from 'react';
-import './Cards.css';
+import './Categoria.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Col, Row, Card } from 'react-bootstrap';
 import { motion } from 'framer-motion';
@@ -9,25 +9,30 @@ const ImgCascos = new URL('/Productos/ImgCascos.jpg', import.meta.url).href;
 const ImgIndumentaria = new URL('/Productos/ImgIndumentaria.jpg', import.meta.url).href;
 const ImgTaller = new URL('/Productos/ImgTaller.jpg', import.meta.url).href;
 
-const Cards = () => {
+const Categorias = () => {
 
   const scrollAnimation = {
     initial: { opacity: 0, y: 80 },
     whileInView: { opacity: 1, y: 0 },
     transition: { duration: 1.1, ease: "easeOut" },
     viewport: { once: false, amount: 0.3 }
-  };  
+  };
+
+
+  const hoverAnimation = (direction) => ({
+    whileHover: { x: direction === "left" ? -20 : 20 },
+    transition: { type: "spring", stiffness: 150, damping: 12 }
+  });
 
   return (
     <div className="d-flex justify-content-center">
-
       <div style={{ width: '95%', maxWidth: '1200px' }}>
 
 
-        <motion.div {...scrollAnimation}>
+        <motion.div {...scrollAnimation} {...hoverAnimation("left")}>
           <Card
             className="p-0 border-0 shadow-sm overflow-hidden mb-4"
-            style={{ height: '330px' }} 
+            style={{ height: '330px' }}
           >
             <Row className="g-0 h-100">
               <Col md={6}>
@@ -52,8 +57,7 @@ const Cards = () => {
           </Card>
         </motion.div>
 
-
-        <motion.div {...scrollAnimation}>
+        <motion.div {...scrollAnimation} {...hoverAnimation("right")}>
           <Card
             className="p-0 border-0 shadow-sm overflow-hidden mb-4"
             style={{ height: '330px' }}
@@ -82,7 +86,7 @@ const Cards = () => {
         </motion.div>
 
 
-        <motion.div {...scrollAnimation}>
+        <motion.div {...scrollAnimation} {...hoverAnimation("left")}>
           <Card
             className="p-0 border-0 shadow-sm overflow-hidden mb-4"
             style={{ height: '330px' }}
@@ -110,7 +114,8 @@ const Cards = () => {
           </Card>
         </motion.div>
 
-        <motion.div {...scrollAnimation}>
+
+        <motion.div {...scrollAnimation} {...hoverAnimation("right")}>
           <Card
             className="p-0 border-0 shadow-sm overflow-hidden mb-4"
             style={{ height: '330px' }}
@@ -139,9 +144,8 @@ const Cards = () => {
         </motion.div>
 
       </div>
-
     </div>
   );
 };
 
-export default Cards;
+export default Categorias;
