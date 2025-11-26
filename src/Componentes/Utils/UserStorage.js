@@ -72,6 +72,7 @@ export const UserStorage = {
           pais: data.pais,
           fechaNacimiento: data.fechaNacimiento,
           contraseña: CryptoJS.SHA256(data.contraseña).toString(),
+          role:"usuario"
         };
         usuarios.push(usuarioCompleto);
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
