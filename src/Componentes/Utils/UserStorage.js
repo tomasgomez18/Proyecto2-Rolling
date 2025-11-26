@@ -2,8 +2,27 @@ import CryptoJS from "crypto-js";
 const URL_API = import.meta.env.VITE_URL_API;
 export const UserStorage = {
   async TodosLosUsuarios() {
-    const usuarios = await JSON.parse(localStorage.getItem("usuarios") || "[]");
-    return usuarios;
+    try {
+      const respuesta = await fetch(URL_API);
+
+      if (!respuesta.ok) throw new Error("Respuesta no OK desde la API");
+
+      const usuariosAPI = await respuesta.json();
+
+      localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
+
+      console.log("Usuarios cargados desde API:", usuariosAPI);
+      return usuariosAPI;
+    } catch (error) {
+      console.warn("Error accediendo a la API, usando localStorage:", error);
+
+      const usuariosLocal = JSON.parse(
+        localStorage.getItem("usuarios") || "[]"
+      );
+
+      console.log("Usuarios cargados desde LocalStorage:", usuariosLocal);
+      return usuariosLocal;
+    }
   },
 
   async UltimoLogin(usuario) {
@@ -26,7 +45,6 @@ export const UserStorage = {
         };
       }
 
-      
       const contraseñaIngresadaHasheada = CryptoJS.SHA256(
         data.contraseña
       ).toString();
@@ -72,7 +90,7 @@ export const UserStorage = {
           pais: data.pais,
           fechaNacimiento: data.fechaNacimiento,
           contraseña: CryptoJS.SHA256(data.contraseña).toString(),
-          role:"usuario"
+          role: "usuario",
         };
         usuarios.push(usuarioCompleto);
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
