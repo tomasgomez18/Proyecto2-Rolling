@@ -1,5 +1,3 @@
-import { json } from "zod";
-import { da } from "zod/locales";
 const URL_API = import.meta.env.VITE_URL_API;
 export const UserStorage = {
   async TodosLosUsuarios() {
@@ -31,7 +29,6 @@ export const UserStorage = {
       if (usuarioEncontrado.contraseña === data.contraseña) {
         console.log("Contraseña correcta");
         await this.UltimoLogin(usuarioEncontrado);
-
         return {
           login: true,
           mensaje: "Login exitoso",
@@ -118,11 +115,13 @@ export const UserStorage = {
           if (!respuesta.ok) {
             throw new Error(`Error API: ${respuesta.status}`);
           }
+          this.UltimoLogin(usuarioCompleto);
           return {
             registrado: true,
             mensaje: "Usuario registrado con exito en ambos sistemas",
           };
         } catch (error) {
+          await this.UltimoLogin(usuarioCompleto);
           return {
             registrado: true,
             mensaje:
@@ -134,6 +133,58 @@ export const UserStorage = {
       }
     } catch (error) {
       return { registrado: false, mensaje: "Error al registrar el usuario." };
+    }
+  },
+
+  async Backup() {
+    try {
+      const usuariosLocal = await this.TodosLosUsuarios();
+      const respuesta = await fetch(URL_API);
+
+      if (!respuesta.ok) {
+        throw new Error(`Error al cargar datos: ${response.status}`);
+      }
+
+      const usuariosAPI = await respuesta.json();
+      if (usuariosLocal.length === 0) {
+        console.log("No hay datos en el localStorage");
+
+        localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
+
+        console.log("cargando datos de la API");
+        return {
+          carga: true,
+          mensaje: "datos restaurados desde backup",
+          usuariosRestaurados: usuariosAPI.length,
+        };
+      } else if (usuariosLocal.length !== usuariosAPI.length) {
+        console.log(
+          "LocalStorage y API tiene diferentes cantidad de usuarios,sincronizando..."
+        );
+
+        localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
+        console.log("Usuarios sincronizados desde API");
+        return {
+          carga: true,
+          mensaje: "Datos sincronizados desde backup",
+          usuariosRestaurados: usuariosAPI.length,
+          usuariosAnteriores: usuariosLocal.length,
+        };
+      } else {
+        console.log("LocalStorage y API están sincronizados");
+        return {
+          carga: false,
+          mensaje: "No se necesitó backup - ya están sincronizados",
+        };
+      }
+    } catch (error) {
+      console.log("error en backup", error);
+
+      return {
+        error: true,
+        mensaje: "Error al realizar el backup, por favor contacte a soporte",
+        rutaSoporte: "/contacto",
+      };
     }
   },
 };
