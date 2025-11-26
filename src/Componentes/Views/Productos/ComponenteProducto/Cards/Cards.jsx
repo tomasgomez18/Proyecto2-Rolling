@@ -7,6 +7,7 @@ import { Button, Col, Container, Form, FormLabel, Row , Card,} from 'react-boots
 const imgCard = new URL('/Productos/imgCard.jpg', import.meta.url).href;
 const ImgCascos = new URL('/Productos/ImgCascos.jpg', import.meta.url).href;
 const ImgIndumentaria = new URL('/Productos/ImgIndumentaria.jpg', import.meta.url).href;
+const ImgTaller = new URL('/Productos/ImgTaller.jpg', import.meta.url).href;
 
 
 const Cards = () => {
@@ -128,11 +129,11 @@ const Cards = () => {
             style={{backgroundColor: '#dadcdfff'}}
           >
             <Card.Title className="h4 fw-bold text-dark mb-3 text-center">
-              Motocicletas
+              Indumentaria
             </Card.Title>
             <Card.Text className="text-secondary text-center mb-3" style={{fontSize: '0.9rem'}}>
-              Descubre nuestra amplia gama de motocicletas de alta calidad. 
-              Modelos deportivos, urbanos y de aventura.
+              Explora nuestra colección de indumentaria para motociclistas.
+              Desde chaquetas y pantalones hasta guantes y botas, tenemos todo lo que necesitas para rodar con estilo y seguridad.
             </Card.Text>
             
             <div className="d-flex justify-content-center">
@@ -155,6 +156,52 @@ const Cards = () => {
         
       </Row>
     </Card>
+
+    <Card className="p-0 border-0 shadow-sm overflow-hidden mt-3" style={{maxHeight: '280px'}}>
+  <Row className="g-0 h-100">
+    <Col md={6} className="order-2 order-md-1"> 
+      <Card.Body 
+        className="d-flex flex-column justify-content-center p-3 h-100"
+        style={{backgroundColor: '#dadcdfff'}}
+      >
+        <Card.Title className="h4 fw-bold text-dark mb-3 text-center">
+          Seccion de Taller
+        </Card.Title>
+        <Card.Text className="text-secondary text-center mb-3" style={{fontSize: '0.9rem'}}>
+         Contamos con un taller especializado para el mantenimiento y reparación de tu motocicleta.
+         Nuestro equipo de técnicos capacitados utiliza herramientas y equipos de última generación para garantizar un servicio de calidad.
+        </Card.Text>
+        
+        <div className="d-flex justify-content-center">
+          <Button 
+            variant="primary" 
+            size="md"
+            className="px-4 py-2 fw-semibold"
+            style={{
+              backgroundColor: '#007bff',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '0.9rem'
+            }}
+          >
+            Ver Catálogo
+          </Button>
+        </div>
+      </Card.Body>
+    </Col>
+    <Col md={6} className="order-1 order-md-2">
+      <div 
+        className="w-100 h-100"
+        style={{
+          backgroundImage: `url(${ImgTaller})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      ></div>
+    </Col>
+  </Row>
+</Card>
     
   </div>
 </div>
