@@ -1,12 +1,12 @@
 {
   "usuarios": [
     {
-      "id": "1764147945430az9ij177d",
+      "id": "b356379e-041e-4319-9dd6-3861b8d734aa",
       "nombreDeUsuario": "matiasLaz",
       "email": "matiasnicolaslazarte@gmail.com",
       "pais": "Argentina",
-      "fechaNacimiento": "2002-02-20",
-      "contraseña": "Hola1@gmail"
+      "fechaNacimiento": "2001-02-20",
+      "contraseña": "f5d04a0eb6db52bf10aeac082a2b3db85e1719d1edfc0aa282fdf0ac324729de"
     }
   ]
 }

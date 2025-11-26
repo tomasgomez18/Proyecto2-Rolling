@@ -1,3 +1,4 @@
+import CryptoJS from "crypto-js";
 const URL_API = import.meta.env.VITE_URL_API;
 export const UserStorage = {
   async TodosLosUsuarios() {
@@ -24,9 +25,13 @@ export const UserStorage = {
           mensaje: "Usuario no encontrado",
         };
       }
-      console.log("Usuario existe");
 
-      if (usuarioEncontrado.contraseña === data.contraseña) {
+      
+      const contraseñaIngresadaHasheada = CryptoJS.SHA256(
+        data.contraseña
+      ).toString();
+
+      if (usuarioEncontrado.contraseña === contraseñaIngresadaHasheada) {
         console.log("Contraseña correcta");
         await this.UltimoLogin(usuarioEncontrado);
         return {
@@ -66,7 +71,7 @@ export const UserStorage = {
           email: data.email,
           pais: data.pais,
           fechaNacimiento: data.fechaNacimiento,
-          contraseña: data.contraseña,
+          contraseña: CryptoJS.SHA256(data.contraseña).toString(),
         };
         usuarios.push(usuarioCompleto);
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
