@@ -6,7 +6,7 @@
       "email": "matiasnicolaslazarte@gmail.com",
       "pais": "Argentina",
       "fechaNacimiento": "2001-02-20",
-      "contraseña": "f5d04a0eb6db52bf10aeac082a2b3db85e1719d1edfc0aa282fdf0ac324729de"
+      "password": "f5d04a0eb6db52bf10aeac082a2b3db85e1719d1edfc0aa282fdf0ac324729de"
     },
     {
       "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
@@ -14,7 +14,7 @@
       "email": "admin@Rollingmotors.com",
       "pais": "Argentina",
       "fechaNacimiento": "2001-01-20",
-      "contraseña": "8f7b5e2a9c3d1f6e4a8b2c5d9e1f3a7b6c8d0e2f4a5b7c9d1e3f5a7b8c9d0e2f",
+      "password": "8f7b5e2a9c3d1f6e4a8b2c5d9e1f3a7b6c8d0e2f4a5b7c9d1e3f5a7b8c9d0e2f",
       "role": "admin"
     }
     

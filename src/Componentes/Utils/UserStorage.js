@@ -2,9 +2,27 @@ import CryptoJS from "crypto-js";
 const URL_API = import.meta.env.VITE_URL_API;
 export const UserStorage = {
   async TodosLosUsuarios() {
-    const usuarios = await JSON.parse(localStorage.getItem("usuarios") || "[]");
-    return usuarios;
-  },
+  try {
+    const respuesta = await fetch(URL_API);
+
+    if (!respuesta.ok) throw new Error("Respuesta no OK desde la API");
+
+    const usuariosAPI = await respuesta.json();
+
+    localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
+
+    console.log("Usuarios cargados desde API:", usuariosAPI);
+    return usuariosAPI;
+  } catch (error) {
+    console.warn("Error accediendo a la API, usando localStorage:", error);
+
+    const usuariosLocal = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+    console.log("Usuarios cargados desde LocalStorage:", usuariosLocal);
+    return usuariosLocal;
+  }
+},
+
 
   async UltimoLogin(usuario) {
     localStorage.setItem("ultimoUsuario", JSON.stringify(usuario));
@@ -26,7 +44,6 @@ export const UserStorage = {
         };
       }
 
-      
       const contraseñaIngresadaHasheada = CryptoJS.SHA256(
         data.contraseña
       ).toString();
@@ -71,8 +88,8 @@ export const UserStorage = {
           email: data.email,
           pais: data.pais,
           fechaNacimiento: data.fechaNacimiento,
-          contraseña: CryptoJS.SHA256(data.contraseña).toString(),
-          role:"usuario"
+          password: CryptoJS.SHA256(data.password).toString(),
+          role: "usuario",
         };
         usuarios.push(usuarioCompleto);
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
@@ -144,51 +161,50 @@ export const UserStorage = {
 
   async Backup() {
     try {
-      const usuariosLocal = await this.TodosLosUsuarios();
+      // Leer directo del localStorage, sin llamar a TodosLosUsuarios()
+      const usuariosLocal = JSON.parse(
+        localStorage.getItem("usuarios") || "[]"
+      );
+
       const respuesta = await fetch(URL_API);
 
       if (!respuesta.ok) {
-        throw new Error(`Error al cargar datos: ${response.status}`);
+        throw new Error(`Error al cargar datos: ${respuesta.status}`);
       }
 
       const usuariosAPI = await respuesta.json();
+
+      // Si el localStorage está vacío → cargar backup
       if (usuariosLocal.length === 0) {
-        console.log("No hay datos en el localStorage");
-
         localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
-
-        console.log("cargando datos de la API");
         return {
           carga: true,
-          mensaje: "datos restaurados desde backup",
+          mensaje: "Datos restaurados desde la API",
           usuariosRestaurados: usuariosAPI.length,
         };
-      } else if (usuariosLocal.length !== usuariosAPI.length) {
-        console.log(
-          "LocalStorage y API tiene diferentes cantidad de usuarios,sincronizando..."
-        );
+      }
 
+      // Si NO coincide la cantidad → sincronizar con API
+      if (usuariosLocal.length !== usuariosAPI.length) {
         localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
-        console.log("Usuarios sincronizados desde API");
         return {
           carga: true,
-          mensaje: "Datos sincronizados desde backup",
+          mensaje: "Datos sincronizados desde la API",
           usuariosRestaurados: usuariosAPI.length,
           usuariosAnteriores: usuariosLocal.length,
         };
-      } else {
-        console.log("LocalStorage y API están sincronizados");
-        return {
-          carga: false,
-          mensaje: "No se necesitó backup - ya están sincronizados",
-        };
       }
-    } catch (error) {
-      console.log("error en backup", error);
 
+      // Si está todo OK
+      return {
+        carga: false,
+        mensaje: "LocalStorage y API están sincronizados",
+      };
+    } catch (error) {
+      console.log("Error en backup", error);
       return {
         error: true,
-        mensaje: "Error al realizar el backup, por favor contacte a soporte",
+        mensaje: "Error al realizar el backup. Contacte a soporte.",
         rutaSoporte: "/contacto",
       };
     }

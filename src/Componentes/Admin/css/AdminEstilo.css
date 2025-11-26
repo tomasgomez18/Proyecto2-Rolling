@@ -1,0 +1,112 @@
+/* Estilo Royal Enfield */
+/* Colores base */
+:root {
+  --negro: #111;
+  --gris: #2a2a2a;
+  --dorado: #d4af37;
+  --blanco: #f5f5f5;
+}
+
+/* Layout principal */
+.admin-contenedor {
+  display: flex;
+  height: 100vh;
+  background: var(--negro);
+  color: var(--blanco);
+}
+
+.admin-lateral {
+  width: 240px;
+  background: var(--gris);
+  padding: 20px;
+  border-right: 2px solid var(--dorado);
+}
+
+.admin-titulo {
+  color: var(--dorado);
+  font-size: 22px;
+  text-align: center;
+}
+
+/* Área principal */
+.admin-principal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-encabezado {
+  background: var(--gris);
+  padding: 15px;
+  border-bottom: 2px solid var(--dorado);
+}
+
+.admin-encabezado-texto {
+  color: var(--dorado);
+  margin: 0;
+}
+
+.admin-contenido {
+  padding: 20px;
+}
+
+/* Tabla */
+.tabla-contenedor {
+  margin-top: 20px;
+}
+
+.tabla-busqueda {
+  width: 100%;
+  padding: 10px;
+  background: #1a1a1a;
+  border: 1px solid var(--dorado);
+  border-radius: 6px;
+  color: var(--blanco);
+  margin-bottom: 15px;
+}
+
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1a1a1a;
+}
+
+.tabla-usuarios th {
+  background: var(--gris);
+  padding: 12px;
+  border-bottom: 2px solid var(--dorado);
+  color: var(--dorado);
+}
+
+.tabla-usuarios td {
+  padding: 12px;
+  border-bottom: 1px solid #333;
+}
+
+/* Mensaje vacío */
+.tabla-vacio {
+  text-align: center;
+  padding: 20px;
+  color: var(--dorado);
+}
+
+/* Botones */
+.btn-editar,
+.btn-suspender {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.btn-editar {
+  background: var(--dorado);
+  color: var(--negro);
+}
+
+.btn-suspender {
+  background: #a30000;
+  color: white;
+}
