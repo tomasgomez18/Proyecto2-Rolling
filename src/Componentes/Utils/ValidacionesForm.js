@@ -55,12 +55,13 @@ const PAISES_POR_REGION = {
   Europa: ["España"],
 };
 
-const ValidacionesForm = z
+
+const registroSchema = z
   .object({
     nombreDeUsuario: z
       .string()
       .min(5, "El nombre de usuario debe tener mínimo 5 caracteres")
-      .max(20, "El nombre de usuario no puede superar 20 caracteres")
+      .max(30, "El nombre de usuario no puede superar 20 caracteres")
       .regex(
         /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/,
         "Solo letras, números y guión bajo"
@@ -108,6 +109,35 @@ const ValidacionesForm = z
     path: ["confirmarContraseña"],
   });
 
-export default ValidacionesForm;
-export { FECHA_MINIMA, FECHA_MAXIMA, PAISES_VALIDOS, PAISES_POR_REGION };
+
+const loginSchema = z.object({
+  credencial: z.string()
+    .min(1, "Ingresa tu usuario o email")
+    .refine((val) => {
+      // Si parece email, validar como email
+      if (val.includes('@')) {
+        return /^[^\s<>()\[\]\\.,;:"%]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val);
+      } else {
+        // Si no, validar como nombre de usuario
+        return val.length >= 5 && 
+               val.length <= 30 && 
+               /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/.test(val);
+      }
+    }, {
+      message: "El usuario o email no es válido"
+    }),
+    
+  contraseña: z.string()
+    .min(1, "Ingresa tu contraseña")
+});
+
+export default registroSchema;
+export { 
+  loginSchema,
+  registroSchema, 
+  FECHA_MINIMA, 
+  FECHA_MAXIMA, 
+  PAISES_VALIDOS, 
+  PAISES_POR_REGION 
+};
 

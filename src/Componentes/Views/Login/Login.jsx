@@ -1,11 +1,22 @@
 import { Modal } from "react-bootstrap";
 import { FormLogin } from "./FormLogin/FormLogin";
+import { UserStorage } from "../../Utils/UserStorage"; // Importa UserStorage
 import "./Login.css";
 
-const Login = ({ onClose,onAbrirRegistro }) => {
-  const onSubmit = (data) => {
-    console.log("Datos de login:", data);
-    onClose();
+const Login = ({ onClose, onAbrirRegistro }) => {
+  const onSubmit = async (data) => {
+    try {
+      const resultado = await UserStorage.VerificarLoginUsuario(data);
+      
+      if (resultado.login) {
+        console.log("Login exitoso", resultado.usuario);
+        onClose();
+      } else {
+        alert(resultado.mensaje);
+      }
+    } catch (error) {
+      alert("Error inesperado en el login");
+    }
   };
   
   return (

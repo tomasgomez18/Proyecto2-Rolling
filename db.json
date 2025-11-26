@@ -1,0 +1,12 @@
+{
+  "usuarios": [
+    {
+      "id": "1764147945430az9ij177d",
+      "nombreDeUsuario": "matiasLaz",
+      "email": "matiasnicolaslazarte@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "2002-02-20",
+      "contraseña": "Hola1@gmail"
+    }
+  ]
+}

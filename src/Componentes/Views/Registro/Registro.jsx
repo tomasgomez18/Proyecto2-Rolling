@@ -1,9 +1,13 @@
 import { Modal } from "react-bootstrap";
+import { useState } from "react";
 import FormRegistro from "./FormRegistro/FormRegistro";
 import { UserStorage } from "../../Utils/UserStorage";
 import "./Registro.css";
+import { useNavigate } from "react-router";
 
 export const Registro = ({ onClose }) => {
+  const [mensajeRegistro, setMensajeRegistro] = useState(null);
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
       const resultado = await UserStorage.VerificarRegistrarUsuario(data);
@@ -12,22 +16,25 @@ export const Registro = ({ onClose }) => {
         console.log("Usuario creado", data);
 
         if (resultado.necesitaSoporte) {
-          
           setMensajeRegistro(
             <div>
               {resultado.mensaje} <br />
-              <a href="/contacto" className="link-soporte">
+              <button
+                className="btn btn-link p-0 link-soporte"
+                onClick={() => {
+                  onClose(); 
+                  navigate("/contacto");
+                }}
+              >
                 Contactar soporte
-              </a>
+              </button>
             </div>
           );
         } else {
-          
           setMensajeRegistro(resultado.mensaje);
-          onClose(); 
+          onClose();
         }
       } else {
-        // Mostrar error de registro
         setMensajeRegistro(resultado.mensaje);
       }
     } catch (error) {
@@ -35,6 +42,7 @@ export const Registro = ({ onClose }) => {
     }
     console.log("Usuario creado", data);
   };
+  
 
   return (
     <Modal
