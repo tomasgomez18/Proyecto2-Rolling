@@ -2,6 +2,7 @@ import Form from 'react-bootstrap/Form';
 
 const Contacto = () => {
     return (
+        <>
         <div
             className="container d-flex justify-content-center align-items-center min-vh-100"
             style={{
@@ -78,15 +79,71 @@ const Contacto = () => {
                             color: "black",
                             fontWeight: "600"
                         }} >Enviar</button>
-
-
                 </div>
             </div>
         </div>
+
+
+        <div className="container mt-5 mb-5">
+    <div 
+        style={{ 
+            maxWidth: "500px",
+            border: "3px white solid",
+            borderRadius: "10px",
+            padding: "20px"
+        }}
+    >
+
+        <div className="d-flex align-items-center text-white mb-3 flex-wrap">
+
+            <span className="fw-semibold me-3" style={{ whiteSpace: "nowrap" }}>
+                LUNES A VIERNES
+            </span>
+            <div 
+                style={{
+                    flexGrow: 1,
+                    height: "2px",
+                    backgroundColor: "white",
+                    opacity: 0.5
+                }}
+            ></div>
+            <span className="fw-bold ms-3" style={{ whiteSpace: "nowrap" }}>
+                10:00 / 19:00
+            </span>
+        </div>
+        <div className="d-flex align-items-center text-white mb-3 flex-wrap">
+            <span className="fw-semibold me-3" style={{ whiteSpace: "nowrap" }}>
+                SÁBADOS
+            </span>
+            <div 
+                style={{
+                    flexGrow: 1,
+                    height: "2px",
+                    backgroundColor: "white",
+                    opacity: 0.5
+                }}
+            ></div>
+            <span className="fw-bold ms-3" style={{ whiteSpace: "nowrap" }}>
+                10:00 / 18:00
+            </span>
+        </div>
+        
+
+    </div>
+</div>
+
+        
+</>
+
+
+
     );
 };
 
 export default Contacto;
+
+
+
 
 
 
