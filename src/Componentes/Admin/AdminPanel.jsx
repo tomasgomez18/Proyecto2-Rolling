@@ -1,23 +1,38 @@
-import { useState } from 'react';
-import { useUser } from '../Context/UserContext';
-import './css/AdminPanel.css';
+import { useState } from "react";
+import { useUser } from "../Context/UserContext";
+import "./css/AdminPanel.css";
 
 const AdminPanel = () => {
-  const { 
-    usuarios, 
-    usuariosSuspendidos, 
-    productos, 
+  const {
+    usuarios,
+    usuariosSuspendidos,
+    productos,
     esAdministrador,
     suspenderUsuario,
     reactivarUsuario,
     eliminarUsuarioSuspendido,
     editarUsuario,
-    agregarProducto
+    agregarProducto,
+    sincronizarConAPI,
   } = useUser();
 
-  const [vistaActiva, setVistaActiva] = useState('usuarios');
+  const [vistaActiva, setVistaActiva] = useState("usuarios");
   const [usuarioEditando, setUsuarioEditando] = useState(null);
   const [mostrarFormProducto, setMostrarFormProducto] = useState(false);
+
+  // FUNCIÓN QUE FALTABA - handleSincronizar
+  const handleSincronizar = async () => {
+    if (sincronizarConAPI) {
+      const resultado = await sincronizarConAPI();
+      if (resultado.exito) {
+        alert('Sincronización completada con éxito');
+      } else {
+        alert('Error en sincronización: ' + resultado.mensaje);
+      }
+    } else {
+      alert('Función de sincronización no disponible');
+    }
+  };
 
   // Si no es administrador, no mostrar el panel
   if (!esAdministrador) {
@@ -34,16 +49,16 @@ const AdminPanel = () => {
   // Formulario de producto
   const FormProducto = () => {
     const [formData, setFormData] = useState({
-      nombre: '',
-      precio: '',
-      descripcion: '',
-      categoria: ''
+      nombre: "",
+      precio: "",
+      descripcion: "",
+      categoria: "",
     });
 
     const handleSubmit = (e) => {
       e.preventDefault();
       agregarProducto(formData);
-      setFormData({ nombre: '', precio: '', descripcion: '', categoria: '' });
+      setFormData({ nombre: "", precio: "", descripcion: "", categoria: "" });
       setMostrarFormProducto(false);
     };
 
@@ -56,32 +71,43 @@ const AdminPanel = () => {
               type="text"
               placeholder="Nombre del producto"
               value={formData.nombre}
-              onChange={(e) => setFormData({...formData, nombre: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, nombre: e.target.value })
+              }
               required
             />
             <input
               type="number"
               placeholder="Precio"
               value={formData.precio}
-              onChange={(e) => setFormData({...formData, precio: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, precio: e.target.value })
+              }
               required
             />
             <input
               type="text"
               placeholder="Categoría"
               value={formData.categoria}
-              onChange={(e) => setFormData({...formData, categoria: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, categoria: e.target.value })
+              }
               required
             />
             <textarea
               placeholder="Descripción"
               value={formData.descripcion}
-              onChange={(e) => setFormData({...formData, descripcion: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, descripcion: e.target.value })
+              }
               required
             />
             <div className="form-buttons">
               <button type="submit">Agregar</button>
-              <button type="button" onClick={() => setMostrarFormProducto(false)}>
+              <button
+                type="button"
+                onClick={() => setMostrarFormProducto(false)}
+              >
                 Cancelar
               </button>
             </div>
@@ -97,7 +123,7 @@ const AdminPanel = () => {
       nombreDeUsuario: usuarioEditando.nombreDeUsuario,
       email: usuarioEditando.email,
       pais: usuarioEditando.pais,
-      fechaNacimiento: usuarioEditando.fechaNacimiento
+      fechaNacimiento: usuarioEditando.fechaNacimiento,
     });
 
     const handleSubmit = (e) => {
@@ -115,27 +141,35 @@ const AdminPanel = () => {
               type="text"
               placeholder="Nombre de usuario"
               value={formData.nombreDeUsuario}
-              onChange={(e) => setFormData({...formData, nombreDeUsuario: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, nombreDeUsuario: e.target.value })
+              }
               required
             />
             <input
               type="email"
               placeholder="Email"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               required
             />
             <input
               type="text"
               placeholder="País"
               value={formData.pais}
-              onChange={(e) => setFormData({...formData, pais: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, pais: e.target.value })
+              }
               required
             />
             <input
               type="date"
               value={formData.fechaNacimiento}
-              onChange={(e) => setFormData({...formData, fechaNacimiento: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, fechaNacimiento: e.target.value })
+              }
               required
             />
             <div className="form-buttons">
@@ -154,30 +188,40 @@ const AdminPanel = () => {
     <div className="admin-panel">
       <header className="admin-header">
         <h1>Panel de Administración</h1>
-        <nav className="admin-nav">
-          <button 
-            className={vistaActiva === 'usuarios' ? 'active' : ''}
-            onClick={() => setVistaActiva('usuarios')}
+        <div className="admin-header-controls">
+          <nav className="admin-nav">
+            <button
+              className={vistaActiva === "usuarios" ? "active" : ""}
+              onClick={() => setVistaActiva("usuarios")}
+            >
+              Usuarios Activos ({usuarios.length})
+            </button>
+            <button
+              className={vistaActiva === "suspendidos" ? "active" : ""}
+              onClick={() => setVistaActiva("suspendidos")}
+            >
+              Usuarios Suspendidos ({usuariosSuspendidos.length})
+            </button>
+            <button
+              className={vistaActiva === "productos" ? "active" : ""}
+              onClick={() => setVistaActiva("productos")}
+            >
+              Productos ({productos.length})
+            </button>
+          </nav>
+          {/* Botón de sincronización */}
+          <button
+            className="btn-sincronizar"
+            onClick={handleSincronizar}
+            title="Sincronizar cambios con la API"
           >
-            Usuarios Activos ({usuarios.length})
+            🔄 Sincronizar
           </button>
-          <button 
-            className={vistaActiva === 'suspendidos' ? 'active' : ''}
-            onClick={() => setVistaActiva('suspendidos')}
-          >
-            Usuarios Suspendidos ({usuariosSuspendidos.length})
-          </button>
-          <button 
-            className={vistaActiva === 'productos' ? 'active' : ''}
-            onClick={() => setVistaActiva('productos')}
-          >
-            Productos ({productos.length})
-          </button>
-        </nav>
+        </div>
       </header>
 
       <main className="admin-content">
-        {vistaActiva === 'usuarios' && (
+        {vistaActiva === "usuarios" && (
           <div className="tabla-container">
             <h2>Usuarios Activos</h2>
             <table className="tabla-admin">
@@ -191,20 +235,22 @@ const AdminPanel = () => {
                 </tr>
               </thead>
               <tbody>
-                {usuarios.map(usuario => (
+                {usuarios.map((usuario) => (
                   <tr key={usuario.id}>
                     <td>{usuario.nombreDeUsuario}</td>
                     <td>{usuario.email}</td>
                     <td>{usuario.pais}</td>
-                    <td>{new Date(usuario.fechaNacimiento).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(usuario.fechaNacimiento).toLocaleDateString()}
+                    </td>
                     <td className="acciones">
-                      <button 
+                      <button
                         className="btn-editar"
                         onClick={() => setUsuarioEditando(usuario)}
                       >
                         Editar
                       </button>
-                      <button 
+                      <button
                         className="btn-suspender"
                         onClick={() => suspenderUsuario(usuario.id)}
                       >
@@ -218,7 +264,7 @@ const AdminPanel = () => {
           </div>
         )}
 
-        {vistaActiva === 'suspendidos' && (
+        {vistaActiva === "suspendidos" && (
           <div className="tabla-container">
             <h2>Usuarios Suspendidos</h2>
             <table className="tabla-admin">
@@ -231,19 +277,21 @@ const AdminPanel = () => {
                 </tr>
               </thead>
               <tbody>
-                {usuariosSuspendidos.map(usuario => (
+                {usuariosSuspendidos.map((usuario) => (
                   <tr key={usuario.id}>
                     <td>{usuario.nombreDeUsuario}</td>
                     <td>{usuario.email}</td>
-                    <td>{new Date(usuario.fechaSuspension).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(usuario.fechaSuspension).toLocaleDateString()}
+                    </td>
                     <td className="acciones">
-                      <button 
+                      <button
                         className="btn-reactivar"
                         onClick={() => reactivarUsuario(usuario.id)}
                       >
                         Reactivar
                       </button>
-                      <button 
+                      <button
                         className="btn-eliminar"
                         onClick={() => eliminarUsuarioSuspendido(usuario.id)}
                       >
@@ -257,11 +305,11 @@ const AdminPanel = () => {
           </div>
         )}
 
-        {vistaActiva === 'productos' && (
+        {vistaActiva === "productos" && (
           <div className="tabla-container">
             <div className="productos-header">
               <h2>Productos ({productos.length})</h2>
-              <button 
+              <button
                 className="btn-agregar"
                 onClick={() => setMostrarFormProducto(true)}
               >
@@ -278,12 +326,14 @@ const AdminPanel = () => {
                 </tr>
               </thead>
               <tbody>
-                {productos.map(producto => (
+                {productos.map((producto) => (
                   <tr key={producto.id}>
                     <td>{producto.nombre}</td>
                     <td>${producto.precio}</td>
                     <td>{producto.categoria}</td>
-                    <td>{new Date(producto.fechaCreacion).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(producto.fechaCreacion).toLocaleDateString()}
+                    </td>
                   </tr>
                 ))}
                 {productos.length === 0 && (

@@ -201,14 +201,28 @@ export const UserStorage = {
         };
       }
 
-      // Si NO coincide la cantidad → sincronizar con API
-      if (usuariosLocal.length !== usuariosAPI.length) {
-        localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
+      // SOLUCIÓN: Solo sincronizar si hay cambios reales, no solo por cantidad
+      // Buscar usuarios que están en API pero no en Local
+      const usuariosFaltantes = usuariosAPI.filter(
+        (apiUser) =>
+          !usuariosLocal.find((localUser) => localUser.id === apiUser.id)
+      );
+
+      // Si hay usuarios faltantes, mezclar ambos arrays
+      if (usuariosFaltantes.length > 0) {
+        const usuariosCombinados = [...usuariosLocal];
+
+        usuariosFaltantes.forEach((apiUser) => {
+          if (!usuariosCombinados.find((u) => u.id === apiUser.id)) {
+            usuariosCombinados.push(apiUser);
+          }
+        });
+
+        localStorage.setItem("usuarios", JSON.stringify(usuariosCombinados));
         return {
           carga: true,
-          mensaje: "Datos sincronizados desde la API",
-          usuariosRestaurados: usuariosAPI.length,
-          usuariosAnteriores: usuariosLocal.length,
+          mensaje: "Usuarios nuevos agregados desde la API",
+          usuariosAgregados: usuariosFaltantes.length,
         };
       }
 
