@@ -37,14 +37,14 @@ const Contacto = () => {
                     >
                         <h2 className="fw-bold mb-3" >ROLLING MOTORS</h2>
                     </div>
-                    <form 
+                    <form>
                         className=" col-12 col-md-6 bg-dark d-flex flex-column justify-content-center p-5"
                         style={{
                             background: "rgba(130, 96, 96, 0.65)",
                             backdropFilter: "blur(6px)",
                             color: "white"
                         }}
-                    >
+                    
                         <h3 className="fw-bold mb-4 text-center">Datos de Contacto</h3>
                         <div></div>
                         <input type="text" placeholder="Nombre" name='Nombre' id='Nombre'
