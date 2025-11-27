@@ -1,6 +1,6 @@
 import { Modal } from "react-bootstrap";
 import { FormLogin } from "./FormLogin/FormLogin";
-import { UserStorage } from "../../Utils/UserStorage";
+import { UserStorage } from "../../Utils/UsuarioStorage";
 import "./Login.css";
 import { toast } from "react-hot-toast";
 
@@ -28,13 +28,13 @@ const Login = ({ onClose, onAbrirRegistro }) => {
       size="lg"
       backdrop="static"
       keyboard={false}
-      dialogClassName="modal-login-custom"
+      dialogClassName="modal-login-personalizado"
     >
-      <Modal.Header closeButton className="modal-header-custom">
+      <Modal.Header closeButton className="encabezado-modal-personalizado">
         <Modal.Title>Bienvenido de vuelta a Rolling Motors</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body className="modal-body-custom p-0">
+      <Modal.Body className="cuerpo-modal-personalizado p-0">
         <FormLogin
           onSubmit={onSubmit}
           onClose={onClose}

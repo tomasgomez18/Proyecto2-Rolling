@@ -7,7 +7,7 @@ import AdminPanel from "./Componentes/Admin/AdminPanel";
 import RutaProtegida from "./Componentes/Utils/RutaProtegida"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { UserStorage } from "./Componentes/Utils/UserStorage";
+import { UserStorage } from "./Componentes/Utils/UsuarioStorage";
 import { UserProvider } from "./Componentes/Context/ContextoUsuario"; 
 
 function App() {

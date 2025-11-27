@@ -1,26 +1,26 @@
-.admin-panel {
+.panel-administracion {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.admin-header {
+.encabezado-administracion {
   margin-bottom: 30px;
   border-bottom: 2px solid #ddd;
   padding-bottom: 20px;
 }
 
-.admin-header h1 {
+.encabezado-administracion h1 {
   color: #333;
   margin-bottom: 15px;
 }
 
-.admin-nav {
+.navegacion-administracion {
   display: flex;
   gap: 10px;
 }
 
-.admin-nav button {
+.navegacion-administracion button {
   padding: 10px 20px;
   border: 1px solid #ddd;
   background: #f5f5f5;
@@ -29,33 +29,33 @@
   transition: all 0.3s ease;
 }
 
-.admin-nav button.active,
-.admin-nav button:hover {
+.navegacion-administracion button.activo,
+.navegacion-administracion button:hover {
   background: #007bff;
   color: white;
   border-color: #007bff;
 }
 
-.tabla-container {
+.contenedor-tabla {
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   padding: 20px;
 }
 
-.tabla-container h2 {
+.contenedor-tabla h2 {
   margin-bottom: 20px;
   color: #333;
 }
 
-.productos-header {
+.encabezado-productos {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.btn-agregar {
+.boton-agregar {
   background: #28a745;
   color: white;
   border: none;
@@ -64,19 +64,19 @@
   cursor: pointer;
 }
 
-.tabla-admin {
+.tabla-administracion {
   width: 100%;
   border-collapse: collapse;
 }
 
-.tabla-admin th,
-.tabla-admin td {
+.tabla-administracion th,
+.tabla-administracion td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-.tabla-admin th {
+.tabla-administracion th {
   background: #f8f9fa;
   font-weight: 600;
 }
@@ -94,22 +94,22 @@
   font-size: 12px;
 }
 
-.btn-editar {
+.boton-editar {
   background: #ffc107;
   color: black;
 }
 
-.btn-suspender {
+.boton-suspender {
   background: #dc3545;
   color: white;
 }
 
-.btn-reactivar {
+.boton-reactivar {
   background: #28a745;
   color: white;
 }
 
-.btn-eliminar {
+.boton-eliminar {
   background: #6c757d;
   color: white;
 }
@@ -120,7 +120,7 @@
   font-style: italic;
 }
 
-.form-overlay {
+.superposicion-formulario {
   position: fixed;
   top: 0;
   left: 0;
@@ -133,7 +133,7 @@
   z-index: 1000;
 }
 
-.form-container {
+.contenedor-formulario {
   background: white;
   padding: 30px;
   border-radius: 8px;
@@ -141,13 +141,13 @@
   max-width: 500px;
 }
 
-.form-container h3 {
+.contenedor-formulario h3 {
   margin-bottom: 20px;
   color: #333;
 }
 
-.form-container input,
-.form-container textarea {
+.contenedor-formulario input,
+.contenedor-formulario textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -156,30 +156,30 @@
   box-sizing: border-box;
 }
 
-.form-container textarea {
+.contenedor-formulario textarea {
   height: 100px;
   resize: vertical;
 }
 
-.form-buttons {
+.botones-formulario {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
 }
 
-.form-buttons button {
+.botones-formulario button {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.form-buttons button[type="submit"] {
+.botones-formulario button[type="submit"] {
   background: #007bff;
   color: white;
 }
 
-.form-buttons button[type="button"] {
+.botones-formulario button[type="button"] {
   background: #6c757d;
   color: white;
 }
@@ -190,7 +190,7 @@
   color: #dc3545;
 }
 
-.admin-header-controls {
+.controles-encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -198,7 +198,7 @@
   margin-top: 15px;
 }
 
-.btn-sincronizar {
+.boton-sincronizar {
   background: #17a2b8;
   color: white;
   border: none;
@@ -210,11 +210,11 @@
   white-space: nowrap;
 }
 
-.btn-sincronizar:hover {
+.boton-sincronizar:hover {
   background: #138496;
 }
 
-.admin-nav {
+.navegacion-administracion {
   display: flex;
   gap: 10px;
 }

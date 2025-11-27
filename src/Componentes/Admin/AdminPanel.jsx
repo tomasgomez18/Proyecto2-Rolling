@@ -20,8 +20,7 @@ const AdminPanel = () => {
   const [usuarioEditando, setUsuarioEditando] = useState(null);
   const [mostrarFormProducto, setMostrarFormProducto] = useState(false);
 
-  // FUNCIÓN QUE FALTABA - handleSincronizar
-  const handleSincronizar = async () => {
+  const manejarSincronizacion = async () => {
     if (sincronizarConAPI) {
       const resultado = await sincronizarConAPI();
       if (resultado.exito) {
@@ -37,7 +36,7 @@ const AdminPanel = () => {
   // Si no es administrador, no mostrar el panel
   if (!esAdministrador) {
     return (
-      <div className="admin-panel">
+      <div className="panel-administracion">
         <div className="acceso-denegado">
           <h2>Acceso Denegado</h2>
           <p>No tienes permisos para acceder al panel de administración.</p>
@@ -47,62 +46,62 @@ const AdminPanel = () => {
   }
 
   // Formulario de producto
-  const FormProducto = () => {
-    const [formData, setFormData] = useState({
+  const FormularioProducto = () => {
+    const [datosFormulario, setDatosFormulario] = useState({
       nombre: "",
       precio: "",
       descripcion: "",
       categoria: "",
     });
 
-    const handleSubmit = (e) => {
+    const manejarEnvio = (e) => {
       e.preventDefault();
-      agregarProducto(formData);
-      setFormData({ nombre: "", precio: "", descripcion: "", categoria: "" });
+      agregarProducto(datosFormulario);
+      setDatosFormulario({ nombre: "", precio: "", descripcion: "", categoria: "" });
       setMostrarFormProducto(false);
     };
 
     return (
-      <div className="form-overlay">
-        <div className="form-container">
+      <div className="superposicion-formulario">
+        <div className="contenedor-formulario">
           <h3>Agregar Producto</h3>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={manejarEnvio}>
             <input
               type="text"
               placeholder="Nombre del producto"
-              value={formData.nombre}
+              value={datosFormulario.nombre}
               onChange={(e) =>
-                setFormData({ ...formData, nombre: e.target.value })
+                setDatosFormulario({ ...datosFormulario, nombre: e.target.value })
               }
               required
             />
             <input
               type="number"
               placeholder="Precio"
-              value={formData.precio}
+              value={datosFormulario.precio}
               onChange={(e) =>
-                setFormData({ ...formData, precio: e.target.value })
+                setDatosFormulario({ ...datosFormulario, precio: e.target.value })
               }
               required
             />
             <input
               type="text"
               placeholder="Categoría"
-              value={formData.categoria}
+              value={datosFormulario.categoria}
               onChange={(e) =>
-                setFormData({ ...formData, categoria: e.target.value })
+                setDatosFormulario({ ...datosFormulario, categoria: e.target.value })
               }
               required
             />
             <textarea
               placeholder="Descripción"
-              value={formData.descripcion}
+              value={datosFormulario.descripcion}
               onChange={(e) =>
-                setFormData({ ...formData, descripcion: e.target.value })
+                setDatosFormulario({ ...datosFormulario, descripcion: e.target.value })
               }
               required
             />
-            <div className="form-buttons">
+            <div className="botones-formulario">
               <button type="submit">Agregar</button>
               <button
                 type="button"
@@ -119,60 +118,60 @@ const AdminPanel = () => {
 
   // Modal de edición de usuario
   const ModalEditarUsuario = () => {
-    const [formData, setFormData] = useState({
+    const [datosFormulario, setDatosFormulario] = useState({
       nombreDeUsuario: usuarioEditando.nombreDeUsuario,
       email: usuarioEditando.email,
       pais: usuarioEditando.pais,
       fechaNacimiento: usuarioEditando.fechaNacimiento,
     });
 
-    const handleSubmit = (e) => {
+    const manejarEnvio = (e) => {
       e.preventDefault();
-      editarUsuario(usuarioEditando.id, formData);
+      editarUsuario(usuarioEditando.id, datosFormulario);
       setUsuarioEditando(null);
     };
 
     return (
-      <div className="form-overlay">
-        <div className="form-container">
+      <div className="superposicion-formulario">
+        <div className="contenedor-formulario">
           <h3>Editar Usuario</h3>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={manejarEnvio}>
             <input
               type="text"
               placeholder="Nombre de usuario"
-              value={formData.nombreDeUsuario}
+              value={datosFormulario.nombreDeUsuario}
               onChange={(e) =>
-                setFormData({ ...formData, nombreDeUsuario: e.target.value })
+                setDatosFormulario({ ...datosFormulario, nombreDeUsuario: e.target.value })
               }
               required
             />
             <input
               type="email"
               placeholder="Email"
-              value={formData.email}
+              value={datosFormulario.email}
               onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
+                setDatosFormulario({ ...datosFormulario, email: e.target.value })
               }
               required
             />
             <input
               type="text"
               placeholder="País"
-              value={formData.pais}
+              value={datosFormulario.pais}
               onChange={(e) =>
-                setFormData({ ...formData, pais: e.target.value })
+                setDatosFormulario({ ...datosFormulario, pais: e.target.value })
               }
               required
             />
             <input
               type="date"
-              value={formData.fechaNacimiento}
+              value={datosFormulario.fechaNacimiento}
               onChange={(e) =>
-                setFormData({ ...formData, fechaNacimiento: e.target.value })
+                setDatosFormulario({ ...datosFormulario, fechaNacimiento: e.target.value })
               }
               required
             />
-            <div className="form-buttons">
+            <div className="botones-formulario">
               <button type="submit">Guardar</button>
               <button type="button" onClick={() => setUsuarioEditando(null)}>
                 Cancelar
@@ -185,25 +184,25 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="admin-panel">
-      <header className="admin-header">
+    <div className="panel-administracion">
+      <header className="encabezado-administracion">
         <h1>Panel de Administración</h1>
-        <div className="admin-header-controls">
-          <nav className="admin-nav">
+        <div className="controles-encabezado">
+          <nav className="navegacion-administracion">
             <button
-              className={vistaActiva === "usuarios" ? "active" : ""}
+              className={vistaActiva === "usuarios" ? "activo" : ""}
               onClick={() => setVistaActiva("usuarios")}
             >
               Usuarios Activos ({usuarios.length})
             </button>
             <button
-              className={vistaActiva === "suspendidos" ? "active" : ""}
+              className={vistaActiva === "suspendidos" ? "activo" : ""}
               onClick={() => setVistaActiva("suspendidos")}
             >
               Usuarios Suspendidos ({usuariosSuspendidos.length})
             </button>
             <button
-              className={vistaActiva === "productos" ? "active" : ""}
+              className={vistaActiva === "productos" ? "activo" : ""}
               onClick={() => setVistaActiva("productos")}
             >
               Productos ({productos.length})
@@ -211,8 +210,8 @@ const AdminPanel = () => {
           </nav>
           {/* Botón de sincronización */}
           <button
-            className="btn-sincronizar"
-            onClick={handleSincronizar}
+            className="boton-sincronizar"
+            onClick={manejarSincronizacion}
             title="Sincronizar cambios con la API"
           >
             🔄 Sincronizar
@@ -220,11 +219,11 @@ const AdminPanel = () => {
         </div>
       </header>
 
-      <main className="admin-content">
+      <main className="contenido-administracion">
         {vistaActiva === "usuarios" && (
-          <div className="tabla-container">
+          <div className="contenedor-tabla">
             <h2>Usuarios Activos</h2>
-            <table className="tabla-admin">
+            <table className="tabla-administracion">
               <thead>
                 <tr>
                   <th>Usuario</th>
@@ -245,13 +244,13 @@ const AdminPanel = () => {
                     </td>
                     <td className="acciones">
                       <button
-                        className="btn-editar"
+                        className="boton-editar"
                         onClick={() => setUsuarioEditando(usuario)}
                       >
                         Editar
                       </button>
                       <button
-                        className="btn-suspender"
+                        className="boton-suspender"
                         onClick={() => suspenderUsuario(usuario.id)}
                       >
                         Suspender
@@ -265,9 +264,9 @@ const AdminPanel = () => {
         )}
 
         {vistaActiva === "suspendidos" && (
-          <div className="tabla-container">
+          <div className="contenedor-tabla">
             <h2>Usuarios Suspendidos</h2>
-            <table className="tabla-admin">
+            <table className="tabla-administracion">
               <thead>
                 <tr>
                   <th>Usuario</th>
@@ -286,13 +285,13 @@ const AdminPanel = () => {
                     </td>
                     <td className="acciones">
                       <button
-                        className="btn-reactivar"
+                        className="boton-reactivar"
                         onClick={() => reactivarUsuario(usuario.id)}
                       >
                         Reactivar
                       </button>
                       <button
-                        className="btn-eliminar"
+                        className="boton-eliminar"
                         onClick={() => eliminarUsuarioSuspendido(usuario.id)}
                       >
                         Eliminar
@@ -306,17 +305,17 @@ const AdminPanel = () => {
         )}
 
         {vistaActiva === "productos" && (
-          <div className="tabla-container">
-            <div className="productos-header">
+          <div className="contenedor-tabla">
+            <div className="encabezado-productos">
               <h2>Productos ({productos.length})</h2>
               <button
-                className="btn-agregar"
+                className="boton-agregar"
                 onClick={() => setMostrarFormProducto(true)}
               >
                 + Agregar Producto
               </button>
             </div>
-            <table className="tabla-admin">
+            <table className="tabla-administracion">
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -350,7 +349,7 @@ const AdminPanel = () => {
       </main>
 
       {usuarioEditando && <ModalEditarUsuario />}
-      {mostrarFormProducto && <FormProducto />}
+      {mostrarFormProducto && <FormularioProducto />}
     </div>
   );
 };

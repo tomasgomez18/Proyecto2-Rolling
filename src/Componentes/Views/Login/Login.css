@@ -1,24 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
 
-/* Modal más compacto */
-.modal-login-custom {
+.modal-login-personalizado {
   max-width: 85vw !important;
 }
 
 @media (min-width: 1200px) {
-  .modal-login-custom {
-    max-width: 800px !important; /* Un poco más pequeño que el registro */
+  .modal-login-personalizado {
+    max-width: 800px !important;
   }
 }
 
 @media (min-width: 1400px) {
-  .modal-login-custom {
+  .modal-login-personalizado {
     max-width: 850px !important;
   }
 }
 
-/* GIF de fondo aplicado al modal-content */
-.modal-login-custom .modal-content {
+.modal-login-personalizado .modal-content {
   border: none;
   border-radius: 15px;
   overflow: hidden;
@@ -32,8 +30,7 @@
   background-size: cover;
 }
 
-/* Header más compacto */
-.modal-login-custom .modal-header-custom {
+.modal-login-personalizado .encabezado-modal-personalizado {
   background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(45, 45, 45, 0.85) 100%);
   border-bottom: 2px solid #d4af37;
   color: #ffffff;
@@ -45,7 +42,7 @@
   z-index: 1;
 }
 
-.modal-login-custom .modal-title {
+.modal-login-personalizado .modal-title {
   font-weight: 600;
   font-size: 1.3rem;
   background: linear-gradient(45deg, #ffffff, #d4af37);
@@ -58,8 +55,7 @@
   width: 100%;
 }
 
-/* Body más compacto */
-.modal-login-custom .modal-body-custom {
+.modal-login-personalizado .cuerpo-modal-personalizado {
   background: transparent !important;
   color: #e8e8e8;
   font-family: 'Montserrat', sans-serif;
@@ -72,53 +68,51 @@
   z-index: 1;
 }
 
-/* Botón cerrar personalizado - AHORA EN BLANCO */
-.modal-login-custom .btn-close {
-  filter: invert(0) !important; /* Cambiado de invert(1) a invert(0) */
+.modal-login-personalizado .btn-close {
+  filter: invert(0) !important;
   opacity: 0.8;
   background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat !important;
 }
 
-.modal-login-custom .btn-close:hover {
+.modal-login-personalizado .btn-close:hover {
   opacity: 1;
   transform: scale(1.1);
   background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat !important;
 }
 
-/* Responsive para el modal */
 @media (max-width: 768px) {
-  .modal-login-custom {
+  .modal-login-personalizado {
     max-width: 92vw !important;
     margin: 0.5rem auto;
   }
   
-  .modal-login-custom .modal-header-custom {
+  .modal-login-personalizado .encabezado-modal-personalizado {
     padding: 1rem 1.25rem;
   }
   
-  .modal-login-custom .modal-title {
+  .modal-login-personalizado .modal-title {
     font-size: 1.1rem;
   }
   
-  .modal-login-custom .modal-content {
+  .modal-login-personalizado .modal-content {
     min-height: auto;
   }
   
-  .modal-login-custom .modal-body-custom {
+  .modal-login-personalizado .cuerpo-modal-personalizado {
     min-height: 40vh;
   }
 }
 
 @media (max-width: 576px) {
-  .modal-login-custom .modal-header-custom {
+  .modal-login-personalizado .encabezado-modal-personalizado {
     padding: 0.75rem 1rem;
   }
   
-  .modal-login-custom .modal-body-custom {
+  .modal-login-personalizado .cuerpo-modal-personalizado {
     min-height: 35vh;
   }
   
-  .modal-login-custom .modal-title {
+  .modal-login-personalizado .modal-title {
     font-size: 1rem;
   }
 }

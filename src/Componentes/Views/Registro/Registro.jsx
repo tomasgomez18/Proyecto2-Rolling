@@ -2,7 +2,7 @@ import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { toast } from "react-hot-toast";
 import FormRegistro from "./FormRegistro/FormRegistro";
-import { UserStorage } from "../../Utils/UserStorage";
+import { UserStorage } from "../../Utils/UsuarioStorage";
 import "./Registro.css";
 
 export const Registro = ({ onClose }) => {

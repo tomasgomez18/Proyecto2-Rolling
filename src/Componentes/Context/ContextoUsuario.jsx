@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { UserStorage } from "../Utils/UserStorage";
+import { UserStorage } from "../Utils/UsuarioStorage";
 
 const UserContext = createContext();
 
@@ -18,7 +18,6 @@ export const UserProvider = ({ children }) => {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
 
-  // Cargar datos iniciales
   useEffect(() => {
     cargarDatosIniciales();
   }, []);
@@ -27,23 +26,22 @@ export const UserProvider = ({ children }) => {
     try {
       setCargando(true);
 
-      // Cargar usuarios
+    
       const usuariosData = await UserStorage.TodosLosUsuarios();
       setUsuarios(usuariosData);
 
-      // Cargar usuarios suspendidos desde localStorage
+   
       const suspendidos = JSON.parse(
         localStorage.getItem("usuariosSuspendidos") || "[]"
       );
       setUsuariosSuspendidos(suspendidos);
 
-      // Cargar productos desde localStorage
       const productosData = JSON.parse(
         localStorage.getItem("productos") || "[]"
       );
       setProductos(productosData);
 
-      // Verificar si hay un usuario logueado
+      
       const ultimoUsuario = JSON.parse(
         localStorage.getItem("ultimoUsuario") || "null"
       );
@@ -57,7 +55,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Login
+ 
   const login = async (credenciales) => {
     const resultado = await UserStorage.VerificarLoginUsuario(credenciales);
     if (resultado.login) {
@@ -66,13 +64,13 @@ export const UserProvider = ({ children }) => {
     return resultado;
   };
 
-  // Logout
+
   const logout = () => {
     setUsuarioActual(null);
     localStorage.removeItem("ultimoUsuario");
   };
 
-  // Verificar si es el usuario admin actual
+  
   const esUsuarioAdminActual = (usuarioId) => {
     return (
       usuarioActual &&
@@ -81,14 +79,14 @@ export const UserProvider = ({ children }) => {
     );
   };
 
-  // Verificar si es cualquier usuario admin
+ 
   const esUsuarioAdmin = (usuarioId) => {
     const usuario = usuarios.find((u) => u.id === usuarioId);
     return usuario && usuario.role === "admin";
   };
 
   const suspenderUsuario = async (usuarioId) => {
-    // No permitir suspender al admin actual ni a otros admins
+    
     if (esUsuarioAdminActual(usuarioId) || esUsuarioAdmin(usuarioId)) {
       return {
         exito: false,
@@ -111,12 +109,12 @@ export const UserProvider = ({ children }) => {
         JSON.stringify(nuevosSuspendidos)
       );
 
-      // Actualizar lista de usuarios
+    
       const usuariosActualizados = usuarios.filter((u) => u.id !== usuarioId);
       setUsuarios(usuariosActualizados);
       localStorage.setItem("usuarios", JSON.stringify(usuariosActualizados));
 
-      // ACTUALIZAR API - Eliminar usuario suspendido de API
+    
       try {
         const URL_API = import.meta.env.VITE_URL_API;
         await fetch(`${URL_API}/${usuarioId}`, {
@@ -133,13 +131,13 @@ export const UserProvider = ({ children }) => {
     return { exito: false, mensaje: "Usuario no encontrado o ya suspendido" };
   };
 
-  // Reactivar usuario
+ 
   const reactivarUsuario = (usuarioId) => {
     const usuarioSuspendido = usuariosSuspendidos.find(
       (u) => u.id === usuarioId
     );
     if (usuarioSuspendido) {
-      // Remover de suspendidos
+      
       const nuevosSuspendidos = usuariosSuspendidos.filter(
         (u) => u.id !== usuarioId
       );
@@ -149,7 +147,7 @@ export const UserProvider = ({ children }) => {
         JSON.stringify(nuevosSuspendidos)
       );
 
-      // Agregar a usuarios activos
+     
       const { fechaSuspension, ...usuario } = usuarioSuspendido;
       const nuevosUsuarios = [...usuarios, usuario];
       setUsuarios(nuevosUsuarios);
@@ -160,9 +158,9 @@ export const UserProvider = ({ children }) => {
     return { exito: false, mensaje: "Usuario suspendido no encontrado" };
   };
 
-  // Eliminar usuario suspendido (solo si está suspendido)
+
   const eliminarUsuarioSuspendido = async (usuarioId) => {
-    // No permitir eliminar admins
+    
     if (esUsuarioAdmin(usuarioId)) {
       return {
         exito: false,
@@ -175,14 +173,14 @@ export const UserProvider = ({ children }) => {
     );
     if (usuarioSuspendido) {
       try {
-        // Eliminar de la API
+       
         const URL_API = import.meta.env.VITE_URL_API;
         const respuesta = await fetch(`${URL_API}/${usuarioId}`, {
           method: "DELETE",
         });
 
         if (respuesta.ok) {
-          // Eliminar de localStorage (suspendidos)
+          
           const nuevosSuspendidos = usuariosSuspendidos.filter(
             (u) => u.id !== usuarioId
           );
@@ -201,9 +199,9 @@ export const UserProvider = ({ children }) => {
     return { exito: false, mensaje: "Usuario suspendido no encontrado" };
   };
 
-  // Editar usuario - Ahora también actualiza API
+
   const editarUsuario = async (usuarioId, datosActualizados) => {
-    // No permitir editar el rol del admin actual
+    
     if (
       esUsuarioAdminActual(usuarioId) &&
       datosActualizados.role &&
@@ -215,7 +213,7 @@ export const UserProvider = ({ children }) => {
       };
     }
 
-    // No permitir editar otros admins
+    
     if (esUsuarioAdmin(usuarioId) && !esUsuarioAdminActual(usuarioId)) {
       return {
         exito: false,
@@ -233,7 +231,7 @@ export const UserProvider = ({ children }) => {
       setUsuarios(usuariosActualizados);
       localStorage.setItem("usuarios", JSON.stringify(usuariosActualizados));
 
-      // ACTUALIZAR API
+     
       try {
         const URL_API = import.meta.env.VITE_URL_API;
         await fetch(`${URL_API}/${usuarioId}`, {
@@ -254,7 +252,7 @@ export const UserProvider = ({ children }) => {
     return { exito: false, mensaje: "Usuario no encontrado" };
   };
 
-  // Función para forzar sincronización
+ 
   const sincronizarConAPI = async () => {
     try {
       const usuariosLocal = JSON.parse(
@@ -262,16 +260,16 @@ export const UserProvider = ({ children }) => {
       );
       const URL_API = import.meta.env.VITE_URL_API;
 
-      // Primero, obtener usuarios actuales de API
+    
       const respuesta = await fetch(URL_API);
       const usuariosAPI = await respuesta.json();
 
-      // Para cada usuario local, actualizar/crear en API
+      
       for (const usuario of usuariosLocal) {
         const usuarioEnAPI = usuariosAPI.find((u) => u.id === usuario.id);
 
         if (usuarioEnAPI) {
-          // Actualizar usuario existente
+          
           await fetch(`${URL_API}/${usuario.id}`, {
             method: "PUT",
             headers: {
@@ -280,7 +278,7 @@ export const UserProvider = ({ children }) => {
             body: JSON.stringify(usuario),
           });
         } else {
-          // Crear nuevo usuario
+          
           await fetch(URL_API, {
             method: "POST",
             headers: {
@@ -297,7 +295,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Agregar producto
+
   const agregarProducto = (producto) => {
     const nuevoProducto = {
       id: crypto.randomUUID(),
@@ -314,7 +312,7 @@ export const UserProvider = ({ children }) => {
     };
   };
 
-  // Verificar si es administrador
+ 
   const esAdministrador = usuarioActual?.role === "admin";
 
   const value = {
