@@ -2,27 +2,28 @@ import CryptoJS from "crypto-js";
 const URL_API = import.meta.env.VITE_URL_API;
 export const UserStorage = {
   async TodosLosUsuarios() {
-  try {
-    const respuesta = await fetch(URL_API);
+    try {
+      const respuesta = await fetch(URL_API);
 
-    if (!respuesta.ok) throw new Error("Respuesta no OK desde la API");
+      if (!respuesta.ok) throw new Error("Respuesta no OK desde la API");
 
-    const usuariosAPI = await respuesta.json();
+      const usuariosAPI = await respuesta.json();
 
-    localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
+      localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
 
-    console.log("Usuarios cargados desde API:", usuariosAPI);
-    return usuariosAPI;
-  } catch (error) {
-    console.warn("Error accediendo a la API, usando localStorage:", error);
+      console.log("Usuarios cargados desde API:", usuariosAPI);
+      return usuariosAPI;
+    } catch (error) {
+      console.warn("Error accediendo a la API, usando localStorage:", error);
 
-    const usuariosLocal = JSON.parse(localStorage.getItem("usuarios") || "[]");
+      const usuariosLocal = JSON.parse(
+        localStorage.getItem("usuarios") || "[]"
+      );
 
-    console.log("Usuarios cargados desde LocalStorage:", usuariosLocal);
-    return usuariosLocal;
-  }
-},
-
+      console.log("Usuarios cargados desde LocalStorage:", usuariosLocal);
+      return usuariosLocal;
+    }
+  },
 
   async UltimoLogin(usuario) {
     localStorage.setItem("ultimoUsuario", JSON.stringify(usuario));
@@ -48,7 +49,23 @@ export const UserStorage = {
         data.contraseña
       ).toString();
 
-      if (usuarioEncontrado.contraseña === contraseñaIngresadaHasheada) {
+      // DEBUG: Agregar estos console.log
+      console.log("🔍 DEBUG LOGIN:");
+      console.log("Contraseña ingresada:", data.contraseña);
+      console.log("Hash generado:", contraseñaIngresadaHasheada);
+      console.log("Hash en BD:", usuarioEncontrado.password);
+      console.log(
+        "Coinciden?",
+        usuarioEncontrado.password === contraseñaIngresadaHasheada
+      );
+      console.log("Usuario completo:", usuarioEncontrado);
+      console.log("Longitud contraseña ingresada:", data.contraseña.length);
+      console.log(
+        "Contraseña ingresada con delimitadores:",
+        `|${data.contraseña}|`
+      );
+
+      if (usuarioEncontrado.password === contraseñaIngresadaHasheada) {
         console.log("Contraseña correcta");
         await this.UltimoLogin(usuarioEncontrado);
         return {

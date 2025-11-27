@@ -1,31 +1,43 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Menu from "./Componentes/Shared/Menu/Menu";
 import { Home } from "./Componentes/Views/Home/Home";
 import Contacto from "./Componentes/Views/Contacto/Contacto";
-import AdminDiseño from "./Componentes/Admin/AdminDiseño";
+import AdminPanel from "./Componentes/Admin/AdminPanel";
+import RutaProtegida from "./Componentes/Utils/RutaProtegida"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { UserStorage } from "./Componentes/Utils/UserStorage";
+import { UserProvider } from "./Componentes/Context/UserContext"; 
 
 function App() {
-  useEffect(() =>{
+  useEffect(() => {
     UserStorage.Backup().then(resultado => {
       if(resultado.carga){
         console.log("Backup ejecutado",resultado.mensaje);
       }
     })
-  },[]);
+  }, []);
+
   return (
     <>
-      <BrowserRouter>
-        <Menu />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contacto" element={<Contacto/> } />
-          <Route path="/admin" element={<AdminDiseño />} />
-        </Routes>
-      </BrowserRouter>
+      <UserProvider>
+        <BrowserRouter>
+          <Menu />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contacto" element={<Contacto/> } />
+            <Route 
+              path="/admin" 
+              element={
+                <RutaProtegida>
+                  <AdminPanel />
+                </RutaProtegida>
+              } 
+            />
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
     </>
   );
 }
