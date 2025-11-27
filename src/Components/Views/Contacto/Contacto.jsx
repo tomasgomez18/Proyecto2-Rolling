@@ -3,13 +3,13 @@ import Form from 'react-bootstrap/Form';
 const Contacto = () => {
     return (
         <div
-            className="container d-flex justify-content-center align-items-center min-vh-100" 
+            className="container d-flex justify-content-center align-items-center min-vh-100"
             style={{
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 padding: "40px",
-              
-                
+
+
             }}
         >
             <div
@@ -19,8 +19,8 @@ const Contacto = () => {
                     maxWidth: "1100px",
                     background: "rgba(0, 0, 0, 0.4)",
                     backdropFilter: "blur(6px)",
-                      border: "3px solid yellow", 
-                      borderRadius: "15px"     
+                    border: "3px solid yellow",
+                    borderRadius: "15px"
                 }}
             >
                 <div
@@ -63,11 +63,13 @@ const Contacto = () => {
                         placeholder="Email"
                         className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                     />
-                        
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>Mensaje</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
-                        </Form.Group>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="Mensaje"
+                        className="bg-transparent text-white border-0 border-bottom rounded-0 mb-4"
+                    />
+
 
                     { }
                     <button className="btn w-100 py-2 mt-2"
