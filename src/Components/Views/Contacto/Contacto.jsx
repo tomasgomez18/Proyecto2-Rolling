@@ -58,9 +58,11 @@ const Contacto = () => {
                         className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                     />
                     <input
-                        type="Provincia"
-                        placeholder="Provincia"
+                        type="Mensaje"
+                        placeholder="Mensaje"
+
                         className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+
                     />
                     { }
                     <button className="btn w-100 py-2 mt-2"
