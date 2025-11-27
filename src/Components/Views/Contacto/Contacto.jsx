@@ -44,27 +44,21 @@ const Contacto = () => {
                     }}
                 >
                     <h3 className="fw-bold mb-4 text-center">Datos de Contacto</h3>
-                    <input
-                        type="text"
-                        placeholder="Nombre"
+                    <input type="text" placeholder="Nombre" name='Nombre' id='Nombre'
                         className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                     />
-                    <input
-                        type="Apellido"
-                        placeholder="Apellido"
+                    <input type="Apellido" placeholder="Apellido" name='Apellido' id='Apellido'
+                    className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                    />
+                    <input type="Telefono" placeholder="Telefono" name='Telefono' id='Telefono'
                         className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                     />
-                    <input
-                        type="Telefono"
-                        placeholder="Telefono"
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                    />
-                    <input
-                        type="Email"
-                        placeholder="Email"
+                    <input type="Email" placeholder="Email" name='Email' id='Email'
                         className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                     />
                     <Form.Control
+                        name='Mensaje'
+                        id='Mensaje'
                         as="textarea"
                         rows={3}
                         placeholder="Mensaje"
@@ -127,15 +121,12 @@ const Contacto = () => {
                 10:00 / 18:00
             </span>
         </div>
-        
+
+
 
     </div>
 </div>
-
-        
 </>
-
-
 
     );
 };
