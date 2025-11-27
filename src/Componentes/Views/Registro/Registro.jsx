@@ -54,13 +54,13 @@ export const Registro = ({ onClose }) => {
       size="lg"
       backdrop="static"
       keyboard={false}
-      dialogClassName="modal-registro-custom"
+      dialogClassName="modal-registro-personalizado"
     >
-      <Modal.Header closeButton className="modal-header-custom">
-        <Modal.Title>¿Qué esperas para ser amante de Royal Enfield?</Modal.Title>
+      <Modal.Header closeButton className="encabezado-modal-personalizado">
+        <Modal.Title className="ms-auto">¿Qué esperas para ser amante de Rolling Motors?</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body className="modal-body-custom p-0">
+      <Modal.Body className="cuerpo-modal-personalizado p-0">
         <FormRegistro onSubmit={onSubmit} onClose={onClose} />
       </Modal.Body>
     </Modal>

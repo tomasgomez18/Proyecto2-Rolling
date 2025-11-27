@@ -26,22 +26,20 @@ const FormRegistro = ({ onSubmit, onClose }) => {
     <Container fluid className="d-flex justify-content-center align-items-center py-4 py-md-5">
       <Row className="w-100 justify-content-center mx-0">
         <Col xs={12} sm={11} md={10} lg={9} xl={8} className="px-3 px-md-4">
-          <Form onSubmit={handleSubmit(procesarEnvio)} className="form-container p-4 p-md-5 rounded">
+          <Form onSubmit={handleSubmit(procesarEnvio)} className="contenedor-formulario p-4 p-md-5 rounded">
             
-            {/* Título */}
             <div className="text-center mb-4">
-              <h4 className="text-gold mb-0">REGISTRO</h4>
+              <h4 className="texto-dorado mb-0">REGISTRO</h4>
             </div>
 
-            {/* Nombre de Usuario */}
             <Form.Group className="mb-3">
-              <Form.Label className="text-gold mb-2">NOMBRE DE USUARIO</Form.Label>
+              <Form.Label className="texto-dorado mb-2">NOMBRE DE USUARIO</Form.Label>
               <Form.Control
                 type="text"
                 {...register("nombreDeUsuario")}
                 isInvalid={!!errors.nombreDeUsuario}
                 placeholder="Ingrese su nombre de usuario"
-                className="custom-input"
+                className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
@@ -49,15 +47,14 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Email */}
             <Form.Group className="mb-3">
-              <Form.Label className="text-gold mb-2">EMAIL</Form.Label>
+              <Form.Label className="texto-dorado mb-2">EMAIL</Form.Label>
               <Form.Control
                 type="email"
                 {...register("email")}
                 isInvalid={!!errors.email}
                 placeholder="ejemplo@correo.com"
-                className="custom-input"
+                className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
@@ -65,14 +62,13 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* País de Residencia */}
             <Form.Group className="mb-3">
-              <Form.Label className="text-gold mb-2">PAÍS DE RESIDENCIA</Form.Label>
+              <Form.Label className="texto-dorado mb-2">PAÍS DE RESIDENCIA</Form.Label>
               <Form.Select
                 {...register("pais")}
                 isInvalid={!!errors.pais}
                 defaultValue=""
-                className="custom-input"
+                className="entrada-personalizada"
                 size="lg"
               >
                 <option value="" disabled>
@@ -89,19 +85,18 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Fecha de Nacimiento */}
             <Form.Group className="mb-3">
-              <Form.Label className="text-gold mb-2">FECHA DE NACIMIENTO</Form.Label>
+              <Form.Label className="texto-dorado mb-2">FECHA DE NACIMIENTO</Form.Label>
               <Form.Control
                 type="date"
                 {...register("fechaNacimiento")}
                 isInvalid={!!errors.fechaNacimiento}
                 min={FECHA_MINIMA.toISOString().split("T")[0]}
                 max={FECHA_MAXIMA.toISOString().split("T")[0]}
-                className="custom-input"
+                className="entrada-personalizada"
                 size="lg"
               />
-              <Form.Text className="text-white d-block mt-2">
+              <Form.Text className="texto-blanco d-block mt-2">
                 Debe ser entre 1945 y 2006 (18+ años)
               </Form.Text>
               <Form.Control.Feedback type="invalid">
@@ -109,15 +104,14 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Contraseña */}
             <Form.Group className="mb-3">
-              <Form.Label className="text-gold mb-2">CONTRASEÑA</Form.Label>
+              <Form.Label className="texto-dorado mb-2">CONTRASEÑA</Form.Label>
               <Form.Control
                 type="password"
                 {...register("contraseña")}
                 isInvalid={!!errors.contraseña}
                 placeholder="Ingrese su contraseña"
-                className="custom-input"
+                className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
@@ -125,15 +119,14 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Confirmar Contraseña */}
             <Form.Group className="mb-4">
-              <Form.Label className="text-gold mb-2">CONFIRMAR CONTRASEÑA</Form.Label>
+              <Form.Label className="texto-dorado mb-2">CONFIRMAR CONTRASEÑA</Form.Label>
               <Form.Control
                 type="password"
                 {...register("confirmarContraseña")}
                 isInvalid={!!errors.confirmarContraseña}
                 placeholder="Repita su contraseña"
-                className="custom-input"
+                className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
@@ -141,14 +134,13 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Botones */}
             <Row className="g-3 mt-4">
               <Col xs={12} sm={6}>
                 <Button
                   variant="outline-light"
                   onClick={onClose}
                   type="button"
-                  className="w-100 py-3 custom-btn cancel-btn"
+                  className="w-100 py-3 boton-personalizado boton-cancelar"
                 >
                   CANCELAR
                 </Button>
@@ -157,7 +149,7 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 <Button 
                   variant="warning" 
                   type="submit" 
-                  className="w-100 py-3 custom-btn submit-btn"
+                  className="w-100 py-3 boton-personalizado boton-enviar"
                 >
                   REGISTRARSE
                 </Button>

@@ -1,8 +1,4 @@
-/* FormRegistro.css */
-
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
-
-.form-container {
+.contenedor-formulario {
   font-family: "Montserrat", sans-serif;
   border: 1px solid rgba(212, 175, 55, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
@@ -19,8 +15,7 @@
   overflow: hidden;
 }
 
-/* Efecto de borde luminoso sutil */
-.form-container::before {
+.contenedor-formulario::before {
   content: "";
   position: absolute;
   top: 0;
@@ -42,7 +37,7 @@
   pointer-events: none;
 }
 
-.text-gold {
+.texto-dorado {
   color: #d4af37 !important;
   font-weight: 600;
   font-size: 0.9rem;
@@ -51,8 +46,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Inputs con efecto cristal mejorado */
-.custom-input {
+.entrada-personalizada {
   background: rgba(45, 45, 45, 0.4) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   color: white !important;
@@ -62,31 +56,28 @@
   font-size: 1rem !important;
   width: 100% !important;
   transition: all 0.3s ease !important;
-  /* Propiedad estándar PRIMERO, luego vendor prefix */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.custom-input:focus {
+.entrada-personalizada:focus {
   background: rgba(58, 58, 58, 0.6) !important;
   border: 1px solid rgba(212, 175, 55, 0.6) !important;
   color: white !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3),
     0 0 0 3px rgba(212, 175, 55, 0.15) !important;
   transform: translateY(-1px);
-  /* Propiedad estándar PRIMERO, luego vendor prefix */
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
 }
 
-.custom-input::placeholder {
+.entrada-personalizada::placeholder {
   color: rgba(255, 255, 255, 0.5) !important;
   font-size: 0.9rem;
 }
 
-/* Botones con efecto cristal */
-.custom-btn {
+.boton-personalizado {
   font-family: "Montserrat", sans-serif !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
@@ -95,14 +86,13 @@
   transition: all 0.3s ease !important;
   font-size: 0.9rem !important;
   border: 1px solid transparent !important;
-  /* Propiedad estándar PRIMERO, luego vendor prefix */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.submit-btn {
+.boton-enviar {
   background: linear-gradient(
     135deg,
     rgba(212, 175, 55, 0.9) 0%,
@@ -113,7 +103,7 @@
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
-.submit-btn:hover {
+.boton-enviar:hover {
   background: linear-gradient(
     135deg,
     rgba(224, 184, 69, 0.95) 0%,
@@ -125,16 +115,15 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-.cancel-btn {
+.boton-cancelar {
   background: rgba(108, 117, 125, 0.4) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   color: rgba(248, 249, 250, 0.9) !important;
-  /* Propiedad estándar PRIMERO, luego vendor prefix */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
-.cancel-btn:hover {
+.boton-cancelar:hover {
   background: rgba(108, 117, 125, 0.6) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   transform: translateY(-2px);
@@ -143,27 +132,14 @@
   color: #f8f9fa !important;
 }
 
-/* Mensajes de formulario */
-.form-control-feedback {
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  color: #ff6b6b !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.text-muted {
+.texto-blanco {
   color: rgba(212, 175, 55, 0.8) !important;
   font-size: 0.8rem;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Date input dark theme */
-input[type="date"].custom-input {
-  color-scheme: dark;
-}
-
-/* Título con efecto mejorado */
-h4.text-gold {
+/* Estilos para el título del formulario */
+h4.texto-dorado {
   font-size: 1.5rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -176,8 +152,7 @@ h4.text-gold {
   position: relative;
 }
 
-/* Efecto sutil detrás del título */
-h4.text-gold::after {
+h4.texto-dorado::after {
   content: "";
   position: absolute;
   bottom: -8px;
@@ -188,69 +163,11 @@ h4.text-gold::after {
   background: linear-gradient(90deg, transparent, #d4af37, transparent);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .form-container {
-    padding: 1.5rem !important;
-    /* Propiedad estándar PRIMERO, luego vendor prefix */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .custom-input {
-    padding: 0.65rem 0.9rem !important;
-    font-size: 0.9rem !important;
-    /* Propiedad estándar PRIMERO, luego vendor prefix */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-
-  .custom-btn {
-    padding: 0.75rem !important;
-    font-size: 0.85rem !important;
-  }
-}
-
-@media (max-width: 576px) {
-  .form-container {
-    padding: 1.25rem !important;
-    /* Propiedad estándar PRIMERO, luego vendor prefix */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  h4.text-gold {
-    font-size: 1.3rem;
-  }
-
-  .custom-input {
-    /* Propiedad estándar PRIMERO, luego vendor prefix */
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-}
-
-@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-  .form-container {
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-  }
-
-  .custom-input {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .custom-btn {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-}
-/* Mensajes de error estilo Royal Enfield */
-.form-control-feedback {
+/* Estilos para mensajes de error */
+.feedback-invalido {
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  color: #d4af37 !important; /* Dorado Royal Enfield */
+  color: #d4af37 !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   font-weight: 500;
   background: rgba(0, 0, 0, 0.3);
@@ -259,8 +176,63 @@ h4.text-gold::after {
   display: inline-block;
 }
 
-.text-muted {
-  color: #d4af37 !important;
-  font-size: 0.8rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+/* Input de fecha en modo oscuro */
+input[type="date"].entrada-personalizada {
+  color-scheme: dark;
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  .contenedor-formulario {
+    padding: 1.5rem !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .entrada-personalizada {
+    padding: 0.65rem 0.9rem !important;
+    font-size: 0.9rem !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .boton-personalizado {
+    padding: 0.75rem !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .contenedor-formulario {
+    padding: 1.25rem !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  h4.texto-dorado {
+    font-size: 1.3rem;
+  }
+
+  .entrada-personalizada {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+}
+
+/* Soporte para backdrop-filter */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .contenedor-formulario {
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+  }
+
+  .entrada-personalizada {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .boton-personalizado {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }

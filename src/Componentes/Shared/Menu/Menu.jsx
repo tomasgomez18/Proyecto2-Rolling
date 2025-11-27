@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { NavBarPrincipal } from "./NavBarPrincipal/NavBarPrincipal";
 import { Registro } from "../../Views/Registro/Registro";
 import Login from "../../Views/Login/Login";
+
 const Menu = () => {
   const navigate = useNavigate();
   const ubicacion = useLocation();
@@ -23,21 +24,20 @@ const Menu = () => {
   return (
     <>
       <NavBarPrincipal
-        key="navbar"
         onAbrirRegistro={abrirRegistro}
         onAbrirLogin={abrirLogin}
       />
       {tipoModal === "login" && (
         <Login
-          key="login-modal"
           onClose={onClose}
           onAbrirRegistro={abrirRegistro}
         />
       )}
       {tipoModal === "registro" && (
-        <Registro key="registro-modal" onClose={onClose} />
+        <Registro onClose={onClose} />
       )}
     </>
   );
 };
+
 export default Menu;
