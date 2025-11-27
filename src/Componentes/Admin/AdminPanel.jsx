@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUser } from "../Context/UserContext";
+import { useUser } from "../Context/ContextoUsuario";
 import "./css/AdminPanel.css";
 
 const AdminPanel = () => {

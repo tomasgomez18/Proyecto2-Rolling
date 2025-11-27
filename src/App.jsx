@@ -8,7 +8,7 @@ import RutaProtegida from "./Componentes/Utils/RutaProtegida";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { UserStorage } from "./Componentes/Utils/UserStorage";
-import { UserProvider } from "./Componentes/Context/UserContext"; 
+import { UserProvider } from "./Componentes/Context/ContextoUsuario"; 
 
 function App() {
   useEffect(() => {
