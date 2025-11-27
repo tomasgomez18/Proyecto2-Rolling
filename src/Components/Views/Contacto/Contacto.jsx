@@ -1,11 +1,15 @@
+import Form from 'react-bootstrap/Form';
+
 const Contacto = () => {
     return (
         <div
-            className="container d-flex justify-content-center align-items-center min-vh-100"
+            className="container d-flex justify-content-center align-items-center min-vh-100" 
             style={{
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 padding: "40px",
+              
+                
             }}
         >
             <div
@@ -14,7 +18,9 @@ const Contacto = () => {
                     width: "85%",
                     maxWidth: "1100px",
                     background: "rgba(0, 0, 0, 0.4)",
-                    backdropFilter: "blur(6px)"
+                    backdropFilter: "blur(6px)",
+                      border: "3px solid yellow", 
+                      borderRadius: "15px"     
                 }}
             >
                 <div
@@ -31,7 +37,7 @@ const Contacto = () => {
                 <div
                     className="col-12 col-md-6 bg-dark d-flex flex-column justify-content-center p-5"
                     style={{
-                        background: "rgba(0, 0, 0, 0.65)",
+                        background: "rgba(130, 96, 96, 0.65)",
                         backdropFilter: "blur(6px)",
                         color: "white"
                     }}
@@ -57,13 +63,12 @@ const Contacto = () => {
                         placeholder="Email"
                         className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                     />
-                    <input
-                        type="Mensaje"
-                        placeholder="Mensaje"
+                        
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Mensaje</Form.Label>
+                            <Form.Control as="textarea" rows={3} />
+                        </Form.Group>
 
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-
-                    />
                     { }
                     <button className="btn w-100 py-2 mt-2"
                         style={{
@@ -80,5 +85,6 @@ const Contacto = () => {
 };
 
 export default Contacto;
+
 
 
