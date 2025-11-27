@@ -1,13 +1,25 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Contacto from "./components/views/contacto/Contacto";
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
+  
+      <BrowserRouter>
+        <main>
+          <Routes>
+            <Route path="/contacto" element={<Contacto />} />
+
+          </Routes>
+        </main>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+

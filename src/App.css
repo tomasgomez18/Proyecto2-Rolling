@@ -1,0 +1,5 @@
+.body{
+    background-image: url('/src/Public/LogoImg/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
