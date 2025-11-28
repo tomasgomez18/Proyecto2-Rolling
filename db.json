@@ -1,21 +1,183 @@
 {
   "usuarios": [
     {
-      "id": "b356379e-041e-4319-9dd6-3861b8d734aa",
-      "nombreDeUsuario": "matiasLaz2",
-      "email": "matiasnicolaslazarte@gmail.com",
+      "id": "1",
+      "nombreDeUsuario": "admin_user",
+      "email": "admin@ejemplo.com",
       "pais": "Argentina",
-      "fechaNacimiento": "2001-02-20",
-      "password": "f5d04a0eb6db52bf10aeac082a2b3db85e1719d1edfc0aa282fdf0ac324729de"
+      "fechaNacimiento": "1985-06-15",
+      "password": "Admin123!",
+      "role": "admin"
     },
     {
-      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-      "nombreDeUsuario": "adminRolling",
-      "email": "admin@Rollingmotors.com",
+      "id": "2",
+      "nombreDeUsuario": "juan_perez",
+      "email": "juan.perez@email.com",
+      "pais": "México",
+      "fechaNacimiento": "1990-03-22",
+      "password": "JuanP123@",
+      "role": "usuario"
+    },
+    {
+      "id": "3",
+      "nombreDeUsuario": "maria_garcia",
+      "email": "maria.garcia@correo.com",
+      "pais": "España",
+      "fechaNacimiento": "1995-11-08",
+      "password": "MariaG456#",
+      "role": "usuario"
+    },
+    {
+      "id": "4",
+      "nombreDeUsuario": "carlos_lopez",
+      "email": "carlos.lopez@mail.com",
+      "pais": "Colombia",
+      "fechaNacimiento": "1988-07-30",
+      "password": "CarlosL789$",
+      "role": "usuario"
+    },
+    {
+      "id": "5",
+      "nombreDeUsuario": "ana_martinez",
+      "email": "ana.martinez@hotmail.com",
+      "pais": "Chile",
+      "fechaNacimiento": "1992-12-14",
+      "password": "AnaM321%",
+      "role": "usuario"
+    },
+    {
+      "id": "6",
+      "nombreDeUsuario": "pedro_rodriguez",
+      "email": "pedro.rodriguez@gmail.com",
+      "pais": "Perú",
+      "fechaNacimiento": "1987-04-18",
+      "password": "PedroR654&",
+      "role": "usuario"
+    },
+    {
+      "id": "7",
+      "nombreDeUsuario": "lucia_sanchez",
+      "email": "lucia.sanchez@outlook.com",
+      "pais": "Uruguay",
+      "fechaNacimiento": "1993-09-25",
+      "password": "LuciaS987*",
+      "role": "usuario"
+    },
+    {
+      "id": "8",
+      "nombreDeUsuario": "diego_fernandez",
+      "email": "diego.fernandez@yahoo.com",
+      "pais": "Venezuela",
+      "fechaNacimiento": "1991-02-11",
+      "password": "DiegoF147+",
+      "role": "usuario"
+    },
+    {
+      "id": "9",
+      "nombreDeUsuario": "sofia_gonzalez",
+      "email": "sofia.gonzalez@proton.com",
+      "pais": "Estados Unidos",
+      "fechaNacimiento": "1994-08-07",
+      "password": "SofiaG258!",
+      "role": "usuario"
+    },
+    {
+      "id": "10",
+      "nombreDeUsuario": "miguel_hernandez",
+      "email": "miguel.hernandez@icloud.com",
+      "pais": "Costa Rica",
+      "fechaNacimiento": "1989-05-19",
+      "password": "MiguelH369@",
+      "role": "usuario"
+    },
+    {
+      "id": "11",
+      "nombreDeUsuario": "elena_morales",
+      "email": "elena.morales@live.com",
+      "pais": "Panamá",
+      "fechaNacimiento": "1996-01-28",
+      "password": "ElenaM741#",
+      "role": "usuario"
+    },
+    {
+      "id": "12",
+      "nombreDeUsuario": "raul_castro",
+      "email": "raul.castro@domain.com",
+      "pais": "Cuba",
+      "fechaNacimiento": "1986-10-03",
+      "password": "RaulC852$",
+      "role": "usuario"
+    },
+    {
+      "id": "13",
+      "nombreDeUsuario": "isabel_ruiz",
+      "email": "isabel.ruiz@server.com",
+      "pais": "Ecuador",
+      "fechaNacimiento": "1997-07-12",
+      "password": "IsabelR963%",
+      "role": "usuario"
+    },
+    {
+      "id": "14",
+      "nombreDeUsuario": "oscar_diaz",
+      "email": "oscar.diaz@network.com",
+      "pais": "Guatemala",
+      "fechaNacimiento": "1990-11-05",
+      "password": "OscarD159&",
+      "role": "usuario"
+    },
+    {
+      "id": "15",
+      "nombreDeUsuario": "patricia_vega",
+      "email": "patricia.vega@web.com",
+      "pais": "República Dominicana",
+      "fechaNacimiento": "1984-03-17",
+      "password": "PatriciaV357*",
+      "role": "usuario"
+    }
+  ],
+  "productos": [
+    {
+      "id": "1",
+      "nombre": "Laptop Gaming Pro",
+      "descripcion": "Laptop para gaming de alta gama con RTX 4080",
+      "precio": 2499.99,
+      "categoria": "Tecnología",
+      "stock": 15,
+      "imagen": "https://ejemplo.com/laptop.jpg",
+      "fechaCreacion": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "2",
+      "nombre": "Smartphone Flagship",
+      "descripcion": "Último modelo de smartphone con cámara 200MP",
+      "precio": 1199.99,
+      "categoria": "Tecnología",
+      "stock": 25,
+      "imagen": "https://ejemplo.com/smartphone.jpg",
+      "fechaCreacion": "2024-01-16T14:20:00Z"
+    },
+    {
+      "id": "3",
+      "nombre": "Auriculares Inalámbricos",
+      "descripcion": "Auriculares con cancelación de ruido activa",
+      "precio": 299.99,
+      "categoria": "Audio",
+      "stock": 40,
+      "imagen": "https://ejemplo.com/auriculares.jpg",
+      "fechaCreacion": "2024-01-17T09:15:00Z"
+    }
+  ],
+  "usuariosSuspendidos": [
+    {
+      "id": "100",
+      "nombreDeUsuario": "usuario_suspendido",
+      "email": "suspendido@ejemplo.com",
       "pais": "Argentina",
-      "fechaNacimiento": "2001-01-20",
-      "password": "71fa00dcc73c057519bb3d29fba0d024f5e798ae3202eb03735038a8c0831ccf",
-      "role": "admin"
+      "fechaNacimiento": "1990-01-01",
+      "password": "Temp123!",
+      "role": "usuario",
+      "fechaSuspension": "2024-01-20T15:45:00Z"
     }
   ]
 }

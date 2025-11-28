@@ -17,7 +17,6 @@
   overflow: hidden;
 }
 
-/* Efecto de borde luminoso sutil */
 .contenedor-formulario::before {
   content: "";
   position: absolute;

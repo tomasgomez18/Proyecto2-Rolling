@@ -55,7 +55,6 @@ const PAISES_POR_REGION = {
   Europa: ["España"],
 };
 
-
 const registroSchema = z
   .object({
     nombreDeUsuario: z
@@ -92,7 +91,7 @@ const registroSchema = z
         return fechaNac >= FECHA_MINIMA && fechaNac <= FECHA_MAXIMA;
       }, "Debes tener entre 18 y 68 años (nacido entre 1955-2006)"),
 
-    contraseña: z
+    contrasena: z
       .string()
       .min(8, "La contraseña debe tener al menos 8 caracteres")
       .max(20, "La contraseña no puede superar 20 caracteres")
@@ -102,42 +101,48 @@ const registroSchema = z
       )
       .transform((val) => val.normalize("NFKC")),
 
-    confirmarContraseña: z.string(),
+    confirmarContrasena: z.string(),
   })
-  .refine((data) => data.contraseña === data.confirmarContraseña, {
+  .refine((data) => data.contrasena === data.confirmarContrasena, {
     message: "Las contraseñas no coinciden",
     path: ["confirmarContraseña"],
   });
 
-
 const loginSchema = z.object({
-  credencial: z.string()
+  credencial: z
+    .string()
     .min(1, "Ingresa tu usuario o email")
-    .refine((val) => {
-      // Si parece email, validar como email
-      if (val.includes('@')) {
-        return /^[^\s<>()\[\]\\.,;:"%]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val);
-      } else {
-        // Si no, validar como nombre de usuario
-        return val.length >= 5 && 
-               val.length <= 30 && 
-               /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/.test(val);
+    .refine(
+      (val) => {
+        // Si contiene @ → validar como email
+        if (val.includes("@")) {
+          return /^[^\s<>()\[\]\\.,;:"%]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+            val
+          );
+        }
+
+        // Si no → validar nombre de usuario
+        return (
+          val.length >= 5 &&
+          val.length <= 30 &&
+          /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/.test(val)
+        );
+      },
+      {
+        message: "El usuario o email no es válido",
       }
-    }, {
-      message: "El usuario o email no es válido"
-    }),
-    
-  contraseña: z.string()
-    .min(1, "Ingresa tu contraseña")
+    ),
+
+  // CAMBIO IMPORTANTE: "contrasena" sin ñ
+  contrasena: z.string().min(1, "Ingresa tu contraseña"),
 });
 
 export default registroSchema;
-export { 
+export {
   loginSchema,
-  registroSchema, 
-  FECHA_MINIMA, 
-  FECHA_MAXIMA, 
-  PAISES_VALIDOS, 
-  PAISES_POR_REGION 
+  registroSchema,
+  FECHA_MINIMA,
+  FECHA_MAXIMA,
+  PAISES_VALIDOS,
+  PAISES_POR_REGION,
 };
-

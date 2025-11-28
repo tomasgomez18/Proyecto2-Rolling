@@ -21,19 +21,10 @@ const AdminPanel = () => {
   const [mostrarFormProducto, setMostrarFormProducto] = useState(false);
 
   const manejarSincronizacion = async () => {
-    if (sincronizarConAPI) {
-      const resultado = await sincronizarConAPI();
-      if (resultado.exito) {
-        alert('Sincronización completada con éxito');
-      } else {
-        alert('Error en sincronización: ' + resultado.mensaje);
-      }
-    } else {
-      alert('Función de sincronización no disponible');
-    }
+    const resultado = await sincronizarConAPI();
+    alert(resultado.mensaje);
   };
 
-  // Si no es administrador, no mostrar el panel
   if (!esAdministrador) {
     return (
       <div className="panel-administracion">
@@ -45,7 +36,8 @@ const AdminPanel = () => {
     );
   }
 
-  // Formulario de producto
+  // === FORMULARIOS ===
+
   const FormularioProducto = () => {
     const [datosFormulario, setDatosFormulario] = useState({
       nombre: "",
@@ -57,7 +49,6 @@ const AdminPanel = () => {
     const manejarEnvio = (e) => {
       e.preventDefault();
       agregarProducto(datosFormulario);
-      setDatosFormulario({ nombre: "", precio: "", descripcion: "", categoria: "" });
       setMostrarFormProducto(false);
     };
 
@@ -68,7 +59,7 @@ const AdminPanel = () => {
           <form onSubmit={manejarEnvio}>
             <input
               type="text"
-              placeholder="Nombre del producto"
+              placeholder="Nombre"
               value={datosFormulario.nombre}
               onChange={(e) =>
                 setDatosFormulario({ ...datosFormulario, nombre: e.target.value })
@@ -97,16 +88,16 @@ const AdminPanel = () => {
               placeholder="Descripción"
               value={datosFormulario.descripcion}
               onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, descripcion: e.target.value })
+                setDatosFormulario({
+                  ...datosFormulario,
+                  descripcion: e.target.value,
+                })
               }
               required
             />
             <div className="botones-formulario">
               <button type="submit">Agregar</button>
-              <button
-                type="button"
-                onClick={() => setMostrarFormProducto(false)}
-              >
+              <button type="button" onClick={() => setMostrarFormProducto(false)}>
                 Cancelar
               </button>
             </div>
@@ -116,7 +107,6 @@ const AdminPanel = () => {
     );
   };
 
-  // Modal de edición de usuario
   const ModalEditarUsuario = () => {
     const [datosFormulario, setDatosFormulario] = useState({
       nombreDeUsuario: usuarioEditando.nombreDeUsuario,
@@ -138,16 +128,17 @@ const AdminPanel = () => {
           <form onSubmit={manejarEnvio}>
             <input
               type="text"
-              placeholder="Nombre de usuario"
               value={datosFormulario.nombreDeUsuario}
               onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, nombreDeUsuario: e.target.value })
+                setDatosFormulario({
+                  ...datosFormulario,
+                  nombreDeUsuario: e.target.value,
+                })
               }
               required
             />
             <input
               type="email"
-              placeholder="Email"
               value={datosFormulario.email}
               onChange={(e) =>
                 setDatosFormulario({ ...datosFormulario, email: e.target.value })
@@ -156,7 +147,6 @@ const AdminPanel = () => {
             />
             <input
               type="text"
-              placeholder="País"
               value={datosFormulario.pais}
               onChange={(e) =>
                 setDatosFormulario({ ...datosFormulario, pais: e.target.value })
@@ -167,7 +157,10 @@ const AdminPanel = () => {
               type="date"
               value={datosFormulario.fechaNacimiento}
               onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, fechaNacimiento: e.target.value })
+                setDatosFormulario({
+                  ...datosFormulario,
+                  fechaNacimiento: e.target.value,
+                })
               }
               required
             />
@@ -183,170 +176,120 @@ const AdminPanel = () => {
     );
   };
 
+  // === RETURN ===
+
   return (
     <div className="panel-administracion">
       <header className="encabezado-administracion">
         <h1>Panel de Administración</h1>
-        <div className="controles-encabezado">
-          <nav className="navegacion-administracion">
-            <button
-              className={vistaActiva === "usuarios" ? "activo" : ""}
-              onClick={() => setVistaActiva("usuarios")}
-            >
-              Usuarios Activos ({usuarios.length})
-            </button>
-            <button
-              className={vistaActiva === "suspendidos" ? "activo" : ""}
-              onClick={() => setVistaActiva("suspendidos")}
-            >
-              Usuarios Suspendidos ({usuariosSuspendidos.length})
-            </button>
-            <button
-              className={vistaActiva === "productos" ? "activo" : ""}
-              onClick={() => setVistaActiva("productos")}
-            >
-              Productos ({productos.length})
-            </button>
-          </nav>
-          {/* Botón de sincronización */}
-          <button
-            className="boton-sincronizar"
-            onClick={manejarSincronizacion}
-            title="Sincronizar cambios con la API"
-          >
-            🔄 Sincronizar
+        <nav>
+          <button onClick={() => setVistaActiva("usuarios")}>
+            Usuarios ({usuarios.length})
           </button>
-        </div>
+          <button onClick={() => setVistaActiva("suspendidos")}>
+            Suspendidos ({usuariosSuspendidos.length})
+          </button>
+          <button onClick={() => setVistaActiva("productos")}>
+            Productos ({productos.length})
+          </button>
+        </nav>
+
+        <button className="boton-sincronizar" onClick={manejarSincronizacion}>
+          🔄 Sincronizar
+        </button>
       </header>
 
-      <main className="contenido-administracion">
-        {vistaActiva === "usuarios" && (
-          <div className="contenedor-tabla">
-            <h2>Usuarios Activos</h2>
-            <table className="tabla-administracion">
-              <thead>
-                <tr>
-                  <th>Usuario</th>
-                  <th>Email</th>
-                  <th>País</th>
-                  <th>Fecha Nac.</th>
-                  <th>Acciones</th>
+      {vistaActiva === "usuarios" && (
+        <div className="contenedor-tabla">
+          <table className="tabla-administracion">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>País</th>
+                <th>Fecha Nac</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.nombreDeUsuario}</td>
+                  <td>{u.email}</td>
+                  <td>{u.pais}</td>
+                  <td>{new Date(u.fechaNacimiento).toLocaleDateString()}</td>
+                  <td>
+                    <button onClick={() => setUsuarioEditando(u)}>Editar</button>
+                    <button onClick={() => suspenderUsuario(u.id)}>
+                      Suspender
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {usuarios.map((usuario) => (
-                  <tr key={usuario.id}>
-                    <td>{usuario.nombreDeUsuario}</td>
-                    <td>{usuario.email}</td>
-                    <td>{usuario.pais}</td>
-                    <td>
-                      {new Date(usuario.fechaNacimiento).toLocaleDateString()}
-                    </td>
-                    <td className="acciones">
-                      <button
-                        className="boton-editar"
-                        onClick={() => setUsuarioEditando(usuario)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        className="boton-suspender"
-                        onClick={() => suspenderUsuario(usuario.id)}
-                      >
-                        Suspender
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-        {vistaActiva === "suspendidos" && (
-          <div className="contenedor-tabla">
-            <h2>Usuarios Suspendidos</h2>
-            <table className="tabla-administracion">
-              <thead>
-                <tr>
-                  <th>Usuario</th>
-                  <th>Email</th>
-                  <th>Fecha Suspensión</th>
-                  <th>Acciones</th>
+      {vistaActiva === "suspendidos" && (
+        <div className="contenedor-tabla">
+          <table className="tabla-administracion">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Fecha Suspensión</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuariosSuspendidos.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.nombreDeUsuario}</td>
+                  <td>{u.email}</td>
+                  <td>{new Date(u.fechaSuspension).toLocaleDateString()}</td>
+                  <td>
+                    <button onClick={() => reactivarUsuario(u.id)}>
+                      Reactivar
+                    </button>
+                    <button onClick={() => eliminarUsuarioSuspendido(u.id)}>
+                      Eliminar
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {usuariosSuspendidos.map((usuario) => (
-                  <tr key={usuario.id}>
-                    <td>{usuario.nombreDeUsuario}</td>
-                    <td>{usuario.email}</td>
-                    <td>
-                      {new Date(usuario.fechaSuspension).toLocaleDateString()}
-                    </td>
-                    <td className="acciones">
-                      <button
-                        className="boton-reactivar"
-                        onClick={() => reactivarUsuario(usuario.id)}
-                      >
-                        Reactivar
-                      </button>
-                      <button
-                        className="boton-eliminar"
-                        onClick={() => eliminarUsuarioSuspendido(usuario.id)}
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-        {vistaActiva === "productos" && (
-          <div className="contenedor-tabla">
-            <div className="encabezado-productos">
-              <h2>Productos ({productos.length})</h2>
-              <button
-                className="boton-agregar"
-                onClick={() => setMostrarFormProducto(true)}
-              >
-                + Agregar Producto
-              </button>
-            </div>
-            <table className="tabla-administracion">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Precio</th>
-                  <th>Categoría</th>
-                  <th>Fecha Creación</th>
+      {vistaActiva === "productos" && (
+        <div>
+          <button onClick={() => setMostrarFormProducto(true)}>
+            + Agregar Producto
+          </button>
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {productos.map((p) => (
+                <tr key={p.id}>
+                  <td>{p.nombre}</td>
+                  <td>${p.precio}</td>
+                  <td>{p.categoria}</td>
+                  <td>{new Date(p.fechaCreacion).toLocaleDateString()}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {productos.map((producto) => (
-                  <tr key={producto.id}>
-                    <td>{producto.nombre}</td>
-                    <td>${producto.precio}</td>
-                    <td>{producto.categoria}</td>
-                    <td>
-                      {new Date(producto.fechaCreacion).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
-                {productos.length === 0 && (
-                  <tr>
-                    <td colSpan="4" className="sin-datos">
-                      No hay productos registrados
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </main>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {usuarioEditando && <ModalEditarUsuario />}
       {mostrarFormProducto && <FormularioProducto />}

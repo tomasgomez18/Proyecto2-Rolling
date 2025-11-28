@@ -15,9 +15,9 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
 
   const manejarClickRegistro = (e) => {
     e.preventDefault();
-    console.log("clickeado redirigir registro");
     onAbrirRegistro?.();
   };
+
   const procesarEnvio = (data) => {
     console.log("Datos de login válidos:", data);
     onSubmit?.(data);
@@ -34,12 +34,10 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
             onSubmit={handleSubmit(procesarEnvio)}
             className="contenedor-formulario p-4 p-md-5 rounded"
           >
-            {/* Título */}
             <div className="text-center mb-4">
               <h4 className="texto-dorado mb-0">INICIAR SESIÓN</h4>
             </div>
 
-            {/* Nombre de Usuario o Email */}
             <Form.Group className="mb-4">
               <Form.Label className="form-label mb-2">
                 NOMBRE DE USUARIO O EMAIL
@@ -52,41 +50,32 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
                 className="entrada-personalizada"
                 size="lg"
               />
-              <Form.Control.Feedback
-                type="invalid"
-                className="retroalimentacion-invalida"
-              >
+              <Form.Control.Feedback type="invalid">
                 {errors.credencial?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Contraseña */}
             <Form.Group className="mb-4">
               <Form.Label className="form-label mb-2">CONTRASEÑA</Form.Label>
               <Form.Control
                 type="password"
-                {...register("contraseña")}
-                isInvalid={!!errors.contraseña}
+                {...register("contrasena")}
+                isInvalid={!!errors.contrasena}
                 placeholder="Ingrese su contraseña"
                 className="entrada-personalizada"
                 size="lg"
               />
-              <Form.Control.Feedback
-                type="invalid"
-                className="retroalimentacion-invalida"
-              >
-                {errors.contraseña?.message}
+              <Form.Control.Feedback type="invalid">
+                {errors.contrasena?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* Enlace de contraseña olvidada */}
             <div className="text-end mb-4">
               <a href="#" className="enlace-dorado">
                 ¿OLVIDASTE TU CONTRASEÑA?
               </a>
             </div>
 
-            {/* Botones */}
             <Row className="g-3 mt-4">
               <Col xs={12} sm={6}>
                 <Button
@@ -109,15 +98,10 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
               </Col>
             </Row>
 
-            {/* Enlace de registro */}
             <div className="text-center mt-4">
               <p className="texto-registro">
                 ¿NO TIENES CUENTA?{" "}
-                <a
-                  href="#"
-                  className="enlace-dorado"
-                  onClick={manejarClickRegistro}
-                >
+                <a href="#" className="enlace-dorado" onClick={manejarClickRegistro}>
                   REGÍSTRATE AQUÍ
                 </a>
               </p>

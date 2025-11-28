@@ -1,5 +1,8 @@
-import CryptoJS from "crypto-js";
+// Elimina esta importación
+// import CryptoJS from "crypto-js";
+
 const URL_API = import.meta.env.VITE_URL_API;
+
 export const UserStorage = {
   async TodosLosUsuarios() {
     try {
@@ -32,6 +35,7 @@ export const UserStorage = {
   async VerificarLoginUsuario(data) {
     try {
       const usuarios = await this.TodosLosUsuarios();
+
       const usuarioEncontrado = usuarios.find(
         (usuario) =>
           usuario.nombreDeUsuario === data.credencial ||
@@ -45,27 +49,8 @@ export const UserStorage = {
         };
       }
 
-      const contraseñaIngresadaHasheada = CryptoJS.SHA256(
-        data.contraseña
-      ).toString();
-
-      // DEBUG: Agregar estos console.log
-      console.log("🔍 DEBUG LOGIN:");
-      console.log("Contraseña ingresada:", data.contraseña);
-      console.log("Hash generado:", contraseñaIngresadaHasheada);
-      console.log("Hash en BD:", usuarioEncontrado.password);
-      console.log(
-        "Coinciden?",
-        usuarioEncontrado.password === contraseñaIngresadaHasheada
-      );
-      console.log("Usuario completo:", usuarioEncontrado);
-      console.log("Longitud contraseña ingresada:", data.contraseña.length);
-      console.log(
-        "Contraseña ingresada con delimitadores:",
-        `|${data.contraseña}|`
-      );
-
-      if (usuarioEncontrado.password === contraseñaIngresadaHasheada) {
+      // 🔥 CAMBIO: Comparación directa sin hashing
+      if (usuarioEncontrado.password === data.contrasena) {
         console.log("Contraseña correcta");
         await this.UltimoLogin(usuarioEncontrado);
         return {
@@ -87,6 +72,7 @@ export const UserStorage = {
   async VerificarRegistrarUsuario(data) {
     try {
       const usuarios = await this.TodosLosUsuarios();
+
       const usuarioExiste = usuarios.some(
         (usuario) =>
           usuario.email === data.email ||
@@ -105,20 +91,25 @@ export const UserStorage = {
           email: data.email,
           pais: data.pais,
           fechaNacimiento: data.fechaNacimiento,
-          password: CryptoJS.SHA256(data.password).toString(),
+          // 🔥 CAMBIO: Guardar contraseña en texto plano
+          password: data.password,
           role: "usuario",
         };
+
         usuarios.push(usuarioCompleto);
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
         console.log("Usuario guardado en localStorage");
+
         try {
           const respuestaChequeada = await fetch(
             `${URL_API}?email=${encodeURIComponent(
               data.email
             )}&nombreDeUsuario=${encodeURIComponent(data.nombreDeUsuario)}`
           );
+
           if (respuestaChequeada.ok) {
             const usuariosExistentes = await respuestaChequeada.json();
+
             const existeEnAPI = usuariosExistentes.some(
               (usuario) =>
                 usuario.email === data.email ||
@@ -127,11 +118,13 @@ export const UserStorage = {
 
             if (existeEnAPI) {
               console.log(
-                "Usuario ya existente en API, por ende registro no valido (nuevo registro)se borra del localStorage y API"
+                "Usuario ya existente en API, por ende registro no valido (nuevo registro) se borra del localStorage"
               );
+
               const usuariosActualizados = usuarios.filter(
                 (u) => u.id !== usuarioCompleto.id
               );
+
               localStorage.setItem(
                 "usuarios",
                 JSON.stringify(usuariosActualizados)
@@ -155,17 +148,19 @@ export const UserStorage = {
           if (!respuesta.ok) {
             throw new Error(`Error API: ${respuesta.status}`);
           }
+
           this.UltimoLogin(usuarioCompleto);
+
           return {
             registrado: true,
-            mensaje: "Usuario registrado con exito en ambos sistemas",
+            mensaje: "Usuario registrado con éxito en ambos sistemas",
           };
         } catch (error) {
           await this.UltimoLogin(usuarioCompleto);
           return {
             registrado: true,
             mensaje:
-              "usuario registrado con exito, pero fallo backup por favor contacte a soporte",
+              "usuario registrado con éxito, pero falló backup. Por favor contacte a soporte",
             necesitaSoporte: true,
             rutaSoporte: "/contacto",
           };
@@ -178,7 +173,6 @@ export const UserStorage = {
 
   async Backup() {
     try {
-      // Leer directo del localStorage, sin llamar a TodosLosUsuarios()
       const usuariosLocal = JSON.parse(
         localStorage.getItem("usuarios") || "[]"
       );
@@ -191,7 +185,6 @@ export const UserStorage = {
 
       const usuariosAPI = await respuesta.json();
 
-      // Si el localStorage está vacío → cargar backup
       if (usuariosLocal.length === 0) {
         localStorage.setItem("usuarios", JSON.stringify(usuariosAPI));
         return {
@@ -201,14 +194,11 @@ export const UserStorage = {
         };
       }
 
-      // SOLUCIÓN: Solo sincronizar si hay cambios reales, no solo por cantidad
-      // Buscar usuarios que están en API pero no en Local
       const usuariosFaltantes = usuariosAPI.filter(
         (apiUser) =>
           !usuariosLocal.find((localUser) => localUser.id === apiUser.id)
       );
 
-      // Si hay usuarios faltantes, mezclar ambos arrays
       if (usuariosFaltantes.length > 0) {
         const usuariosCombinados = [...usuariosLocal];
 
@@ -219,6 +209,7 @@ export const UserStorage = {
         });
 
         localStorage.setItem("usuarios", JSON.stringify(usuariosCombinados));
+
         return {
           carga: true,
           mensaje: "Usuarios nuevos agregados desde la API",
@@ -226,7 +217,6 @@ export const UserStorage = {
         };
       }
 
-      // Si está todo OK
       return {
         carga: false,
         mensaje: "LocalStorage y API están sincronizados",
