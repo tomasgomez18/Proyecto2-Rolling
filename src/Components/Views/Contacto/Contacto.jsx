@@ -71,7 +71,7 @@ const Contacto = () => {
 
                     >
                         <h5 className="titulo-glow2 pb-3 ">Datos de Contacto</h5>
-                    
+
                         <input
                             type="text"
                             placeholder="Nombre"
@@ -109,11 +109,14 @@ const Contacto = () => {
                         />
 
                         <button
-                            className="btn w-100 py-2 mt-2"
+                            className="btn w-100 py-2 mt-2 boton-animado"
                             type="submit"
                             style={{
-                                backgroundColor: "#eee605ff",
-                                color: "black",
+                                background: "rgba(0, 0, 0, 0.4)",     // MISMO fondo transparente
+                                backdropFilter: "blur(6px)",          // MISMO difuminado
+                                border: "1px solid #eee605ff",        // borde amarillo finito
+                                boxShadow: "0 0 8px #eee60555",       // brillo suave difuminado
+                                color: "white",                       // mejor contraste en fondo oscuro
                                 fontWeight: "600",
                             }}
                         >
