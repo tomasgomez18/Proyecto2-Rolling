@@ -54,75 +54,75 @@ const Contacto = () => {
                             color: "white",
                         }}
 
-                        
+
                     >
-                   <h2 class="titulo-glow">Rolling Motors</h2>
+                        <h2 className="titulo-glow">Rolling Motors</h2>
+
+                    </div>
+                    <form
+                        ref={form}
+                        onSubmit={sendEmail}
+                        className="col-12 col-md-6 d-flex flex-column justify-content-center p-5"
+                        style={{
+                            background: "rgba(0, 0, 0, 0.4)",
+                            backdropFilter: "blur(6px)",
+                            color: "white",
+                        }}
+
+                    >
+                        <h5 className="titulo-glow2 pb-3 ">Datos de Contacto</h5>
+                    
+                        <input
+                            type="text"
+                            placeholder="Nombre"
+                            name="Nombre"
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                        />
+
+                        <input
+                            type="text"
+                            placeholder="Apellido"
+                            name="Apellido"
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                        />
+
+                        <input
+                            type="text"
+                            placeholder="Telefono"
+                            name="Telefono"
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                        />
+
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            name="Email"
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                        />
+
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            placeholder="Mensaje"
+                            name="Mensaje"
+                            className="bg-transparent text-white border-0 border-bottom rounded-0 mb-4"
+                        />
+
+                        <button
+                            className="btn w-100 py-2 mt-2"
+                            type="submit"
+                            style={{
+                                backgroundColor: "#eee605ff",
+                                color: "black",
+                                fontWeight: "600",
+                            }}
+                        >
+                            Enviar
+                        </button>
+                    </form>
 
                 </div>
-                <form
-                    ref={form}
-                    onSubmit={sendEmail}
-                    className="col-12 col-md-6 d-flex flex-column justify-content-center p-5"
-                    style={{
-                        background: "rgba(0, 0, 0, 0.4)",
-                        backdropFilter: "blur(6px)",
-                        color: "white",
-                    }}
-
-                >
-                    <h3 className="fw-bold mb-4 text-center">Datos de Contacto</h3>
-
-                    <input
-                        type="text"
-                        placeholder="Nombre"
-                        name="Nombre"
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                    />
-
-                    <input
-                        type="text"
-                        placeholder="Apellido"
-                        name="Apellido"
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                    />
-
-                    <input
-                        type="text"
-                        placeholder="Telefono"
-                        name="Telefono"
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                    />
-
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        name="Email"
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                    />
-
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        placeholder="Mensaje"
-                        name="Mensaje"
-                        className="bg-transparent text-white border-0 border-bottom rounded-0 mb-4"
-                    />
-
-                    <button
-                        className="btn w-100 py-2 mt-2"
-                        type="submit"
-                        style={{
-                            backgroundColor: "#eee605ff",
-                            color: "black",
-                            fontWeight: "600",
-                        }}
-                    >
-                        Enviar
-                    </button>
-                </form>
-
-            </div>
-        </div >
+            </div >
 
             <div className="container col- 12 mt-5 mb-5">
                 <div className='col-6 text-center '

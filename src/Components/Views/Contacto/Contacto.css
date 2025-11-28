@@ -18,8 +18,17 @@
   color: #ffffff;
   text-shadow: 
       0 0 2px #ffea00,
-      0 0 3px #ffea00,
+    
       0 0 4px #ffea00;
 }
+
+.titulo-glow2 {
+    font-size: 20px;
+  color: #ffffff;
+  text-shadow: 
+      0 0 2px #ffea00,
+      0 0 2px #ffea00;
+}
+
 
 
