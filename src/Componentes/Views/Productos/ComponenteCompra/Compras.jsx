@@ -6,7 +6,7 @@ const Compras = ({
   modelo = "Classic 350", 
   año = 2020,
   precio = "450000",
-  imagen = "https://via.placeholder.com/400x240?text=Moto",
+  imagen = "https://images.pexels.com/photos/5192876/pexels-photo-5192876.jpeg",
   kilometros = "12,000",
   ubicacion = "Buenos Aires, AR",
   descripcion = "Mantenimiento al día. Color original. Algunos detalles estéticos mínimos.",
@@ -49,7 +49,7 @@ const Compras = ({
         </div>
 
         <div style={{textAlign: 'center'}}>
-          <button className="boton-contactar" disabled={!stock}>{stock ? 'Contactar' : 'Agotada'}</button>
+          <button className="boton-contactar" disabled={!stock}>{stock ? 'Comprar' : 'Agotada'}</button>
         </div>
       </div>
     </div>
