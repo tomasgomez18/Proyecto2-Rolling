@@ -1,80 +1,88 @@
 import { useEffect, useState } from "react";
-import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
-import * as topojson from "topojson-client";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 import paisesCoordenadas from "../../Componentes/Utils/CoordenadasPaises";
 
-const GEO_URL =
-  "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+// Fix para los iconos de markers (importante)
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+});
 
 const MapaUsuarios = () => {
-  const [geografias, setGeografias] = useState([]);
+  const [mapaListo, setMapaListo] = useState(false);
+  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  // Filtra usuarios que tienen coordenadas válidas - CORREGIDO
+  const usuariosConCoordenadas = usuarios
+    .map(user => {
+      const coord = paisesCoordenadas[user.pais];
+      return coord ? { ...user, coordenadas: coord } : null; // ¡NO INVERTIR!
+    })
+    .filter(Boolean);
 
   useEffect(() => {
-    fetch(GEO_URL)
-      .then((response) => response.json())
-      .then((data) => {
-        const geo = data.objects.countries;
-        const geoConverted = topojson.feature(data, geo).features;
-        setGeografias(geoConverted);
-      })
-      .catch((error) => console.error("Error cargando mapa:", error));
+    setMapaListo(true);
   }, []);
 
-  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+  // Coordenadas centrales del mapa (mejor centrado para América)
+  const centroMapa = [0, -60]; // Centrado en América
+  const zoomInicial = 3;
+
+  if (!mapaListo) {
+    return <div style={{ 
+      width: "100%", 
+      height: "400px", 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "center",
+      backgroundColor: "#f5f5f5" 
+    }}>
+      Cargando mapa...
+    </div>;
+  }
 
   return (
     <div style={{ width: "100%", maxWidth: "900px", margin: "0 auto" }}>
       <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
         Mapa de Usuarios Registrados
       </h2>
-
-      <ComposableMap projection="geoMercator">
-        <Geographies geography={geografias}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                style={{
-                  default: {
-                    fill: "#D6D6DA",
-                    outline: "none",
-                  },
-                  hover: {
-                    fill: "#A1A1A1",
-                    outline: "none",
-                  },
-                  pressed: {
-                    fill: "#E42",
-                    outline: "none",
-                  },
-                }}
-              />
-            ))
-          }
-        </Geographies>
-
- 
-        {usuarios.map((user, index) => {
-          const pais = user.pais;
-          const coord = paisesCoordenadas[pais];
-
-          if (!coord) return null; 
-
-          return (
-            <Marker key={index} coordinates={coord}>
-              <circle r={5} fill="#ff0000" stroke="#fff" strokeWidth={1.5} />
-              <text
-                textAnchor="middle"
-                y={-10}
-                style={{ fontFamily: "Arial", fontSize: 10, fill: "#333" }}
-              >
-                {user.nombre}
-              </text>
+      
+      <div style={{ height: "500px", width: "100%" }}>
+        <MapContainer
+          center={centroMapa}
+          zoom={zoomInicial}
+          style={{ height: "100%", width: "100%" }}
+        >
+          {/* Capa del mapa (OpenStreetMap) */}
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          
+          {/* Marcadores de usuarios */}
+          {usuariosConCoordenadas.map((user, index) => (
+            <Marker key={index} position={user.coordenadas}>
+              <Popup>
+                <div style={{ textAlign: "center" }}>
+                  <strong>{user.nombre || user.nombreDeUsuario}</strong>
+                  <br />
+                  {user.pais}
+                  <br />
+                  <small>{user.email}</small>
+                </div>
+              </Popup>
             </Marker>
-          );
-        })}
-      </ComposableMap>
+          ))}
+        </MapContainer>
+      </div>
+      
+      <div style={{ textAlign: "center", marginTop: "10px", color: "#666" }}>
+        {usuariosConCoordenadas.length} usuarios mostrados en el mapa
+      </div>
     </div>
   );
 };

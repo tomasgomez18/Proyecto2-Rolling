@@ -1,13 +1,21 @@
-export default {
-  Argentina: [-63.6167, -38.4161],
-  Brasil: [-51.9253, -14.235],
-  Chile: [-71.543, -35.675],
-  Uruguay: [-55.7658, -32.5228],
-  Paraguay: [-58.4438, -23.4425],
-  Bolivia: [-63.5887, -16.2902],
-  Peru: [-75.0152, -9.19],
-  Colombia: [-74.2973, 4.5709],
-  Mexico: [-102.5528, 23.6345],
-  España: [-3.7492, 40.4637],
-  EstadosUnidos: [-95.7129, 37.0902],
+// Componentes/Utils/CoordenadasPaises.js
+const paisesCoordenadas = {
+  "Argentina": [-34.6037, -58.3816],      // Buenos Aires
+  "España": [40.4168, -3.7038],          // Madrid
+  "México": [19.4326, -99.1332],         // Ciudad de México
+  "Colombia": [4.7110, -74.0721],        // Bogotá
+  "Chile": [-33.4489, -70.6693],         // Santiago
+  "Perú": [-12.0464, -77.0428],          // Lima
+  "Estados Unidos": [38.9072, -77.0369], // Washington DC
+  "Brasil": [-15.7975, -47.8919],        // Brasilia
+  "Uruguay": [-34.9011, -56.1645],       // Montevideo
+  "Venezuela": [10.4806, -66.9036],      // Caracas
+  "Costa Rica": [9.9281, -84.0907],      // San José
+  "Panamá": [8.9943, -79.5188],          // Ciudad de Panamá
+  "Cuba": [23.1136, -82.3666],           // La Habana
+  "Ecuador": [-0.1807, -78.4678],        // Quito
+  "Guatemala": [14.6349, -90.5069],      // Ciudad de Guatemala
+  "República Dominicana": [18.4861, -69.9312] // Santo Domingo
 };
+
+export default paisesCoordenadas;

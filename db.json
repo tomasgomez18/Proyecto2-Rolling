@@ -146,26 +146,6 @@
       "stock": 15,
       "imagen": "https://ejemplo.com/laptop.jpg",
       "fechaCreacion": "2024-01-15T10:30:00Z"
-    },
-    {
-      "id": "2",
-      "nombre": "Smartphone Flagship",
-      "descripcion": "Último modelo de smartphone con cámara 200MP",
-      "precio": 1199.99,
-      "categoria": "Tecnología",
-      "stock": 25,
-      "imagen": "https://ejemplo.com/smartphone.jpg",
-      "fechaCreacion": "2024-01-16T14:20:00Z"
-    },
-    {
-      "id": "3",
-      "nombre": "Auriculares Inalámbricos",
-      "descripcion": "Auriculares con cancelación de ruido activa",
-      "precio": 299.99,
-      "categoria": "Audio",
-      "stock": 40,
-      "imagen": "https://ejemplo.com/auriculares.jpg",
-      "fechaCreacion": "2024-01-17T09:15:00Z"
     }
   ],
   "usuariosSuspendidos": [
