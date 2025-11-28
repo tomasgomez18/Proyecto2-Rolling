@@ -1,7 +1,28 @@
 import Form from 'react-bootstrap/Form';
+import emailjs from '@emailjs/browser';
+import React, { useRef } from 'react';
+import './Contacto.css';
 
 
 const Contacto = () => {
+    const form = useRef();
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs
+            .sendForm("service_2huncds", "template_wt8nir8", form.current, {
+                publicKey: "4nhIAIqJh5mY2AI9s",
+            })
+            .then(
+                () => {
+                    console.log("SUCCESS!");
+                },
+                (error) => {
+                    console.log("FAILED...", error.text);
+                }
+            );
+    };
 
     return (
         <>
@@ -11,8 +32,6 @@ const Contacto = () => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     padding: "40px",
-
-
                 }}
             >
                 <div
@@ -30,61 +49,82 @@ const Contacto = () => {
 
                         className=" col-12 col-md-6 text-white d-flex flex-column justify-content-center p-5"
                         style={{
-                            backdropFilter: "blur(4px)",
-                        }
-
-                        }
-                    >
-                        <h2 className="fw-bold mb-3" >ROLLING MOTORS</h2>
-                    </div>
-                    <form>
-                        className=" col-12 col-md-6 bg-dark d-flex flex-column justify-content-center p-5"
-                        style={{
-                            background: "rgba(130, 96, 96, 0.65)",
+                            background: "rgba(0, 0, 0, 0.4)",
                             backdropFilter: "blur(6px)",
-                            color: "white"
+                            color: "white",
                         }}
-                    
-                        <h3 className="fw-bold mb-4 text-center">Datos de Contacto</h3>
-                        <div></div>
-                        <input type="text" placeholder="Nombre" name='Nombre' id='Nombre'
-                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                        />
-                        <input type="Apellido" placeholder="Apellido" name='Apellido' id='Apellido'
-                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                        />
-                        <input type="Telefono" placeholder="Telefono" name='Telefono' id='Telefono'
-                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                        />
-                        <input type="Email" placeholder="Email" name='Email' id='Email'
-                            className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
-                        />
-                        <Form.Control
-                            name='Mensaje'
-                            id='Mensaje'
-                            as="textarea"
-                            rows={3}
-                            placeholder="Mensaje"
-                            className="bg-transparent text-white border-0 border-bottom rounded-0 mb-4"
-                        />
 
-
-
-
-                        { }
-                        <button className="btn w-100 py-2 mt-2" type='submit' id='button' value={"Enviar"}
-
-                            style={{
-                                backgroundColor: "#eee605ff",
-                                color: "black",
-                                fontWeight: "600"
-                            }} >Enviar</button>
-                    </form>
+                        
+                    >
+                    <h2 className="fw-bold mb-3" >ROLLING MOTORS</h2>
                 </div>
-            </div>
+                <form
+                    ref={form}
+                    onSubmit={sendEmail}
+                    className="col-12 col-md-6 d-flex flex-column justify-content-center p-5"
+                    style={{
+                        background: "rgba(0, 0, 0, 0.4)",
+                        backdropFilter: "blur(6px)",
+                        color: "white",
+                    }}
 
-            <div className="container mt-5 mb-5">
-                <div
+                >
+                    <h3 className="fw-bold mb-4 text-center">Datos de Contacto</h3>
+
+                    <input
+                        type="text"
+                        placeholder="Nombre"
+                        name="Nombre"
+                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Apellido"
+                        name="Apellido"
+                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Telefono"
+                        name="Telefono"
+                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                    />
+
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        name="Email"
+                        className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
+                    />
+
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="Mensaje"
+                        name="Mensaje"
+                        className="bg-transparent text-white border-0 border-bottom rounded-0 mb-4"
+                    />
+
+                    <button
+                        className="btn w-100 py-2 mt-2"
+                        type="submit"
+                        style={{
+                            backgroundColor: "#eee605ff",
+                            color: "black",
+                            fontWeight: "600",
+                        }}
+                    >
+                        Enviar
+                    </button>
+                </form>
+
+            </div>
+        </div >
+
+            <div className="container col- 12 mt-5 mb-5">
+                <div className='col-6 text-center '
                     style={{
                         maxWidth: "500px",
                         border: "3px white solid",
@@ -128,9 +168,23 @@ const Contacto = () => {
                     </div>
 
                 </div>
+                <div className='col-' style={{
+                    maxWidth: "500px",
+                    border: "3px white solid",
+                    borderRadius: "10px",
+                    padding: "20px",
+                    marginLeft: "auto",
+                    marginRight: "20px"  // opcional
+                }}
+                >
+                    <div className="d-flex align-items-center text-white mb-3 flex-wrap">
+                        <p>METODOS DE CONTACTO</p>
+
+                    </div>
+
+                </div>
             </div>
         </>
-
     );
 };
 
