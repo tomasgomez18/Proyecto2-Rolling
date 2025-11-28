@@ -19,7 +19,6 @@ const Compras = ({
 
       <div className="contenedor-imagen-moto">
         <img className="imagen-moto" src={imagen} alt={`${marca} ${modelo}`} />
-        {destacado && <span className="etiqueta-destacada">Destacada</span>}
         <span className="etiqueta-año">{año}</span>
       </div>
 
