@@ -31,7 +31,7 @@ const Contacto = () => {
                 style={{
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    padding: "40px",
+                    padding: "20px",
                 }}
             >
                 <div
@@ -41,7 +41,7 @@ const Contacto = () => {
                         maxWidth: "800px",
                         background: "rgba(0, 0, 0, 0.4)",
                         backdropFilter: "blur(6px)",
-                        border: "3px solid yellow",
+                        border: "1px solid yellow",
                         borderRadius: "15px"
                     }}
                 >
