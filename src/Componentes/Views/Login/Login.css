@@ -24,7 +24,7 @@
   background: transparent;
   min-height: 400px; /* Más compacto que el registro */
   position: relative;
-  background-image: url("Public/roar-motorcycle.gif");
+  background-image: url("/roar-motorcycle.gif");
   background-position: left;
   background-repeat: no-repeat;
   background-size: cover;
