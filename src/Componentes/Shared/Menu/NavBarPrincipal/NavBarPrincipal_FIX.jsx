@@ -11,7 +11,7 @@
   } from "react-icons/fa";
   import { useUser } from "../../../Context/ContextoUsuario";
   import MenuUsuario from "../../../Utils/MenuUsuario";
-  import "./NavBarPrincipal.css";
+  import "./NavBarPrincipal_FIX.css";
 
   export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
     const { usuarioActual, logout } = useUser();
