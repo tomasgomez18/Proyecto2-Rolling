@@ -37,8 +37,8 @@ const Contacto = () => {
                 <div
                     className="row shadow-lg rounded-4 overflow-hidden"
                     style={{
-                        width: "85%",
-                        maxWidth: "1100px",
+                        width: "75%",
+                        maxWidth: "800px",
                         background: "rgba(0, 0, 0, 0.4)",
                         backdropFilter: "blur(6px)",
                         border: "3px solid yellow",
