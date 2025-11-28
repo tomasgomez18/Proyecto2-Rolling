@@ -12,3 +12,14 @@
     transform: scale(1.1);
     box-shadow: 0 0 25px rgba(255,255,255,0.7);
 }
+
+.titulo-glow {
+  font-size: 40px;
+  color: #ffffff;
+  text-shadow: 
+      0 0 2px #ffea00,
+      0 0 3px #ffea00,
+      0 0 4px #ffea00;
+}
+
+

@@ -56,7 +56,8 @@ const Contacto = () => {
 
                         
                     >
-                    <h2 className="fw-bold mb-3" >ROLLING MOTORS</h2>
+                   <h2 class="titulo-glow">Rolling Motors</h2>
+
                 </div>
                 <form
                     ref={form}
