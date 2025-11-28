@@ -10,7 +10,7 @@ const Compras = ({
   kilometros = "12,000",
   ubicacion = "Buenos Aires, AR",
   descripcion = "Mantenimiento al día. Color original. Algunos detalles estéticos mínimos.",
-  destacado = true,
+  destacado = true, 
   stock = true
 }) => {
   return (
