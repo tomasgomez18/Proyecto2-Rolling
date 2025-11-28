@@ -1,11 +1,13 @@
-import React from 'react'
-import Categorias from './ComponenteProducto/Cards/Categorias.jsx'
+import React from "react";
+import Categorias from "./ComponenteProducto/Cards/Categorias.jsx";
+import Compras from "./ComponenteCompra/Compras.jsx";
 const Productos = () => {
   return (
     <div>
-        <Categorias/>
+      <Categorias />
+      <Compras />
     </div>
-  )
-}
+  );
+};
 
-export default Productos
+export default Productos;
