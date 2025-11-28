@@ -75,28 +75,28 @@ const Contacto = () => {
                         <input
                             type="text"
                             placeholder="Nombre"
-                            name="Nombre"
+                            name="user_name"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
 
                         <input
                             type="text"
                             placeholder="Apellido"
-                            name="Apellido"
+                            name="last_name"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
 
                         <input
                             type="text"
                             placeholder="Telefono"
-                            name="Telefono"
+                            name="user_phone"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
 
                         <input
                             type="email"
                             placeholder="Email"
-                            name="Email"
+                            name="user_email"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
 
@@ -104,19 +104,20 @@ const Contacto = () => {
                             as="textarea"
                             rows={3}
                             placeholder="Mensaje"
-                            name="Mensaje"
+                            name="message"
                             className="bg-transparent text-white border-0 border-bottom rounded-0 mb-4"
                         />
+
 
                         <button
                             className="btn w-100 py-2 mt-2 boton-animado"
                             type="submit"
                             style={{
-                                background: "rgba(0, 0, 0, 0.4)",     // MISMO fondo transparente
-                                backdropFilter: "blur(6px)",          // MISMO difuminado
-                                border: "1px solid #eee605ff",        // borde amarillo finito
-                                boxShadow: "0 0 8px #eee60555",       // brillo suave difuminado
-                                color: "white",                       // mejor contraste en fondo oscuro
+                                background: "rgba(0, 0, 0, 0.4)",
+                                backdropFilter: "blur(6px)",
+                                border: "1px solid #eee605ff",
+                                boxShadow: "0 0 8px #eee60555",
+                                color: "white",
                                 fontWeight: "600",
                             }}
                         >
