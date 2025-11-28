@@ -3,10 +3,8 @@ import { UserStorage } from "../Utils/UsuarioStorage";
 
 const UserContext = createContext();
 
-// Hook
 export const useUser = () => useContext(UserContext);
 
-// PROVIDER REAL
 export const UserProvider = ({ children }) => {
   const [usuarios, setUsuarios] = useState([]);
   const [usuariosSuspendidos, setUsuariosSuspendidos] = useState([]);
@@ -14,9 +12,6 @@ export const UserProvider = ({ children }) => {
   const [usuarioActual, setUsuarioActual] = useState(null);
   const [cargando, setCargando] = useState(true);
 
-  // ======================
-  // CARGAR DATOS INICIALES
-  // ======================
   const cargarDatosIniciales = async () => {
     try {
       setCargando(true);
@@ -42,9 +37,7 @@ export const UserProvider = ({ children }) => {
     cargarDatosIniciales();
   }, []);
 
-  // ======================
-  //  AUTENTICACIÓN
-  // ======================
+
   const login = async (credenciales) => {
     const result = await UserStorage.VerificarLoginUsuario(credenciales);
 
@@ -63,9 +56,6 @@ export const UserProvider = ({ children }) => {
 
   const esAdministrador = usuarioActual?.role === "admin";
 
-  // ======================
-  //   ACCIONES USUARIOS
-  // ======================
   const suspenderUsuario = (id) => {
     const usuario = usuarios.find((u) => u.id === id);
     if (!usuario) return;
@@ -112,9 +102,6 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("usuarios", JSON.stringify(actualizados));
   };
 
-  // ======================
-  //  PRODUCTOS
-  // ======================
   const agregarProducto = (producto) => {
     const nuevo = {
       ...producto,
@@ -127,9 +114,6 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("productos", JSON.stringify(nuevos));
   };
 
-  // ======================
-  //  API SYNC
-  // ======================
   const sincronizarConAPI = async () => {
     try {
       const result = await UserStorage.Backup();

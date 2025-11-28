@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useUser } from "../Context/ContextoUsuario";
+import MapaUsuarios from "./MapaUsuarios";
 import "./css/AdminPanel.css";
 
 const AdminPanel = () => {
@@ -62,7 +63,10 @@ const AdminPanel = () => {
               placeholder="Nombre"
               value={datosFormulario.nombre}
               onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, nombre: e.target.value })
+                setDatosFormulario({
+                  ...datosFormulario,
+                  nombre: e.target.value,
+                })
               }
               required
             />
@@ -71,7 +75,10 @@ const AdminPanel = () => {
               placeholder="Precio"
               value={datosFormulario.precio}
               onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, precio: e.target.value })
+                setDatosFormulario({
+                  ...datosFormulario,
+                  precio: e.target.value,
+                })
               }
               required
             />
@@ -80,7 +87,10 @@ const AdminPanel = () => {
               placeholder="Categoría"
               value={datosFormulario.categoria}
               onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, categoria: e.target.value })
+                setDatosFormulario({
+                  ...datosFormulario,
+                  categoria: e.target.value,
+                })
               }
               required
             />
@@ -97,7 +107,10 @@ const AdminPanel = () => {
             />
             <div className="botones-formulario">
               <button type="submit">Agregar</button>
-              <button type="button" onClick={() => setMostrarFormProducto(false)}>
+              <button
+                type="button"
+                onClick={() => setMostrarFormProducto(false)}
+              >
                 Cancelar
               </button>
             </div>
@@ -141,7 +154,10 @@ const AdminPanel = () => {
               type="email"
               value={datosFormulario.email}
               onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, email: e.target.value })
+                setDatosFormulario({
+                  ...datosFormulario,
+                  email: e.target.value,
+                })
               }
               required
             />
@@ -176,21 +192,37 @@ const AdminPanel = () => {
     );
   };
 
-  // === RETURN ===
-
   return (
     <div className="panel-administracion">
       <header className="encabezado-administracion">
         <h1>Panel de Administración</h1>
         <nav>
-          <button onClick={() => setVistaActiva("usuarios")}>
+          <button
+            className={vistaActiva === "usuarios" ? "btn-activo" : ""}
+            onClick={() => setVistaActiva("usuarios")}
+          >
             Usuarios ({usuarios.length})
           </button>
-          <button onClick={() => setVistaActiva("suspendidos")}>
+
+          <button
+            className={vistaActiva === "suspendidos" ? "btn-activo" : ""}
+            onClick={() => setVistaActiva("suspendidos")}
+          >
             Suspendidos ({usuariosSuspendidos.length})
           </button>
-          <button onClick={() => setVistaActiva("productos")}>
+
+          <button
+            className={vistaActiva === "productos" ? "btn-activo" : ""}
+            onClick={() => setVistaActiva("productos")}
+          >
             Productos ({productos.length})
+          </button>
+
+          <button
+            className={vistaActiva === "mapa" ? "btn-activo" : ""}
+            onClick={() => setVistaActiva("mapa")}
+          >
+            🌍 Mapa de usuarios
           </button>
         </nav>
 
@@ -219,7 +251,9 @@ const AdminPanel = () => {
                   <td>{u.pais}</td>
                   <td>{new Date(u.fechaNacimiento).toLocaleDateString()}</td>
                   <td>
-                    <button onClick={() => setUsuarioEditando(u)}>Editar</button>
+                    <button onClick={() => setUsuarioEditando(u)}>
+                      Editar
+                    </button>
                     <button onClick={() => suspenderUsuario(u.id)}>
                       Suspender
                     </button>
@@ -293,6 +327,7 @@ const AdminPanel = () => {
 
       {usuarioEditando && <ModalEditarUsuario />}
       {mostrarFormProducto && <FormularioProducto />}
+      {vistaActiva === "mapa" && <MapaUsuarios />}
     </div>
   );
 };
