@@ -1,0 +1,26 @@
+const COORDENADAS_PAISES = {
+  Argentina: { lat: -38.4161, lng: -63.6167 },
+  Bolivia: { lat: -16.2902, lng: -63.5887 },
+  Brasil: { lat: -14.235, lng: -51.9253 },
+  Chile: { lat: -35.6751, lng: -71.543 },
+  Colombia: { lat: 4.5709, lng: -74.2973 },
+  "Costa Rica": { lat: 9.7489, lng: -83.7534 },
+  Cuba: { lat: 21.5218, lng: -77.7812 },
+  Ecuador: { lat: -1.8312, lng: -78.1834 },
+  "El Salvador": { lat: 13.7942, lng: -88.8965 },
+  España: { lat: 40.4637, lng: -3.7492 },
+  "Estados Unidos": { lat: 37.0902, lng: -95.7129 },
+  Guatemala: { lat: 15.7835, lng: -90.2308 },
+  Honduras: { lat: 15.2, lng: -86.2419 },
+  México: { lat: 23.6345, lng: -102.5528 },
+  Nicaragua: { lat: 12.8654, lng: -85.2072 },
+  Panamá: { lat: 8.538, lng: -80.7821 },
+  Paraguay: { lat: -23.4425, lng: -58.4438 },
+  Perú: { lat: -9.19, lng: -75.0152 },
+  "Puerto Rico": { lat: 18.2208, lng: -66.5901 },
+  "República Dominicana": { lat: 18.7357, lng: -70.1627 },
+  Uruguay: { lat: -32.5228, lng: -55.7658 },
+  Venezuela: { lat: 6.4238, lng: -66.5897 },
+};
+
+export default COORDENADAS_PAISES;
