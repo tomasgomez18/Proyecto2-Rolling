@@ -13,7 +13,7 @@ const productosEnOferta = [
         precioOriginal: 1450000,
         precioOferta: 1190000,
         imagen: "/img/mt07.jpg",
-        finOferta: new Date().getTime() + (1000 * 60 * 60 * 3) 
+        finOferta: new Date().getTime() + 1000 * 60 * 60 * 3
     },
     {
         id: 2,
@@ -22,7 +22,7 @@ const productosEnOferta = [
         precioOriginal: 980000,
         precioOferta: 849000,
         imagen: "/img/cb300f.jpg",
-        finOferta: new Date().getTime() + (1000 * 60 * 60 * 3) 
+        finOferta: new Date().getTime() + 1000 * 60 * 60 * 3
     },
     {
         id: 3,
@@ -31,7 +31,7 @@ const productosEnOferta = [
         precioOriginal: 1350000,
         precioOferta: 1090000,
         imagen: "/img/z400.jpg",
-        finOferta: new Date().getTime() + (1000 * 60 * 60 * 3) 
+        finOferta: new Date().getTime() + 1000 * 60 * 60 * 3
     }
 ];
 
@@ -45,11 +45,15 @@ function Ofertas() {
                 </p>
 
                 <Row className="mt-4">
-                    {productosEnOferta.map((producto) => (
-                        <Col key={producto.id} lg={4} md={6} className="mb-4">
-                            <OfertaItem producto={producto} />
-                        </Col>
-                    ))}
+                    {productosEnOferta
+                        .filter(
+                            (producto) => producto.precioOferta < producto.precioOriginal
+                        )
+                        .map((producto) => (
+                            <Col key={producto.id} lg={4} md={6} className="mb-4">
+                                <OfertaItem producto={producto} />
+                            </Col>
+                        ))}
                 </Row>
             </Container>
         </section>
