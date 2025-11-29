@@ -1,7 +1,7 @@
 import React from 'react';
-import './Compras.css';
+import '../card-Producto/CardProducto.css'; // Esta línea importa los estilos
 
-const Compras = ({ 
+const CardProducto = ({ 
   marca = "Royal Enfield",
   modelo = "Classic 350", 
   año = 2020,
@@ -18,11 +18,16 @@ const Compras = ({
       <div className="barra-superior-color" />
 
       <div className="contenedor-imagen-moto">
-        <img className="imagen-moto" src={imagen} alt={`${marca} ${modelo}`} />
+        <img 
+          className="imagen-moto" 
+          src={imagen} 
+          alt={`${marca} ${modelo}`} 
+          loading="lazy"
+        />
         <span className="etiqueta-año">{año}</span>
       </div>
 
-      <div className="contenido-card ">
+      <div className="contenido-card">
         <div className="marca-modelo">
           <div className="nombre-marca">{marca}</div>
           <h3 className="nombre-modelo">{modelo}</h3>
@@ -47,12 +52,17 @@ const Compras = ({
           <div className="texto-precio-final">Financiación disponible</div>
         </div>
 
-        <div style={{textAlign: 'center'}}>
-          <button className="boton-contactar" disabled={!stock}>{stock ? 'Comprar' : 'Agotada'}</button>
+        <div className="contenedor-boton">
+          <button 
+            className={`boton-contactar ${!stock ? 'boton-deshabilitado' : ''}`} 
+            disabled={!stock}
+          >
+            {stock ? 'Comprar' : 'Agotada'}
+          </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default Compras;
+export default CardProducto;
