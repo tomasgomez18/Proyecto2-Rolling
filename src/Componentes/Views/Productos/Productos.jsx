@@ -1,11 +1,13 @@
-import React from 'react'
-import Categorias from './ComponenteProducto/Cards/Categorias.jsx'
+import React from "react";
+import CardProducto from "./ComponenteProducto/PaginaProductos/card-Producto/CardProducto.jsx";
+import BuscadorProducto from "./ComponenteProducto/PaginaProductos/componenteBuscarProducto/BuscadorProducto.jsx";
 const Productos = () => {
   return (
     <div>
-        <Categorias/>
+      <BuscadorProducto/>
+      <CardProducto/>
     </div>
-  )
-}
+  );
+};
 
-export default Productos
+export default Productos;
