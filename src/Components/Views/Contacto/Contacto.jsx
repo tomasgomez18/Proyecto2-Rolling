@@ -9,24 +9,63 @@ import './Contacto.css';
 const Contacto = () => {
 
     const form = useRef();
+    const [mensajeEnviado, setMensajeEnviado] = useState(false);
+
 
     const sendEmail = (e) => {
         e.preventDefault();
 
-        emailjs
-            .sendForm("service_2huncds", "template_wt8nir8", form.current, {
-                publicKey: "4NhIAIqJh5mY2AI9S",
-            })
+        const formData = new FormData(form.current);
+        const nombre = formData.get("user_name").trim();
+        const apellido = formData.get("last_name").trim();
+        const telefono = formData.get("user_phone").trim();
+        const email = formData.get("user_email").trim();
+        const mensaje = formData.get("message").trim();
 
-            .then(
-                () => {
-                    console.log("SUCCESS!");
-                },
-                (error) => {
-                    console.log("FAILED...", error.text);
-                }
-            );
+        // VALIDACIONES
+        if (nombre.length <= 3) {
+            alert("El nombre debe tener más de 3 caracteres.");
+            return;
+        }
+
+        if (apellido.length <= 3) {
+            alert("El apellido debe tener más de 3 caracteres.");
+            return;
+        }
+        if (!/^\d+$/.test(telefono)) {
+            alert("El teléfono solo puede contener números.");
+            return;
+        }
+
+
+
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            alert("El email no es válido.");
+            return;
+        }
+
+        if (mensaje.length > 50) {
+            alert("El mensaje no puede superar los 200 caracteres.");
+            return;
+        }
+
+        // ENVÍO DEL EMAIL
+        emailjs
+            .sendForm(
+                "service_2huncds",
+                "template_wt8nir8",
+                form.current,
+                { publicKey: "4NhIAIqJh5mY2AI9S" }
+            )
+            .then(() => {
+                setMensajeEnviado(true);
+                setTimeout(() => setMensajeEnviado(false), 2500);
+                form.current.reset();
+            })
+            .catch((error) => console.error(error));
     };
+
 
 
 
@@ -95,10 +134,11 @@ const Contacto = () => {
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
-                            id='telefono'
-                            type="text"
+                            type="tel"
                             placeholder="Telefono"
                             name="user_phone"
+                            pattern="[0-9]*"
+                            inputMode="numeric"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
@@ -130,6 +170,17 @@ const Contacto = () => {
                                 fontWeight: "600",
                             }}
                         >Enviar</button>
+
+                        {mensajeEnviado && (
+                            <p style={{ color: "#eee605", marginTop: "10px" }}>
+                                ✔ Mensaje enviado correctamente
+                            </p>
+                        )}
+
+
+
+
+
                     </form>
                 </div>
             </div >
@@ -193,8 +244,6 @@ const Contacto = () => {
     );
 };
 export default Contacto;
-
-
 
 
 
