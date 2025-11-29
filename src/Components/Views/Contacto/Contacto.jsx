@@ -1,6 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import emailjs from '@emailjs/browser';
 import { useRef, useState } from "react";
+
 import './Contacto.css';
 
 
@@ -22,7 +23,12 @@ const Contacto = () => {
         const email = formData.get("user_email").trim();
         const mensaje = formData.get("message").trim();
 
-        // VALIDACIONES
+
+        if (!nombre || !apellido || !telefono || !email || !mensaje) {
+            alert("Por favor, completa todos los campos.");
+            return;
+        }
+
         if (nombre.length <= 3) {
             alert("El nombre debe tener más de 3 caracteres.");
             return;
@@ -50,7 +56,6 @@ const Contacto = () => {
             return;
         }
 
-        // ENVÍO DEL EMAIL
         emailjs
             .sendForm(
                 "service_2huncds",
@@ -65,12 +70,6 @@ const Contacto = () => {
             })
             .catch((error) => console.error(error));
     };
-
-
-
-
-
-
 
 
 
