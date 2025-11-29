@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import paisesCoordenadas from "../../Componentes/Utils/CoordenadasPaises";
 
-// Fix para los iconos de markers (importante)
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
@@ -16,11 +16,10 @@ const MapaUsuarios = () => {
   const [mapaListo, setMapaListo] = useState(false);
   const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-  // Filtra usuarios que tienen coordenadas válidas - CORREGIDO
   const usuariosConCoordenadas = usuarios
     .map(user => {
       const coord = paisesCoordenadas[user.pais];
-      return coord ? { ...user, coordenadas: coord } : null; // ¡NO INVERTIR!
+      return coord ? { ...user, coordenadas: coord } : null; 
     })
     .filter(Boolean);
 
@@ -28,8 +27,7 @@ const MapaUsuarios = () => {
     setMapaListo(true);
   }, []);
 
-  // Coordenadas centrales del mapa (mejor centrado para América)
-  const centroMapa = [0, -60]; // Centrado en América
+  const centroMapa = [0, -60]; 
   const zoomInicial = 3;
 
   if (!mapaListo) {
@@ -57,13 +55,12 @@ const MapaUsuarios = () => {
           zoom={zoomInicial}
           style={{ height: "100%", width: "100%" }}
         >
-          {/* Capa del mapa (OpenStreetMap) */}
+    
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           
-          {/* Marcadores de usuarios */}
           {usuariosConCoordenadas.map((user, index) => (
             <Marker key={index} position={user.coordenadas}>
               <Popup>

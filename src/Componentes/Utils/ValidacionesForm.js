@@ -114,14 +114,13 @@ const loginSchema = z.object({
     .min(1, "Ingresa tu usuario o email")
     .refine(
       (val) => {
-        // Si contiene @ → validar como email
+
         if (val.includes("@")) {
           return /^[^\s<>()\[\]\\.,;:"%]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
             val
           );
         }
 
-        // Si no → validar nombre de usuario
         return (
           val.length >= 5 &&
           val.length <= 30 &&
@@ -133,7 +132,6 @@ const loginSchema = z.object({
       }
     ),
 
-  // CAMBIO IMPORTANTE: "contrasena" sin ñ
   contrasena: z.string().min(1, "Ingresa tu contraseña"),
 });
 

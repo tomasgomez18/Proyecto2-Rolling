@@ -1,4 +1,4 @@
-// Componentes/Utils/CoordenadasPaises.js
+
 const paisesCoordenadas = {
   "Argentina": [-34.6037, -58.3816],      // Buenos Aires
   "España": [40.4168, -3.7038],          // Madrid

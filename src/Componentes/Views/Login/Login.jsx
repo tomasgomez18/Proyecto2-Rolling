@@ -7,18 +7,16 @@ import { useUser } from "../../Context/ContextoUsuario";
 
 const Login = ({ onClose, onAbrirRegistro }) => {
   const navigate = useNavigate();
-  const { login, usuarioActual, esAdministrador } = useUser(); // Usar el login del contexto
+  const { login, usuarioActual, esAdministrador } = useUser();
 
   const onSubmit = async (data) => {
     try {
-      // 🔥 CAMBIO: Usar el login del contexto en lugar de UserStorage directamente
       const resultado = await login(data);
 
       if (resultado.login) {
         toast.success("Login exitoso ✔");
         onClose();
 
-        // 🔥 CAMBIO: Usar el usuarioActual del contexto que ya está actualizado
         setTimeout(() => {
           if (resultado.usuario.role === "admin") {
             toast(

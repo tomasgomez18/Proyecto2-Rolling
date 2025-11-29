@@ -1,5 +1,3 @@
-// Elimina esta importación
-// import CryptoJS from "crypto-js";
 
 const URL_API = import.meta.env.VITE_URL_API;
 
@@ -49,7 +47,6 @@ export const UserStorage = {
         };
       }
 
-      // 🔥 CAMBIO: Comparación directa sin hashing
       if (usuarioEncontrado.password === data.contrasena) {
         console.log("Contraseña correcta");
         await this.UltimoLogin(usuarioEncontrado);
@@ -91,7 +88,6 @@ export const UserStorage = {
           email: data.email,
           pais: data.pais,
           fechaNacimiento: data.fechaNacimiento,
-          // 🔥 CAMBIO: Guardar contraseña en texto plano
           password: data.password,
           role: "usuario",
         };

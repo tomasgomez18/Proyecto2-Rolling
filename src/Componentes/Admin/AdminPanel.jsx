@@ -37,7 +37,6 @@ const AdminPanel = () => {
     );
   }
 
-  // === FORMULARIOS ===
 
   const FormularioProducto = () => {
     const [datosFormulario, setDatosFormulario] = useState({
