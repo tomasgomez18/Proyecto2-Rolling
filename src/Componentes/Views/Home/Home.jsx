@@ -1,10 +1,11 @@
-import React from 'react'
-import DetalleProducto from '../Productos/ComponenteProducto/PaginaProducto/Detalle-Producto/DetalleProducto'
 
+import React from 'react'
+
+import Productos from "../Productos/Productos"
 export const Home = () => {
   return (
     <div>
-      <DetalleProducto/>
+      <Productos/>
     </div>
   )
 }
