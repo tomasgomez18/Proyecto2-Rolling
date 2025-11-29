@@ -24,10 +24,10 @@ const Contacto = () => {
         const mensaje = formData.get("message").trim();
 
 
-        if (!nombre || !apellido || !telefono || !email || !mensaje) {
-            alert("Por favor, completa todos los campos.");
-            return;
-        }
+        /* if (!nombre || !apellido || !telefono || !email || !mensaje) {
+             alert("Por favor, completa todos los campos.");
+             return;
+         } */
 
         if (nombre.length <= 3) {
             alert("El nombre debe tener más de 3 caracteres.");
@@ -64,10 +64,12 @@ const Contacto = () => {
                 { publicKey: "4NhIAIqJh5mY2AI9S" }
             )
             .then(() => {
-                setMensajeEnviado(true);
-                setTimeout(() => setMensajeEnviado(false), 2500);
+                setMensajeEnviado(true); // muestra el modal
                 form.current.reset();
             })
+
+
+
             .catch((error) => console.error(error));
     };
 
@@ -170,16 +172,63 @@ const Contacto = () => {
                             }}
                         >Enviar</button>
 
+
                         {mensajeEnviado && (
-                            <p style={{ color: "#eee605", marginTop: "10px" }}>
-                                ✔ Mensaje enviado correctamente
-                            </p>
+                            <div
+                                style={{
+                                    position: "fixed",
+                                    top: 0,
+                                    left: 0,
+                                    width: "100%",
+                                    height: "100%",
+                                    backgroundColor: "rgba(0,0,0,0.6)",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    zIndex: 9999,
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        background: "#000",
+                                        backdropFilter: "blur(6px)",
+                                        border: "1px solid #eee605ff",
+                                        borderRadius: "10px",
+                                        padding: "20px",
+                                        textAlign: "center",
+                                        color: "white",
+                                        width: "90%",
+                                        maxWidth: "400px",
+                                        boxSizing: "border-box",
+                                        animation: "zoomIn 0.3s ease-out",
+                                    }}
+                                >
+
+                                    <h3 style={{ textShadow: "0 0 5px #eee605" }}>✔ Mensaje enviado</h3>
+                                    <p>Gracias por contactarnos, te responderemos pronto.</p>
+                                    <button
+                                        onClick={() => setMensajeEnviado(false)}
+                                        style={{
+                                            marginTop: "15px",
+                                            padding: "10px 15px",
+                                            width: "80%",
+                                            maxWidth: "200px",
+                                            background: "rgba(0, 0, 0, 0.4)",
+                                            backdropFilter: "blur(6px)",
+                                            border: "1px solid #eee605ff",
+                                            boxShadow: "0 0 8px #eee60555",
+                                            color: "white",
+                                            fontWeight: "600",
+                                            borderRadius: "5px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Cerrar
+                                    </button>
+
+                                </div>
+                            </div>
                         )}
-
-
-
-
-
                     </form>
                 </div>
             </div >
