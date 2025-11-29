@@ -1,6 +1,5 @@
 import React from "react";
-import Productos from "../Productos/Productos";
-import BuscadorProducto from "../componenteBuscarProducto/BuscadorProducto";
+import Productos from "../Productos/Productos"
 
 
 export const Home = () => {

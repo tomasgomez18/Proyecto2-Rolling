@@ -4,7 +4,7 @@ import Menu from "./Componentes/Shared/Menu/Menu";
 import { Home } from "./Componentes/Views/Home/Home";
 import "./App.css";
 import Productos from "./Componentes/Views/Productos/Productos";
-import BuscadorProducto from "./Componentes/Views/componenteBuscarProducto/BuscadorProducto.jsx";
+import BuscadorProducto from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/componenteBuscarProducto/BuscadorProducto";
 
 function App() {
   return (
