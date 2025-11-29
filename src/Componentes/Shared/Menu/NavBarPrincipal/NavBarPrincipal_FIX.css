@@ -308,3 +308,16 @@
   color: var(--color-oscuro) !important;
   outline: 3px solid var(--color-dorado);
 }
+
+.dropdown-submenu {
+  cursor: default;
+}
+
+.dropdown-submenu:hover {
+  background-color: transparent !important;
+}
+
+.dropdown-submenu .btn {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+}

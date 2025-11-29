@@ -1,8 +1,8 @@
 import { Dropdown } from "react-bootstrap";
-import { useUser } from "../../Componentes/Context/ContextoUsuario";
+import { useUser } from "../../Context/ContextoUsuario";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaHeadset, FaSignOutAlt } from "react-icons/fa";
-import "./css/MenuUsuario.css";
+import "./MenuUsuario.css";
 
 const MenuUsuario = () => {
   const { usuarioActual, logout } = useUser();

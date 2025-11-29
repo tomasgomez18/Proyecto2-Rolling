@@ -1,137 +1,201 @@
-  import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
-  import { Link } from "react-router-dom";
-  import { 
-    FaGlobe, 
-    FaShoppingCart, 
-    FaUser, 
-    FaBars, 
-    FaEnvelope, 
-    FaHeadset, 
-    FaSignOutAlt 
-  } from "react-icons/fa";
-  import { useUser } from "../../../Context/ContextoUsuario";
-  import MenuUsuario from "../../../Utils/MenuUsuario";
-  import "./NavBarPrincipal_FIX.css";
+import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { 
+  FaGlobe, 
+  FaShoppingCart, 
+  FaUser, 
+  FaBars, 
+  FaEnvelope, 
+  FaHeadset, 
+  FaSignOutAlt 
+} from "react-icons/fa";
+import { useUser } from "../../../Context/ContextoUsuario";
+import MenuUsuario from "../../menuUsuario/MenuUsuario";
+import { useTranslation } from 'react-i18next';
+import "./NavBarPrincipal_FIX.css";
 
-  export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
-    const { usuarioActual, logout } = useUser();
+export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
+  const { usuarioActual, logout } = useUser();
+  const { t, i18n } = useTranslation();
 
-    const manejarCerrarSesion = () => {
-      logout();
-      // No necesitas navigate aquí porque el contexto ya actualizará el componente
-    };
+  const cambiarIdioma = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
-    const manejarPerfil = () => {
-      // Puedes implementar la navegación al perfil aquí si lo deseas
-      console.log("Ir al perfil");
-    };
+  const obtenerTextoIdiomaActual = () => {
+    return i18n.language === 'es' ? 'ES-EN' : 'EN-ES';
+  };
 
-    const manejarContacto = () => {
-      // Puedes implementar la navegación al contacto aquí si lo deseas
-      console.log("Ir a contacto");
-    };
+  const manejarCerrarSesion = () => {
+    logout();
+  };
 
-    const manejarSoporte = () => {
-      // Puedes implementar la navegación al soporte aquí si lo deseas
-      console.log("Ir a soporte");
-    };
+  const manejarPerfil = () => {
+    console.log("Ir al perfil");
+  };
 
-    return (
-      <Navbar bg="dark" variant="dark" expand="md" fixed="top" className="barra-navegacion-royal">
-        <Container>
-          <Navbar.Brand as={Link} to="/" className="marca-royal">
-            <img 
-              src="/Public/png-transparent-enfield-cycle-co-ltd-motorcycle-royal-enfield-interceptor-royal-enfield-of-milwaukee-motorcycle-text-trademark-logo.png" 
-              alt="Rolling Motors" 
-              height="40" 
-            />
-          </Navbar.Brand>
+  const manejarContacto = () => {
+    console.log("Ir a contacto");
+  };
 
-          <Navbar.Collapse className="d-none d-md-flex">
-            <Nav className="ms-auto align-items-center gap-3">
-              <Nav.Link className="enlace-navegacion d-flex align-items-center">
-                <FaGlobe className="me-1" /> ES–EN
-              </Nav.Link>
-              <Nav.Link className="enlace-navegacion position-relative">
-                <FaShoppingCart />
-                <span className="position-absolute top-0 start-100 translate-middle badge etiqueta-carrito">
-                  0
-                </span>
-              </Nav.Link>
-              
-              {/* CONDICIÓN: Mostrar MenuUsuario si está logueado, sino botones de login/registro */}
-              {usuarioActual ? (
-                <MenuUsuario />
-              ) : (
-                <>
-                  <Nav.Link onClick={onAbrirLogin} className="enlace-navegacion d-flex align-items-center puntero-mano">
-                    <FaUser className="me-1" /> Iniciar sesión
-                  </Nav.Link>
-                  <button onClick={onAbrirRegistro} className="boton-registro rounded-pill px-3">
-                    Registrarse
-                  </button>
-                </>
-              )}
-            </Nav>
-          </Navbar.Collapse>
+  const manejarSoporte = () => {
+    console.log("Ir a soporte");
+  };
 
-          <div className="d-flex d-md-none align-items-center gap-2">
-            <Nav.Link className="carrito-movil text-white">
-              <FaShoppingCart size={18} />
-            </Nav.Link>
-            
+  return (
+    <Navbar bg="dark" variant="dark" expand="md" fixed="top" className="barra-navegacion-royal">
+      <Container>
+        <Navbar.Brand as={Link} to="/" className="marca-royal">
+          <img 
+            src="/Public/png-transparent-enfield-cycle-co-ltd-motorcycle-royal-enfield-interceptor-royal-enfield-of-milwaukee-motorcycle-text-trademark-logo.png" 
+            alt="Rolling Motors" 
+            height="40" 
+          />
+        </Navbar.Brand>
+
+        <Navbar.Collapse className="d-none d-md-flex">
+          <Nav className="ms-auto align-items-center gap-3">
+            {/* Selector de idioma - Desktop */}
             <Dropdown align="end">
-              <Dropdown.Toggle variant="dark" className="boton-desplegable-movil">
-                <FaBars size={18} />
+              <Dropdown.Toggle 
+                variant="dark" 
+                className="enlace-navegacion d-flex align-items-center border-0"
+              >
+                <FaGlobe className="me-1" /> {obtenerTextoIdiomaActual()}
               </Dropdown.Toggle>
               
-              <Dropdown.Menu className="menu-desplegable-movil">
-                {/* CONDICIÓN MÓVIL: Mostrar opciones según si está logueado o no */}
-                {usuarioActual ? (
-                  <>
-                    <Dropdown.Item className="item-desplegable" onClick={manejarPerfil}>
-                      <FaUser className="me-2" /> {usuarioActual.nombreDeUsuario}
-                    </Dropdown.Item>
-                    <Dropdown.Item className="item-desplegable" onClick={manejarPerfil}>
-                      <FaUser className="me-2" /> Perfil
-                    </Dropdown.Item>
-                    <Dropdown.Item className="item-desplegable" onClick={manejarContacto}>
-                      <FaEnvelope className="me-2" /> Contacto
-                    </Dropdown.Item>
-                    <Dropdown.Item className="item-desplegable" onClick={manejarSoporte}>
-                      <FaHeadset className="me-2" /> Soporte
-                    </Dropdown.Item>
-                    <Dropdown.Divider className="separador-desplegable" />
-                    <Dropdown.Item 
-                      className="item-desplegable text-danger" 
-                      onClick={manejarCerrarSesion}
-                    >
-                      <FaSignOutAlt className="me-2" /> Cerrar Sesión
-                    </Dropdown.Item>
-                  </>
-                ) : (
-                  <>
-                    <Dropdown.Item className="item-desplegable" onClick={onAbrirLogin}>
-                      <FaUser className="me-2" /> Iniciar sesión
-                    </Dropdown.Item>
-                    <Dropdown.Item className="item-desplegable">
-                      <FaGlobe className="me-2" /> ES–EN
-                    </Dropdown.Item>
-                    <Dropdown.Divider className="separador-desplegable" />
-                    <Dropdown.Item className="text-center">
-                      <button 
-                        onClick={onAbrirRegistro} 
-                        className="boton-registro rounded-pill w-100"
-                      >
-                        Registrarse
-                      </button>
-                    </Dropdown.Item>
-                  </>
-                )}
+              <Dropdown.Menu>
+                <Dropdown.Item 
+                  onClick={() => cambiarIdioma('es')}
+                  className={i18n.language === 'es' ? 'active' : ''}
+                >
+                  🇪🇸 Español
+                </Dropdown.Item>
+                <Dropdown.Item 
+                  onClick={() => cambiarIdioma('en')}
+                  className={i18n.language === 'en' ? 'active' : ''}
+                >
+                  🇺🇸 English
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </div>
-        </Container>
-      </Navbar>
-    );
-  };
+
+            <Nav.Link className="enlace-navegacion position-relative">
+              <FaShoppingCart />
+              <span className="position-absolute top-0 start-100 translate-middle badge etiqueta-carrito">
+                0
+              </span>
+            </Nav.Link>
+            
+            {usuarioActual ? (
+              <MenuUsuario />
+            ) : (
+              <>
+                <Nav.Link onClick={onAbrirLogin} className="enlace-navegacion d-flex align-items-center puntero-mano">
+                  <FaUser className="me-1" /> {t('login')}
+                </Nav.Link>
+                <button onClick={onAbrirRegistro} className="boton-registro rounded-pill px-3">
+                  {t('register')}
+                </button>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+
+        <div className="d-flex d-md-none align-items-center gap-2">
+          <Nav.Link className="carrito-movil text-white">
+            <FaShoppingCart size={18} />
+          </Nav.Link>
+          
+          <Dropdown align="end">
+            <Dropdown.Toggle variant="dark" className="boton-desplegable-movil">
+              <FaBars size={18} />
+            </Dropdown.Toggle>
+            
+            <Dropdown.Menu className="menu-desplegable-movil">
+              {usuarioActual ? (
+                <>
+                  <Dropdown.Item className="item-desplegable" onClick={manejarPerfil}>
+                    <FaUser className="me-2" /> {usuarioActual.nombreDeUsuario}
+                  </Dropdown.Item>
+                  <Dropdown.Item className="item-desplegable" onClick={manejarPerfil}>
+                    <FaUser className="me-2" /> {t('profile')}
+                  </Dropdown.Item>
+                  <Dropdown.Item className="item-desplegable" onClick={manejarContacto}>
+                    <FaEnvelope className="me-2" /> {t('contact')}
+                  </Dropdown.Item>
+                  <Dropdown.Item className="item-desplegable" onClick={manejarSoporte}>
+                    <FaHeadset className="me-2" /> {t('support')}
+                  </Dropdown.Item>
+                  
+                  {/* Selector de idioma - Móvil */}
+                  <Dropdown.Divider />
+                  <Dropdown.Item className="item-desplegable dropdown-submenu">
+                    <FaGlobe className="me-2" /> {t('changeLanguage')}
+                    <div className="mt-2">
+                      <button 
+                        onClick={() => cambiarIdioma('es')}
+                        className={`btn btn-sm me-1 ${i18n.language === 'es' ? 'btn-primary' : 'btn-outline-primary'}`}
+                      >
+                        ES
+                      </button>
+                      <button 
+                        onClick={() => cambiarIdioma('en')}
+                        className={`btn btn-sm ${i18n.language === 'en' ? 'btn-primary' : 'btn-outline-primary'}`}
+                      >
+                        EN
+                      </button>
+                    </div>
+                  </Dropdown.Item>
+                  
+                  <Dropdown.Divider className="separador-desplegable" />
+                  <Dropdown.Item 
+                    className="item-desplegable text-danger" 
+                    onClick={manejarCerrarSesion}
+                  >
+                    <FaSignOutAlt className="me-2" /> {t('logout')}
+                  </Dropdown.Item>
+                </>
+              ) : (
+                <>
+                  <Dropdown.Item className="item-desplegable" onClick={onAbrirLogin}>
+                    <FaUser className="me-2" /> {t('login')}
+                  </Dropdown.Item>
+                  
+                  {/* Selector de idioma - Móvil */}
+                  <Dropdown.Item className="item-desplegable dropdown-submenu">
+                    <FaGlobe className="me-2" /> {t('changeLanguage')}
+                    <div className="mt-2">
+                      <button 
+                        onClick={() => cambiarIdioma('es')}
+                        className={`btn btn-sm me-1 ${i18n.language === 'es' ? 'btn-primary' : 'btn-outline-primary'}`}
+                      >
+                        ES
+                      </button>
+                      <button 
+                        onClick={() => cambiarIdioma('en')}
+                        className={`btn btn-sm ${i18n.language === 'en' ? 'btn-primary' : 'btn-outline-primary'}`}
+                      >
+                        EN
+                      </button>
+                    </div>
+                  </Dropdown.Item>
+                  
+                  <Dropdown.Divider className="separador-desplegable" />
+                  <Dropdown.Item className="text-center">
+                    <button 
+                      onClick={onAbrirRegistro} 
+                      className="boton-registro rounded-pill w-100"
+                    >
+                      {t('register')}
+                    </button>
+                  </Dropdown.Item>
+                </>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      </Container>
+    </Navbar>
+  );
+};

@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
+import './Componentes/Utils/I18next.js'
 import App from "./App.jsx";
 import "./RoyaLToast.css"; 
 
