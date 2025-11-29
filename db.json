@@ -11,12 +11,11 @@
     },
     {
       "id": "2",
-      "nombreDeUsuario": "juan_perez",
+      "nombreDeUsuario": "juan_perez2",
       "email": "juan.perez@email.com",
       "pais": "México",
       "fechaNacimiento": "1990-03-22",
-      "password": "JuanP123@",
-      "role": "usuario"
+      "fechaSuspension": "2025-11-29T06:42:07.736Z"
     },
     {
       "id": "3",
