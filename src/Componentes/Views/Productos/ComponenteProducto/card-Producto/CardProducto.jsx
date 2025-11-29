@@ -52,12 +52,18 @@ const CardProducto = ({
           <div className="texto-precio-final">Financiación disponible</div>
         </div>
 
-        <div className="contenedor-boton">
+        <div className="contenedor-botones">
           <button 
             className={`boton-contactar ${!stock ? 'boton-deshabilitado' : ''}`} 
             disabled={!stock}
           >
             {stock ? 'Comprar' : 'Agotada'}
+          </button>
+          <button 
+            className={`boton-carrito ${!stock ? 'boton-deshabilitado' : ''}`} 
+            disabled={!stock}
+          >
+            {stock ? 'Agregar al carrito' : 'No disponible'}
           </button>
         </div>
       </div>

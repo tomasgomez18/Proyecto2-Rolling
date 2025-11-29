@@ -235,3 +235,102 @@
   position: relative;
   z-index: 2;
 } 
+/* Contenedor de botones */
+.contenedor-botones {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-direction: column;
+}
+
+/* Botón agregar al carrito */
+.boton-carrito {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.boton-carrito:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.boton-carrito:active {
+  transform: translateY(0);
+}
+
+/* Botón deshabilitado */
+.boton-carrito.boton-deshabilitado {
+  background-color: #6c757d;
+  color: #dee2e6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.boton-carrito.boton-deshabilitado:hover {
+  background-color: #6c757d;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Botón comprar (existente) - actualizado para coincidir */
+.boton-contactar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.boton-contactar:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.boton-contactar:active {
+  transform: translateY(0);
+}
+
+.boton-contactar.boton-deshabilitado {
+  background-color: #6c757d;
+  color: #dee2e6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.boton-contactar.boton-deshabilitado:hover {
+  background-color: #6c757d;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .contenedor-botones {
+    flex-direction: row;
+  }
+  
+  .boton-carrito,
+  .boton-contactar {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+}
