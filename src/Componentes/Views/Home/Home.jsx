@@ -1,7 +1,13 @@
-import React from 'react'
+import React from "react";
+import Productos from "../Productos/Productos";
+import BuscadorProducto from "../componenteBuscarProducto/BuscadorProducto";
 
 export const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <>
+      <div>Home</div>
+      <Productos />
+    
+    </>
+  );
+};

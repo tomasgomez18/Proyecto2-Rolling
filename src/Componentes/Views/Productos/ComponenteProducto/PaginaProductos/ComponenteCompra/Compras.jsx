@@ -1,0 +1,59 @@
+import React from 'react';
+import './Compras.css';
+
+const Compras = ({ 
+  marca = "Royal Enfield",
+  modelo = "Classic 350", 
+  año = 2020,
+  precio = "450000",
+  imagen = "https://via.placeholder.com/400x240?text=Moto",
+  kilometros = "12,000",
+  ubicacion = "Buenos Aires, AR",
+  descripcion = "Mantenimiento al día. Color original. Algunos detalles estéticos mínimos.",
+  destacado = true, 
+  stock = true
+}) => {
+  return (
+    <div className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`} style={{maxWidth: '320px', margin: '10px'}}>
+      <div className="barra-superior-color" />
+
+      <div className="contenedor-imagen-moto">
+        <img className="imagen-moto" src={imagen} alt={`${marca} ${modelo}`} />
+        {destacado && <span className="etiqueta-destacada">Destacada</span>}
+        <span className="etiqueta-año">{año}</span>
+      </div>
+
+      <div className="contenido-card">
+        <div className="marca-modelo">
+          <div className="nombre-marca">{marca}</div>
+          <h3 className="nombre-modelo">{modelo}</h3>
+        </div>
+
+        <div className="lista-especificaciones">
+          <div className="item-especificacion">
+            <div className="nombre-caracteristica">Kilómetros</div>
+            <div className="valor-caracteristica">{kilometros}</div>
+          </div>
+          <div className="item-especificacion">
+            <div className="nombre-caracteristica">Ubicación</div>
+            <div className="valor-caracteristica">{ubicacion}</div>
+          </div>
+        </div>
+
+        <p className="descripcion-moto">{descripcion}</p>
+
+        <div className="contenedor-precio">
+          <div className="texto-precio-desde">Precio</div>
+          <div className="valor-precio">${precio}</div>
+          <div className="texto-precio-final">Financiación disponible</div>
+        </div>
+
+        <div style={{textAlign: 'center'}}>
+          <button className="boton-contactar" disabled={!stock}>{stock ? 'Contactar' : 'Agotada'}</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Compras;
