@@ -1,5 +1,5 @@
 import React from 'react';
-import '../card-Producto/CardProducto.css'; // Esta línea importa los estilos
+import './CardProducto.css'; 
 
 const CardProducto = ({ 
   marca = "Royal Enfield",

@@ -1,11 +1,14 @@
 /* CardProducto.css - Tema Royal Enfield */
 :root {
-  --color-crema: #f5f5dc;
+  --color-crema: #f8f4e9;
   --color-dorado: #d4af37;
   --color-oscuro: #1a1a1a;
   --color-rojo: #8b0000;
   --color-metal: #8a8a8a;
 }
+
+/* Tipografía motera */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Oswald:wght@300;400;600&display=swap');
 
 .card-moto {
   border: 1px solid var(--color-metal);
@@ -14,8 +17,9 @@
   background-color: var(--color-crema);
   box-shadow: 0 2px 8px rgba(26, 26, 26, 0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 10px 15px 10px 10px; /* Más margen a la derecha */
-  max-width: 300px; /* Tamaño reducido */
+  margin: 10px 15px 10px 10px;
+  max-width: 300px;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .card-moto:hover {
@@ -30,7 +34,7 @@
 
 .contenedor-imagen-moto {
   position: relative;
-  height: 180px; /* Reducido */
+  height: 180px;
   overflow: hidden;
   background-color: var(--color-oscuro);
 }
@@ -57,93 +61,98 @@
   font-size: 12px;
   font-weight: bold;
   border: 1px solid var(--color-dorado);
+  font-family: 'Oswald', sans-serif;
 }
 
 .contenido-card {
-  padding: 14px; /* Reducido */
+  padding: 14px;
   background-color: var(--color-crema);
 }
 
 .marca-modelo {
-  margin-bottom: 10px; /* Reducido */
+  margin-bottom: 10px;
   border-bottom: 1px solid var(--color-dorado);
-  padding-bottom: 6px; /* Reducido */
+  padding-bottom: 6px;
 }
 
 .nombre-marca {
-  font-size: 13px; /* Reducido */
+  font-size: 13px;
   color: var(--color-rojo);
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: bold;
+  font-family: 'Oswald', sans-serif;
 }
 
 .nombre-modelo {
   margin: 4px 0 0 0;
-  font-size: 18px; /* Reducido */
+  font-size: 18px;
   color: var(--color-oscuro);
-  font-family: 'Georgia', serif;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
 }
 
 .lista-especificaciones {
-  margin-bottom: 10px; /* Reducido */
+  margin-bottom: 10px;
 }
 
 .item-especificacion {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 6px; /* Reducido */
-  padding-bottom: 6px; /* Reducido */
+  margin-bottom: 6px;
+  padding-bottom: 6px;
   border-bottom: 1px solid rgba(138, 138, 138, 0.3);
 }
 
 .nombre-caracteristica {
   color: var(--color-oscuro);
-  font-size: 13px; /* Reducido */
+  font-size: 13px;
   font-weight: 500;
 }
 
 .valor-caracteristica {
   color: var(--color-rojo);
   font-weight: 600;
-  font-size: 13px; /* Reducido */
+  font-size: 13px;
 }
 
 .descripcion-moto {
   color: var(--color-oscuro);
-  font-size: 13px; /* Reducido */
+  font-size: 13px;
   line-height: 1.4;
-  margin-bottom: 14px; /* Reducido */
+  margin-bottom: 14px;
   font-style: italic;
 }
 
 .contenedor-precio {
   text-align: center;
-  margin-bottom: 14px; /* Reducido */
-  padding: 10px; /* Reducido */
+  margin-bottom: 14px;
+  padding: 10px;
   background: linear-gradient(135deg, var(--color-oscuro), #2a2a2a);
   border-radius: 4px;
   border: 1px solid var(--color-dorado);
 }
 
 .texto-precio-desde {
-  font-size: 11px; /* Reducido */
+  font-size: 11px;
   color: var(--color-crema);
   margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-family: 'Oswald', sans-serif;
 }
 
 .valor-precio {
-  font-size: 22px; /* Reducido */
+  font-size: 22px;
   font-weight: bold;
   color: var(--color-dorado);
   margin-bottom: 4px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  font-family: 'Oswald', sans-serif;
 }
 
 .texto-precio-final {
-  font-size: 11px; /* Reducido */
+  font-size: 11px;
   color: var(--color-crema);
   opacity: 0.8;
 }
@@ -151,75 +160,72 @@
 /* Contenedor de botones */
 .contenedor-botones {
   display: flex;
-  gap: 8px; /* Reducido */
-  margin-top: 12px; /* Reducido */
+  gap: 8px;
+  margin-top: 12px;
   flex-direction: column;
 }
 
 /* Botón agregar al carrito */
 .boton-carrito {
-  background-color: #28a745;
+  background: linear-gradient(135deg, #28a745, #218838);
   color: white;
   border: none;
-  padding: 10px 16px; /* Reducido */
-  border-radius: 6px;
-  font-size: 13px; /* Reducido */
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   flex: 1;
+  font-family: 'Oswald', sans-serif;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 .boton-carrito:hover {
-  background-color: #218838;
+  background: linear-gradient(135deg, #218838, #1e7e34);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
 
-.boton-carrito:active {
-  transform: translateY(0);
-}
-
 /* Botón comprar */
 .boton-contactar {
-  background-color: #007bff;
+  background: linear-gradient(135deg, var(--color-rojo), #a52a2a);
   color: white;
   border: none;
-  padding: 10px 16px; /* Reducido */
-  border-radius: 6px;
-  font-size: 13px; /* Reducido */
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   flex: 1;
+  font-family: 'Oswald', sans-serif;
+  border: 1px solid var(--color-dorado);
 }
 
 .boton-contactar:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #a52a2a, var(--color-rojo));
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
-}
-
-.boton-contactar:active {
-  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
 }
 
 /* Botón deshabilitado */
 .boton-carrito.boton-deshabilitado,
 .boton-contactar.boton-deshabilitado {
-  background-color: #6c757d;
+  background: linear-gradient(135deg, var(--color-metal), #6a6a6a);
   color: #dee2e6;
   cursor: not-allowed;
   transform: none;
+  border: 1px solid var(--color-metal);
 }
 
 .boton-carrito.boton-deshabilitado:hover,
 .boton-contactar.boton-deshabilitado:hover {
-  background-color: #6c757d;
+  background: linear-gradient(135deg, var(--color-metal), #6a6a6a);
   transform: none;
   box-shadow: none;
 }
@@ -284,7 +290,7 @@
   
   .boton-carrito,
   .boton-contactar {
-    font-size: 12px; /* Reducido */
-    padding: 9px 14px; /* Reducido */
+    font-size: 12px;
+    padding: 9px 14px;
   }
 }
