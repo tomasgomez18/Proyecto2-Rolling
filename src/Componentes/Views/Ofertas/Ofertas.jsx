@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -36,6 +37,12 @@ const productosEnOferta = [
 ];
 
 function Ofertas() {
+    useEffect(() => {
+        if (productosEnOferta.length > 0) {
+            alert("🔥 Nuevas ofertas disponibles por tiempo limitado");
+        }
+    }, []);
+
     return (
         <section className="ofertas-container">
             <Container>
