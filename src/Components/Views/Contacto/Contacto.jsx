@@ -125,23 +125,20 @@ const Contacto = () => {
                     </form>
                 </div>
             </div >
-            <div className="container mt-4 p-0" style={{ maxWidth: "600px" }}>
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.716108013208!2d-65.21060062485453!3d-26.830367590044737!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225c128505d1c7%3A0x76c7e1982e4797d1!2sGral.%20Paz%20576%2C%20T4000%20San%20Miguel%20de%20Tucum%C3%A1n%2C%20Tucum%C3%A1n!5e0!3m2!1ses!2sar!4v1701123456789!5m2!1ses!2sar"
-                    width="100%"
-                    height="350"
-                    style={{
-                        border: "0",
-                        borderRadius: "15px",
-                        width: "100%",
-                    }}
-                    allowFullScreen=""
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
+
+            <div className="container d-flex justify-content-center mt-4">
+                <div className="map-container-custom">
+                    <div className="map-dark-overlay"></div>
+
+                    <iframe
+                        title="Rolling Motors - Ubicación"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.716108013208!2d-65.21060062485453!3d-26.830367590044737!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f18!3m3!1m2!1s0x94225c128505d1c7%3A0x76c7e1982e4797d1!2sGral.%20Paz%20576%2C%20T4000%20San%20Miguel%20de%20Tucum%C3%A1n%2C%20Tucum%C3%A1n!5e0!3m2!1ses!2sar!4v1701123456789"
+                        allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                </div>
             </div>
-
-
             <div className="container mt-4 d-flex justify-content-center">
                 <div
                     style={{

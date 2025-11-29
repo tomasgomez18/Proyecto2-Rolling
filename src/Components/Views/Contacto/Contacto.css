@@ -31,14 +31,47 @@
 }
 
 .boton-animado:hover {
-    transform: translateY(-1px); /* sube un poquito */
+    transform: translateY(-1px); 
 }
 
 .boton-animado:active {
-    transform: translateY(1px) scale(0.97); /* hace efecto clic */
+    transform: translateY(1px) scale(0.97); 
 }
 
 
+.map-container-custom {
+  width: 75%;
+  max-width: 800px;
+  height: 350px;
+  background: rgba(0, 0, 0, 0.4); 
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
+.map-container-custom iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 15px;
+}
 
+
+.map-dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25); 
+  pointer-events: none;            
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .map-container-custom {
+    width: 95%;
+    height: 300px;
+  }
+}
