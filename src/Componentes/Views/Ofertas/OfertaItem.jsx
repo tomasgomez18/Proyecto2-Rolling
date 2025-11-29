@@ -1,29 +1,42 @@
-import React from "react";
-import { Card, Badge } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
+import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
+import "./Ofertas.css";
 
-const OfertaItem = () => {
-    return (
-        <Card className="oferta-card">
-            <Card.Img 
-                variant="top" 
-                src="/img/ofertas/default.jpg"
-                className="oferta-img"
-            />
+function OfertaItem({ producto }) {
+  const descuento = Math.round(
+    ((producto.precioOriginal - producto.precioOferta) /
+      producto.precioOriginal) *
+      100
+  );
 
-            <Card.Body>
-                <Badge bg="danger" className="oferta-badge">
-                    -20%
-                </Badge>
+  return (
+    <Card className="oferta-card h-100">
+      <Badge bg="danger" className="badge-oferta">
+        -{descuento}%
+      </Badge>
 
-                <Card.Title>Moto en Oferta</Card.Title>
-                <Card.Text>
-                    Oferta limitada. ¡Aprovecha antes de que termine!
-                </Card.Text>
+      <Card.Img src={producto.imagen} alt={producto.modelo} />
 
-                
-            </Card.Body>
-        </Card>
-    );
-};
+      <Card.Body className="d-flex flex-column">
+        <Card.Title className="oferta-titulo">
+          {producto.marca} {producto.modelo}
+        </Card.Title>
+
+        <div className="precio-original">
+          ${producto.precioOriginal.toLocaleString()}
+        </div>
+
+        <div className="precio-oferta">
+          ${producto.precioOferta.toLocaleString()}
+        </div>
+
+        <Button className="btn-oferta mt-3">
+          Ver oferta
+        </Button>
+      </Card.Body>
+    </Card>
+  );
+}
 
 export default OfertaItem;
