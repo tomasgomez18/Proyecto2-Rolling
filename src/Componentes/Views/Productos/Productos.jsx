@@ -1,10 +1,11 @@
 import React from "react";
-import Categorias from "./ComponenteProducto/Cards/Categorias.jsx";
-import Compras from "./ComponenteCompra/Compras.jsx";
+import CardProducto from "./ComponenteProducto/card-Producto/CardProducto.jsx";
+import BuscadorProducto from "./ComponenteProducto/PaginaProductos/componenteBuscarProducto/BuscadorProducto.jsx";
 const Productos = () => {
   return (
     <div>
-      <Categorias />
+      <BuscadorProducto/>
+      <CardProducto/>
     </div>
   );
 };
