@@ -162,7 +162,7 @@ const Contacto = () => {
 
                     <h4 className="fw-bold mt-4 mb-3">Contacto</h4>
 
-                    <div className="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center pb-4">
                         <img
                             src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&format=png&color=0-0-0&data=https://wa.me/5493813199018"
                             alt="QR WhatsApp"
@@ -181,9 +181,9 @@ const Contacto = () => {
 
 
 
-                        <p className="mb-2">Escaneá el QR para contactarnos por WhatsApp</p>
+                        <p className="mb-2 pt-3">Escaneá el QR para contactarnos por WhatsApp</p>
 
-                        <p className="mb-0">✉️ <strong>Email:</strong> Ianierogiovanna@gmail.com</p>
+                        <p className="mb-0 ">📩 <strong>Email:</strong> Ianierogiovanna@gmail.com</p>
                     </div>
 
 
