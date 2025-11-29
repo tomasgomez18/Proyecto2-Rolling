@@ -5,7 +5,6 @@ const Productos = () => {
   return (
     <div>
       <Categorias />
-      <Compras />
     </div>
   );
 };

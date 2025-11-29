@@ -22,7 +22,7 @@ const Compras = ({
         <span className="etiqueta-año">{año}</span>
       </div>
 
-      <div className="contenido-card">
+      <div className="contenido-card ">
         <div className="marca-modelo">
           <div className="nombre-marca">{marca}</div>
           <h3 className="nombre-modelo">{modelo}</h3>

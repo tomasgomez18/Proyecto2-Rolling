@@ -2,6 +2,7 @@ import React from "react";
 import "./Categoria.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Col, Row, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const imgCard = "/Productos/imgCard.jpg";
@@ -24,138 +25,114 @@ const Categorias = () => {
 
   return (
     <div className="d-flex justify-content-center">
-      <div style={{ width: "95%", maxWidth: "1200px" }}>
-        <motion.div {...scrollAnimation} {...hoverAnimation("left")}>
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
-            style={{ height: "330px" }}
-          >
-            <Row className="g-0 h-100">
-              <Col md={6}>
-                <div
-                  className="w-100 h-100"
-                  style={{
-                    backgroundImage: `url(${imgCard})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </Col>
-              <Col md={6}>
-                <Card.Body
-                  className="d-flex flex-column justify-content-center p-4 h-100"
-                  style={{ backgroundColor: "#dadcdfff" }}
-                >
-                  <Card.Title className="fs-2 fw-bold text-dark mb-3 text-center">
-                    Motocicletas
-                  </Card.Title>
-                  <Card.Text className="text-secondary text-center mb-3">
-                    Descubre nuestra amplia gama de motocicletas de alta
-                    calidad.
-                  </Card.Text>
-                </Card.Body>
-              </Col>
-            </Row>
-          </Card>
-        </motion.div>
-
+      <div style={{ width: "95%", maxWidth: "1200px" }}> 
+        
+        {/* Protecciones */}
         <motion.div {...scrollAnimation} {...hoverAnimation("right")}>
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
-            style={{ height: "330px" }}
-          >
-            <Row className="g-0 h-100">
-              <Col md={6} className="order-2 order-md-1">
-                <Card.Body
-                  className="d-flex flex-column justify-content-center p-4 h-100"
-                  style={{ backgroundColor: "#dadcdfff" }}
-                >
-                  <Card.Title className="fs-2 fw-bold text-dark mb-3 text-center">
-                    Protecciones
-                  </Card.Title>
-                  <Card.Text className="text-secondary text-center mb-3">
-                    Seguridad garantizada con productos certificados.
-                  </Card.Text>
-                </Card.Body>
-              </Col>
-              <Col md={6} className="order-1 order-md-2">
-                <div
-                  className="w-100 h-100"
-                  style={{
-                    backgroundImage: `url(${ImgCascos})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </Col>
-            </Row>
-          </Card>
+          <Link to="/protecciones" style={{ textDecoration: 'none' }}>
+            <Card
+              className="p-0 border-0 shadow-sm overflow-hidden mb-4"
+              style={{ height: "330px" }}
+            >
+              <Row className="g-0 h-100">
+                <Col md={6} className="order-2 order-md-1">
+                  <Card.Body
+                    className="d-flex flex-column justify-content-center p-4 h-100"
+                    style={{ backgroundColor: "#dadcdfff" }}
+                  >
+                    <Card.Title className="fs-2 fw-bold text-dark mb-3 text-center">
+                      Protecciones
+                    </Card.Title>
+                    <Card.Text className="text-secondary text-center mb-3">
+                      Seguridad garantizada con productos certificados.
+                    </Card.Text>
+                  </Card.Body>
+                </Col>
+                <Col md={6} className="order-1 order-md-2">
+                  <div
+                    className="w-100 h-100"
+                    style={{
+                      backgroundImage: `url(${ImgCascos})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                </Col>
+              </Row>
+            </Card>
+          </Link>
         </motion.div>
 
+        {/* Indumentaria */}
         <motion.div {...scrollAnimation} {...hoverAnimation("left")}>
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
-            style={{ height: "330px" }}
-          >
-            <Row className="g-0 h-100">
-              <Col md={6}>
-                <div
-                  className="w-100 h-100"
-                  style={{
-                    backgroundImage: `url(${ImgIndumentaria})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </Col>
-              <Col md={6}>
-                <Card.Body
-                  className="d-flex flex-column justify-content-center p-4 h-100"
-                  style={{ backgroundColor: "#dadcdfff" }}
-                >
-                  <Card.Title className="fs-2 fw-bold text-dark mb-3 text-center">
-                    Indumentaria
-                  </Card.Title>
-                  <Card.Text className="text-secondary text-center mb-3">
-                    Guantes, camperas, pantalones y más.
-                  </Card.Text>
-                </Card.Body>
-              </Col>
-            </Row>
-          </Card>
+          <Link to="/indumentaria" style={{ textDecoration: 'none' }}>
+            <Card
+              className="p-0 border-0 shadow-sm overflow-hidden mb-4"
+              style={{ height: "330px" }}
+            >
+              <Row className="g-0 h-100">
+                <Col md={6}>
+                  <div
+                    className="w-100 h-100"
+                    style={{
+                      backgroundImage: `url(${ImgIndumentaria})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                </Col>
+                <Col md={6}>
+                  <Card.Body
+                    className="d-flex flex-column justify-content-center p-4 h-100"
+                    style={{ backgroundColor: "#dadcdfff" }}
+                  >
+                    <Card.Title className="fs-2 fw-bold text-dark mb-3 text-center">
+                      Indumentaria
+                    </Card.Title>
+                    <Card.Text className="text-secondary text-center mb-3">
+                      Guantes, camperas, pantalones y más.
+                    </Card.Text>
+                  </Card.Body>
+                </Col>
+              </Row>
+            </Card>
+          </Link>
         </motion.div>
 
+        {/* Taller */}
         <motion.div {...scrollAnimation} {...hoverAnimation("right")}>
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
-            style={{ height: "330px" }}
-          >
-            <Row className="g-0 h-100">
-              <Col md={6} className="order-2 order-md-1">
-                <Card.Body
-                  className="d-flex flex-column justify-content-center p-4 h-100"
-                  style={{ backgroundColor: "#dadcdfff" }}
-                >
-                  <Card.Title className="fs-2 fw-bold text-dark mb-3 text-center">
-                    Sección de Taller
-                  </Card.Title>
-                  <Card.Text className="text-secondary text-center mb-3">
-                    Servicios completos con herramientas de última generación.
-                  </Card.Text>
-                </Card.Body>
-              </Col>
-              <Col md={6} className="order-1 order-md-2">
-                <div
-                  className="w-100 h-100"
-                  style={{
-                    backgroundImage: `url(${ImgTaller})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-              </Col>
-            </Row>
-          </Card>
+          <Link to="/taller" style={{ textDecoration: 'none' }}>
+            <Card
+              className="p-0 border-0 shadow-sm overflow-hidden mb-4"
+              style={{ height: "330px" }}
+            >
+              <Row className="g-0 h-100">
+                <Col md={6} className="order-2 order-md-1">
+                  <Card.Body
+                    className="d-flex flex-column justify-content-center p-4 h-100"
+                    style={{ backgroundColor: "#dadcdfff" }}
+                  >
+                    <Card.Title className="fs-2 fw-bold text-dark mb-3 text-center">
+                      Sección de Taller
+                    </Card.Title>
+                    <Card.Text className="text-secondary text-center mb-3">
+                      Servicios completos con herramientas de última generación.
+                    </Card.Text>
+                  </Card.Body>
+                </Col>
+                <Col md={6} className="order-1 order-md-2">
+                  <div
+                    className="w-100 h-100"
+                    style={{
+                      backgroundImage: `url(${ImgTaller})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                </Col>
+              </Row>
+            </Card>
+          </Link>
         </motion.div>
       </div>
     </div>
