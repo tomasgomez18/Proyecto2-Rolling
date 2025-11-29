@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import emailjs from '@emailjs/browser';
-import React, { useRef } from 'react';
+import { useRef, useState } from "react";
 import './Contacto.css';
 
 
@@ -27,6 +27,12 @@ const Contacto = () => {
                 }
             );
     };
+
+
+
+
+
+
 
 
 
@@ -74,14 +80,14 @@ const Contacto = () => {
                     >
                         <h5 className="titulo-glow2 pb-3 ">Datos de Contacto</h5>
                         <input
-
-
+                            id='nombre'
                             type="text"
                             placeholder="Nombre"
                             name="user_name"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
+                            id='apellido'
 
                             type="text"
                             placeholder="Apellido"
@@ -89,13 +95,14 @@ const Contacto = () => {
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
-
+                            id='telefono'
                             type="text"
                             placeholder="Telefono"
                             name="user_phone"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
+                            id='email'
 
                             type="email"
                             placeholder="Email"
@@ -103,6 +110,7 @@ const Contacto = () => {
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <Form.Control
+                            id='mensaje'
 
                             as="textarea"
                             rows={3}
