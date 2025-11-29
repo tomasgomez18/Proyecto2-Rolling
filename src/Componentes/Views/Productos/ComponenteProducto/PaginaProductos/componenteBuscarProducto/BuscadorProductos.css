@@ -1,4 +1,4 @@
-/* BuscadorProductos.css */
+
 :root {
   --color-crema: #f8f4e9;
   --color-dorado: #d4af37;
@@ -7,7 +7,6 @@
   --color-metal: #8a8a8a;
 }
 
-/* Tipografía motera */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Oswald:wght@300;400;600&display=swap');
 
 .buscador-royal-enfield {
@@ -122,7 +121,7 @@
   box-shadow: 0 4px 8px rgba(26, 26, 26, 0.3);
 }
 
-/* Efectos decorativos consistentes */
+
 .card-buscador::after {
   content: '';
   position: absolute;
@@ -135,7 +134,7 @@
   z-index: 0;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .buscador-royal-enfield {
     margin: 1rem 0;

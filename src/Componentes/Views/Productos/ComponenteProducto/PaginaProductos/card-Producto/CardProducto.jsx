@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import './CardProducto.css'; 
 
 const CardProducto = ({ 
@@ -14,10 +14,10 @@ const CardProducto = ({
   destacado = true, 
   stock = true
 }) => {
-  const navigate = useNavigate(); // Hook para navegación
+  const navigate = useNavigate(); 
 
   const handleComprarClick = () => {
-    // Navega a la página de detalle del producto
+   
     navigate('/detalle-producto');
   };
 
@@ -63,7 +63,7 @@ const CardProducto = ({
         <div className="contenedor-botones">
           <button 
             className={`boton-contactar ${!stock ? 'boton-deshabilitado' : ''}`} 
-            onClick={handleComprarClick} // Agrega el onClick aquí
+            onClick={handleComprarClick} 
             disabled={!stock}
           >
             {stock ? 'Comprar' : 'Agotada'}

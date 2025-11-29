@@ -7,7 +7,7 @@
   --color-metal: #8a8a8a;
 }
 
-/* Tipografía motera */
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Oswald:wght@300;400;600&display=swap');
 
 .detalle-producto-container {
@@ -38,7 +38,7 @@
   padding: 30px;
 }
 
-/* Contenedor de imagen */
+
 .contenedor-imagen-detalle {
   position: relative;
   border-radius: 8px;
@@ -72,7 +72,7 @@
   font-family: 'Oswald', sans-serif;
 }
 
-/* Información del producto */
+
 .informacion-producto {
   display: flex;
   flex-direction: column;
@@ -120,7 +120,7 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Especificaciones principales */
+
 .especificaciones-principales {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(139, 0, 0, 0.1));
   padding: 20px;
@@ -156,7 +156,7 @@
   color: #28a745 !important;
 }
 
-/* Descripciones */
+
 .descripcion-corta {
   background-color: white;
   padding: 20px;
@@ -195,7 +195,7 @@
   margin: 0;
 }
 
-/* Características */
+
 .caracteristicas-lista {
   background-color: white;
   padding: 25px;
@@ -232,7 +232,7 @@
   font-size: 16px;
 }
 
-/* Botones */
+
 .contenedor-botones-detalle {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -282,7 +282,7 @@
   box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4);
 }
 
-/* Botón deshabilitado */
+
 .boton-deshabilitado {
   background: linear-gradient(135deg, var(--color-metal), #6a6a6a) !important;
   border-color: var(--color-metal) !important;
@@ -296,7 +296,7 @@
   box-shadow: none !important;
 }
 
-/* Responsive */
+
 @media (max-width: 968px) {
   .contenido-detalle {
     grid-template-columns: 1fr;
