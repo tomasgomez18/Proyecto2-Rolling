@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import './CardProducto.css'; 
 
 const CardProducto = ({ 
@@ -13,6 +14,13 @@ const CardProducto = ({
   destacado = true, 
   stock = true
 }) => {
+  const navigate = useNavigate(); // Hook para navegación
+
+  const handleComprarClick = () => {
+    // Navega a la página de detalle del producto
+    navigate('/detalle-producto');
+  };
+
   return (
     <div className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`} style={{maxWidth: '320px', margin: '10px'}}>
       <div className="barra-superior-color" />
@@ -55,6 +63,7 @@ const CardProducto = ({
         <div className="contenedor-botones">
           <button 
             className={`boton-contactar ${!stock ? 'boton-deshabilitado' : ''}`} 
+            onClick={handleComprarClick} // Agrega el onClick aquí
             disabled={!stock}
           >
             {stock ? 'Comprar' : 'Agotada'}
