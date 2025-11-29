@@ -5,6 +5,7 @@ import './Contacto.css';
 
 
 const Contacto = () => {
+
     const form = useRef();
 
     const sendEmail = (e) => {
@@ -12,8 +13,9 @@ const Contacto = () => {
 
         emailjs
             .sendForm("service_2huncds", "template_wt8nir8", form.current, {
-                publicKey: "4nhIAIqJh5mY2AI9s",
+                publicKey: "4NhIAIqJh5mY2AI9S",
             })
+
             .then(
                 () => {
                     console.log("SUCCESS!");
@@ -23,6 +25,8 @@ const Contacto = () => {
                 }
             );
     };
+
+
 
     return (
         <>
@@ -68,30 +72,36 @@ const Contacto = () => {
                     >
                         <h5 className="titulo-glow2 pb-3 ">Datos de Contacto</h5>
                         <input
+
+
                             type="text"
                             placeholder="Nombre"
                             name="user_name"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
+
                             type="text"
                             placeholder="Apellido"
                             name="last_name"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
+
                             type="text"
                             placeholder="Telefono"
                             name="user_phone"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <input
+
                             type="email"
                             placeholder="Email"
                             name="user_email"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
                         <Form.Control
+
                             as="textarea"
                             rows={3}
                             placeholder="Mensaje"
@@ -150,10 +160,34 @@ const Contacto = () => {
                     <p className="m-0">09:00 a 13:00</p>
 
 
-                    <h4 className="fw-bold mt-4 mb-2">Métodos de Contacto</h4>
+                    <h4 className="fw-bold mt-4 mb-3">Contacto</h4>
 
-                    <p className="mb-1">📱 <strong>WhatsApp:</strong> 3813199018</p>
-                    <p className="mb-0 pb-5">✉️ <strong>Email:</strong> Ianierogiovanna@gmail.com</p>
+                    <div className="d-flex flex-column align-items-center">
+                        <img
+                            src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&format=png&color=0-0-0&data=https://wa.me/5493813199018"
+                            alt="QR WhatsApp"
+                            className="img-fluid"
+
+                            style={{
+                                width: "130px",
+                                backdropFilter: "blur(6px)",
+                                border: "1px solid #eee605ff",
+                                boxShadow: "0 0 8px #eee60555",
+                                color: "white",
+                            }}
+
+                        />
+
+
+
+
+                        <p className="mb-2">Escaneá el QR para contactarnos por WhatsApp</p>
+
+                        <p className="mb-0">✉️ <strong>Email:</strong> Ianierogiovanna@gmail.com</p>
+                    </div>
+
+
+
                 </div>
             </div>
 
