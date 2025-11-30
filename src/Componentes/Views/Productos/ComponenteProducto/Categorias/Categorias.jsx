@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Categorias.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Col, Row, Card } from 'react-bootstrap';
@@ -10,6 +11,7 @@ const ImgIndumentaria = new URL('/Productos/ImgIndumentaria.jpg', import.meta.ur
 const ImgTaller = new URL('/Productos/ImgTaller.jpg', import.meta.url).href;
 
 const Categorias = () => {
+  const navigate = useNavigate();
 
   const scrollAnimation = {
     initial: { opacity: 0, y: 80 },
@@ -18,20 +20,42 @@ const Categorias = () => {
     viewport: { once: false, amount: 0.3 }
   };
 
-
   const hoverAnimation = (direction) => ({
-    whileHover: { x: direction === "left" ? -20 : 20 },
-    transition: { type: "spring", stiffness: 150, damping: 12 }
+    whileHover: { 
+      x: direction === "left" ? -20 : 20,
+      scale: 1.02,
+      transition: { type: "spring", stiffness: 150, damping: 12 }
+    }
   });
+
+  // Función para manejar el click en las categorías
+  const handleCategoryClick = (categoria) => {
+    // Navegar a PaginaProducto pasando la categoría como estado
+    navigate('/productos', { 
+      state: { 
+        categoriaSeleccionada: categoria 
+      } 
+    });
+  };
+
+  // Función para manejar el click en el taller
+  const handleTallerClick = () => {
+    navigate('/taller');
+  };
 
   return (
     <div className="d-flex justify-content-center">
       <div style={{ width: '95%', maxWidth: '1200px' }}>
 
-
-        <motion.div {...scrollAnimation} {...hoverAnimation("left")}>
+        {/* Categoría Motocicletas */}
+        <motion.div 
+          {...scrollAnimation} 
+          {...hoverAnimation("left")}
+          onClick={() => handleCategoryClick('motocicletas')}
+          style={{ cursor: 'pointer' }}
+        >
           <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
+            className="p-0 border-0 shadow-sm overflow-hidden mb-4 card-hover"
             style={{ height: '330px' }}
           >
             <Row className="g-0 h-100">
@@ -51,15 +75,24 @@ const Categorias = () => {
                   <Card.Text className="text-secondary text-center mb-3">
                     Descubre nuestra amplia gama de motocicletas de alta calidad.
                   </Card.Text>
+                  <div className="text-center">
+                    <span className="btn btn-outline-dark">Ver productos</span>
+                  </div>
                 </Card.Body>
               </Col>
             </Row>
           </Card>
         </motion.div>
 
-        <motion.div {...scrollAnimation} {...hoverAnimation("right")}>
+        {/* Categoría Protecciones */}
+        <motion.div 
+          {...scrollAnimation} 
+          {...hoverAnimation("right")}
+          onClick={() => handleCategoryClick('protecciones')}
+          style={{ cursor: 'pointer' }}
+        >
           <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
+            className="p-0 border-0 shadow-sm overflow-hidden mb-4 card-hover"
             style={{ height: '330px' }}
           >
             <Row className="g-0 h-100">
@@ -69,6 +102,9 @@ const Categorias = () => {
                   <Card.Text className="text-secondary text-center mb-3">
                     Seguridad garantizada con productos certificados.
                   </Card.Text>
+                  <div className="text-center">
+                    <span className="btn btn-outline-dark">Ver productos</span>
+                  </div>
                 </Card.Body>
               </Col>
               <Col md={6} className="order-1 order-md-2">
@@ -85,10 +121,15 @@ const Categorias = () => {
           </Card>
         </motion.div>
 
-
-        <motion.div {...scrollAnimation} {...hoverAnimation("left")}>
+        {/* Categoría Indumentaria */}
+        <motion.div 
+          {...scrollAnimation} 
+          {...hoverAnimation("left")}
+          onClick={() => handleCategoryClick('indumentaria')}
+          style={{ cursor: 'pointer' }}
+        >
           <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
+            className="p-0 border-0 shadow-sm overflow-hidden mb-4 card-hover"
             style={{ height: '330px' }}
           >
             <Row className="g-0 h-100">
@@ -108,16 +149,24 @@ const Categorias = () => {
                   <Card.Text className="text-secondary text-center mb-3">
                     Guantes, camperas, pantalones y más.
                   </Card.Text>
+                  <div className="text-center">
+                    <span className="btn btn-outline-dark">Ver productos</span>
+                  </div>
                 </Card.Body>
               </Col>
             </Row>
           </Card>
         </motion.div>
 
-
-        <motion.div {...scrollAnimation} {...hoverAnimation("right")}>
+        {/* Categoría Taller */}
+        <motion.div 
+          {...scrollAnimation} 
+          {...hoverAnimation("right")}
+          onClick={handleTallerClick}
+          style={{ cursor: 'pointer' }}
+        >
           <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4"
+            className="p-0 border-0 shadow-sm overflow-hidden mb-4 card-hover"
             style={{ height: '330px' }}
           >
             <Row className="g-0 h-100">
@@ -127,6 +176,9 @@ const Categorias = () => {
                   <Card.Text className="text-secondary text-center mb-3">
                     Servicios completos con herramientas de última generación.
                   </Card.Text>
+                  <div className="text-center">
+                    <span className="btn btn-outline-dark">Ver servicios</span>
+                  </div>
                 </Card.Body>
               </Col>
               <Col md={6} className="order-1 order-md-2">
