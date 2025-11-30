@@ -1,6 +1,6 @@
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css'
-import Suscripcion from './Components/Views/Suscripcion/Suscripcion';
+import Suscripcion from './Components/Views/Suscripcion/Suscripcion.jsx';
 
 function App() {
 
