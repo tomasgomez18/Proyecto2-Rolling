@@ -1,16 +1,20 @@
 import Form from 'react-bootstrap/Form';
 import emailjs from '@emailjs/browser';
 import { useRef, useState } from "react";
-
 import './Contacto.css';
+import { Toaster } from "react-hot-toast";
 
 
 
 
 const Contacto = () => {
 
+    <Toaster position="top-right" />
+
     const form = useRef();
     const [mensajeEnviado, setMensajeEnviado] = useState(false);
+   
+
 
 
     const sendEmail = (e) => {
@@ -24,20 +28,31 @@ const Contacto = () => {
         const mensaje = formData.get("message").trim();
 
 
-        /* if (!nombre || !apellido || !telefono || !email || !mensaje) {
-             alert("Por favor, completa todos los campos.");
-             return;
-         } */
-
-        if (nombre.length <= 3) {
-            alert("El nombre debe tener más de 3 caracteres.");
+        if (!nombre || !apellido || !telefono || !email || !mensaje) {
+            alert("Por favor, completa todos los campos.");
             return;
         }
 
-        if (apellido.length <= 3) {
-            alert("El apellido debe tener más de 3 caracteres.");
+        if (nombre.length < 3) {
+            alert("El nombre debe tener al menos 3 caracteres.");
             return;
         }
+
+        if (nombre.length > 12) {
+            alert("El nombre no puede tener más de 12 caracteres.");
+            return;
+        }
+
+        if (apellido.length < 3) {
+            alert("El apellido debe tener al menos 3 caracteres.");
+            return;
+        }
+
+        if (apellido.length > 12) {
+            alert("El apellido no puede tener más de 12 caracteres.");
+            return;
+        }
+
         if (!/^\d+$/.test(telefono)) {
             alert("El teléfono solo puede contener números.");
             return;
@@ -138,7 +153,7 @@ const Contacto = () => {
                             type="tel"
                             placeholder="Telefono"
                             name="user_phone"
-                            pattern="[0-9]*"
+                           
                             inputMode="numeric"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
