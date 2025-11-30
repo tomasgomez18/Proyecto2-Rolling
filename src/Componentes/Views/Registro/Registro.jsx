@@ -63,6 +63,7 @@ export const Registro = ({ onClose }) => {
     }
   };
 
+
   return (
     <Modal
       show={true}
@@ -83,3 +84,4 @@ export const Registro = ({ onClose }) => {
     </Modal>
   );
 };
+

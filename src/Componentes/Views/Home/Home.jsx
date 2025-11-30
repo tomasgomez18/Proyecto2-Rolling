@@ -1,7 +1,12 @@
-import React from 'react'
 
-export const Home = () => {
+import React from 'react'
+import Ofertas from "../Productos/Ofertas/Ofertas";
+
+const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      <Ofertas/>
+    </div>
   )
 }
+export default Home
