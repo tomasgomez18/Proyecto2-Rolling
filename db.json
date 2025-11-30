@@ -136,16 +136,6 @@
     }
   ],
   "productos": [
-    {
-      "id": "1",
-      "nombre": "Laptop Gaming Pro",
-      "descripcion": "Laptop para gaming de alta gama con RTX 4080",
-      "precio": 2499.99,
-      "categoria": "Tecnología",
-      "stock": 15,
-      "imagen": "https://ejemplo.com/laptop.jpg",
-      "fechaCreacion": "2024-01-15T10:30:00Z"
-    }
   ],
   "usuariosSuspendidos": [
     {
