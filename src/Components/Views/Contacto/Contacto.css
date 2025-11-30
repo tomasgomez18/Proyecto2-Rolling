@@ -135,7 +135,7 @@
     padding-top: 4px;
 }
 .error-msg {
-    color: #eee605ff;     /* tu color amarillo */
+    color: rgb(231, 228, 169);     /* tu color amarillo */
     font-size: 14px;
     margin-top: 4px;      /* separación con el input */
     margin-bottom: 12px;  /* separación con lo siguiente */
