@@ -133,10 +133,36 @@
       "fechaNacimiento": "1984-03-17",
       "password": "PatriciaV357*",
       "role": "usuario"
+    },
+    {
+      "id": "09d90f49-a67f-4f8a-9744-b39db125a661",
+      "nombreDeUsuario": "matiasLaz",
+      "email": "matiasnicolaslazarte@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "2001-01-20",
+      "password": "MatLaz1@",
+      "role": "usuario"
+    },
+    {
+      "id": "61eec9ec-8ec5-4b9c-b71d-65d24de0554b",
+      "nombreDeUsuario": "TomasGomez18",
+      "email": "TomasGomez@gmail.com",
+      "pais": "Bolivia",
+      "fechaNacimiento": "2002-06-30",
+      "password": "TomasGomez18@",
+      "role": "usuario"
+    },
+    {
+      "id": "3f0cf84e-21a0-4bd2-988a-1a1b14791dd4",
+      "nombreDeUsuario": "Juan18",
+      "email": "juan18@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "1988-02-05",
+      "password": "JuanVergara@1",
+      "role": "usuario"
     }
   ],
-  "productos": [
-  ],
+  "productos": [],
   "usuariosSuspendidos": [
     {
       "id": "100",

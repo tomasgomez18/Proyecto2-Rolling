@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-const FECHA_MINIMA = new Date(1945, 0, 1);
-const FECHA_MAXIMA = new Date(2006, 11, 31);
-
-const PAISES_VALIDOS = [
+export const PAISES_VALIDOS = [
   "Argentina",
   "Bolivia",
   "Brasil",
@@ -28,119 +25,55 @@ const PAISES_VALIDOS = [
   "Venezuela",
 ].sort();
 
-const PAISES_POR_REGION = {
-  "América del Sur": [
-    "Argentina",
-    "Bolivia",
-    "Brasil",
-    "Chile",
-    "Colombia",
-    "Ecuador",
-    "Paraguay",
-    "Perú",
-    "Uruguay",
-    "Venezuela",
-  ],
-  "América Central": [
-    "Costa Rica",
-    "Cuba",
-    "El Salvador",
-    "Guatemala",
-    "Honduras",
-    "Nicaragua",
-    "Panamá",
-  ],
-  "América del Norte": ["Estados Unidos", "México"],
-  Caribe: ["Puerto Rico", "República Dominicana"],
-  Europa: ["España"],
-};
+export const FECHA_MINIMA = new Date(1945, 0, 1);
+export const FECHA_MAXIMA = new Date(2006, 11, 31);
 
-const registroSchema = z
-  .object({
-    nombreDeUsuario: z
-      .string()
-      .min(5, "El nombre de usuario debe tener mínimo 5 caracteres")
-      .max(30, "El nombre de usuario no puede superar 20 caracteres")
-      .regex(
-        /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/,
-        "Solo letras, números y guión bajo"
-      )
-      .transform((val) => val.normalize("NFKC")),
-
-    email: z
-      .string()
-      .email("Debe ingresar un email válido")
-      .regex(
-        /^[^\s<>()\[\]\\.,;:"%]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Email inválido"
-      ),
-
-    pais: z
-      .string()
-      .min(1, "El país es requerido")
-      .refine(
-        (pais) => PAISES_VALIDOS.includes(pais),
-        "Por favor selecciona un país válido de la lista"
-      ),
-
-    fechaNacimiento: z
-      .string()
-      .min(1, "La fecha de nacimiento es requerida")
-      .refine((fecha) => {
-        const fechaNac = new Date(fecha);
-        return fechaNac >= FECHA_MINIMA && fechaNac <= FECHA_MAXIMA;
-      }, "Debes tener entre 18 y 68 años (nacido entre 1955-2006)"),
-
-    contrasena: z
-      .string()
-      .min(8, "La contraseña debe tener al menos 8 caracteres")
-      .max(20, "La contraseña no puede superar 20 caracteres")
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s∞π√∆∑∏∫∂µ∧∨∩∪∈∉⊂⊃⊆⊇≠≤≥≈≡∋∀∃∄¬∧∨⊕⊗⊥⊤⌈⌉⌊⌋〈〉]).+$/,
-        "Debe tener mayúscula, minúscula, número y un símbolo (excepto caracteres matemáticos)"
-      )
-      .transform((val) => val.normalize("NFKC")),
-
-    confirmarContrasena: z.string(),
-  })
-  .refine((data) => data.contrasena === data.confirmarContrasena, {
-    message: "Las contraseñas no coinciden",
-    path: ["confirmarContraseña"],
-  });
-
-const loginSchema = z.object({
-  credencial: z
+// Schema para registro
+export const registroSchema = z.object({
+  nombreDeUsuario: z
     .string()
-    .min(1, "Ingresa tu usuario o email")
-    .refine(
-      (val) => {
-
-        if (val.includes("@")) {
-          return /^[^\s<>()\[\]\\.,;:"%]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
-            val
-          );
-        }
-
-        return (
-          val.length >= 5 &&
-          val.length <= 30 &&
-          /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/.test(val)
-        );
-      },
-      {
-        message: "El usuario o email no es válido",
-      }
+    .min(5, "El nombre de usuario debe tener mínimo 5 caracteres")
+    .max(30, "El nombre de usuario no puede superar 30 caracteres")
+    .regex(
+      /^(?!_)(?!.*\s)[a-zA-Z0-9_]+$/,
+      "Solo letras, números y guión bajo"
     ),
 
+  email: z
+    .string()
+    .email("Debe ingresar un email válido"),
+
+  pais: z
+    .string()
+    .min(1, "El país es requerido"),
+
+  fechaNacimiento: z
+    .string()
+    .min(1, "La fecha de nacimiento es requerida")
+    .refine((fecha) => {
+      const fechaNac = new Date(fecha);
+      return fechaNac >= FECHA_MINIMA && fechaNac <= FECHA_MAXIMA;
+    }, "Debes tener entre 18 y 68 años"),
+
+  contrasena: z
+    .string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres")
+    .max(20, "La contraseña no puede superar 20 caracteres")
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).+$/,
+      "Debe tener mayúscula, minúscula, número y un símbolo especial"
+    ),
+
+  confirmarContrasena: z.string(),
+})
+.refine((data) => data.contrasena === data.confirmarContrasena, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmarContrasena"],
+});
+
+export const loginSchema = z.object({
+  credencial: z.string().min(1, "Ingresa tu usuario o email"),
   contrasena: z.string().min(1, "Ingresa tu contraseña"),
 });
 
 export default registroSchema;
-export {
-  loginSchema,
-  registroSchema,
-  FECHA_MINIMA,
-  FECHA_MAXIMA,
-  PAISES_VALIDOS,
-  PAISES_POR_REGION,
-};

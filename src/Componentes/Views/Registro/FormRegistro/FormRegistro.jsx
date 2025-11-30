@@ -12,21 +12,32 @@ const FormRegistro = ({ onSubmit, onClose }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
+    watch
   } = useForm({
     resolver: zodResolver(ValidacionesForm),
+    mode: "onChange"
   });
 
   const procesarEnvio = (data) => {
     console.log("Datos válidos:", data);
-    onSubmit?.(data);
+    
+    const datosParaEnviar = {
+      nombreDeUsuario: data.nombreDeUsuario,
+      email: data.email,
+      pais: data.pais,
+      fechaNacimiento: data.fechaNacimiento,
+      password: data.contrasena,
+    };
+    
+    onSubmit?.(datosParaEnviar);
   };
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center py-4 py-md-5">
       <Row className="w-100 justify-content-center mx-0">
         <Col xs={12} sm={11} md={10} lg={9} xl={8} className="px-3 px-md-4">
-          <Form onSubmit={handleSubmit(procesarEnvio)} className="contenedor-formulario p-4 p-md-5 rounded">
+          <Form onSubmit={handleSubmit(procesarEnvio)} className="contenedor-formulario p-4 p-md-5 rounded" noValidate>
             
             <div className="text-center mb-4">
               <h4 className="texto-dorado mb-0">REGISTRO</h4>
@@ -108,29 +119,32 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               <Form.Label className="texto-dorado mb-2">CONTRASEÑA</Form.Label>
               <Form.Control
                 type="password"
-                {...register("contraseña")}
-                isInvalid={!!errors.contraseña}
+                {...register("contrasena")}
+                isInvalid={!!errors.contrasena}
                 placeholder="Ingrese su contraseña"
                 className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
-                {errors.contraseña?.message}
+                {errors.contrasena?.message}
               </Form.Control.Feedback>
+              <Form.Text className="texto-blanco">
+                Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial
+              </Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-4">
               <Form.Label className="texto-dorado mb-2">CONFIRMAR CONTRASEÑA</Form.Label>
               <Form.Control
                 type="password"
-                {...register("confirmarContraseña")}
-                isInvalid={!!errors.confirmarContraseña}
+                {...register("confirmarContrasena")}
+                isInvalid={!!errors.confirmarContrasena}
                 placeholder="Repita su contraseña"
                 className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
-                {errors.confirmarContraseña?.message}
+                {errors.confirmarContrasena?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -141,6 +155,7 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                   onClick={onClose}
                   type="button"
                   className="w-100 py-3 boton-personalizado boton-cancelar"
+                  disabled={isSubmitting}
                 >
                   CANCELAR
                 </Button>
@@ -150,11 +165,25 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                   variant="warning" 
                   type="submit" 
                   className="w-100 py-3 boton-personalizado boton-enviar"
+                  disabled={isSubmitting}
                 >
-                  REGISTRARSE
+                  {isSubmitting ? "REGISTRANDO..." : "REGISTRARSE"}
                 </Button>
               </Col>
             </Row>
+
+            {Object.keys(errors).length > 0 && (
+              <div className="mt-3 p-3 bg-dark rounded">
+                <h6 className="text-warning">Errores de validación:</h6>
+                <ul className="text-white small">
+                  {Object.entries(errors).map(([field, error]) => (
+                    <li key={field}>
+                      <strong>{field}:</strong> {error.message}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </Form>
         </Col>
       </Row>
