@@ -13,7 +13,9 @@ const Contacto = () => {
 
     const form = useRef();
     const [mensajeEnviado, setMensajeEnviado] = useState(false);
-   
+    const [errorMensaje, setErrorMensaje] = useState("");
+
+
 
 
 
@@ -29,7 +31,7 @@ const Contacto = () => {
 
 
         if (!nombre || !apellido || !telefono || !email || !mensaje) {
-            alert("Por favor, completa todos los campos.");
+            setErrorMensaje("Por favor, completa todos los campos.");
             return;
         }
 
@@ -79,16 +81,16 @@ const Contacto = () => {
                 { publicKey: "4NhIAIqJh5mY2AI9S" }
             )
             .then(() => {
-                setMensajeEnviado(true); // muestra el modal
+                setMensajeEnviado(true);
+                setErrorMensaje("");   // 👉 limpia el mensaje de error
                 form.current.reset();
             })
 
 
 
+
             .catch((error) => console.error(error));
     };
-
-
 
 
     return (
@@ -153,7 +155,7 @@ const Contacto = () => {
                             type="tel"
                             placeholder="Telefono"
                             name="user_phone"
-                           
+
                             inputMode="numeric"
                             className="form-control bg-transparent border-0 border-bottom text-white mb-4 rounded-0"
                         />
@@ -186,6 +188,19 @@ const Contacto = () => {
                                 fontWeight: "600",
                             }}
                         >Enviar</button>
+                        {errorMensaje && (
+                            <p
+                                style={{
+                                    color: "yellow",
+                                    fontSize: "0.8rem",
+                                    marginTop: "10px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {errorMensaje}
+                            </p>
+                        )}
+
 
 
                         {mensajeEnviado && (
