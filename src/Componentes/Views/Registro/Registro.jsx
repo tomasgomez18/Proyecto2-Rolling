@@ -12,25 +12,21 @@ export const Registro = ({ onClose }) => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("📝 Datos recibidos para registro:", data);
+      console.log(" Datos recibidos para registro:", data);
       const resultado = await UserStorage.VerificarRegistrarUsuario(data);
-      console.log("📋 Resultado del registro:", resultado);
+      console.log(" Resultado del registro:", resultado);
 
       if (resultado.registrado) {
         toast.success("¡Registro exitoso! Bienvenido a Rolling Motors");
 
-        console.log("👤 Usuario recibido en resultado:", resultado.usuario);
+        console.log(" Usuario recibido en resultado:", resultado.usuario);
         
         if (resultado.usuario) {
-          console.log("🔄 Intentando setear usuario actual...");
+          console.log(" Intentando setear usuario actual...");
           setUsuarioActual(resultado.usuario);
-          console.log("✅ Usuario actual después de setear:", usuarioActual);
-          
-          // Verificar localStorage
           const ultimoUsuario = localStorage.getItem("ultimoUsuario");
-          console.log("💾 ultimoUsuario en localStorage:", ultimoUsuario);
         } else {
-          console.log("❌ No se recibió usuario en el resultado");
+          console.log(" No se recibió usuario en el resultado");
         }
 
         if (resultado.necesitaSoporte) {
@@ -55,7 +51,6 @@ export const Registro = ({ onClose }) => {
         } else {
           setTimeout(() => {
             onClose();
-            // Recargar la página para forzar la actualización del menú
             window.location.reload();
           }, 1500);
         }
