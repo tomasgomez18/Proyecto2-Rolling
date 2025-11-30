@@ -162,7 +162,6 @@
       "role": "usuario"
     }
   ],
-  "productos": [],
   "usuariosSuspendidos": [
     {
       "id": "100",
@@ -173,6 +172,62 @@
       "password": "Temp123!",
       "role": "usuario",
       "fechaSuspension": "2024-01-20T15:45:00Z"
+    }
+  ],
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Royal Enfield Classic 350",
+      "marca": "Royal Enfield",
+      "modelo": "Classic 350",
+      "categoria": "motocicletas",
+      "precio": 450000,
+      "kilometros": "12,000",
+      "año": 2020,
+      "ubicacion": "Buenos Aires, AR",
+      "descripcion": "Mantenimiento al día. Color original. Algunos detalles estéticos mínimos.",
+      "imagen": "https://images.pexels.com/photos/5192876/pexels-photo-5192876.jpeg",
+      "destacado": true,
+      "stock": true
+    },
+    {
+      "id": 2,
+      "nombre": "Casco Integral AGV K1",
+      "marca": "AGV",
+      "modelo": "K1",
+      "categoria": "protecciones",
+      "precio": 35000,
+      "descripcion": "Casco de alta seguridad con certificación ECE. Talles disponibles.",
+      "imagen": "/Productos/ImgCascos.jpg",
+      "destacado": true,
+      "stock": true
+    },
+    {
+      "id": 3,
+      "nombre": "Guantes de Cuero Racing",
+      "marca": "Alpinestars",
+      "modelo": "GP Pro",
+      "categoria": "indumentaria",
+      "precio": 12000,
+      "descripcion": "Guantes protectores de cuero genuino con protección en nudillos.",
+      "imagen": "/Productos/ImgIndumentaria.jpg",
+      "destacado": false,
+      "stock": true
+    },
+    {
+      "id": 4,
+      "nombre": "Honda CB 500",
+      "marca": "Honda",
+      "modelo": "CB 500",
+      "categoria": "motocicletas",
+      "precio": 520000,
+      "kilometros": "8,500",
+      "año": 2021,
+      "ubicacion": "Córdoba, AR",
+      "descripcion": "Excelente estado, única dueño, service oficial.",
+      "imagen": "/Productos/imgCard.jpg",
+      "destacado": true,
+      "stock": true
     }
   ]
 }
