@@ -1,0 +1,296 @@
+/* CardProducto.css - Tema Royal Enfield */
+:root {
+  --color-crema: #f8f4e9;
+  --color-dorado: #d4af37;
+  --color-oscuro: #1a1a1a;
+  --color-rojo: #8b0000;
+  --color-metal: #8a8a8a;
+}
+
+/* Tipografía motera */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Oswald:wght@300;400;600&display=swap');
+
+.card-moto {
+  border: 1px solid var(--color-metal);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--color-crema);
+  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 10px 15px 10px 10px;
+  max-width: 300px;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.card-moto:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(26, 26, 26, 0.2);
+}
+
+.barra-superior-color {
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-rojo), var(--color-dorado));
+}
+
+.contenedor-imagen-moto {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background-color: var(--color-oscuro);
+}
+
+.imagen-moto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card-moto:hover .imagen-moto {
+  transform: scale(1.05);
+}
+
+.etiqueta-año {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--color-rojo);
+  color: var(--color-crema);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid var(--color-dorado);
+  font-family: 'Oswald', sans-serif;
+}
+
+.contenido-card {
+  padding: 14px;
+  background-color: var(--color-crema);
+}
+
+.marca-modelo {
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--color-dorado);
+  padding-bottom: 6px;
+}
+
+.nombre-marca {
+  font-size: 13px;
+  color: var(--color-rojo);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-family: 'Oswald', sans-serif;
+}
+
+.nombre-modelo {
+  margin: 4px 0 0 0;
+  font-size: 18px;
+  color: var(--color-oscuro);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+}
+
+.lista-especificaciones {
+  margin-bottom: 10px;
+}
+
+.item-especificacion {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(138, 138, 138, 0.3);
+}
+
+.nombre-caracteristica {
+  color: var(--color-oscuro);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.valor-caracteristica {
+  color: var(--color-rojo);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.descripcion-moto {
+  color: var(--color-oscuro);
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.contenedor-precio {
+  text-align: center;
+  margin-bottom: 14px;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--color-oscuro), #2a2a2a);
+  border-radius: 4px;
+  border: 1px solid var(--color-dorado);
+}
+
+.texto-precio-desde {
+  font-size: 11px;
+  color: var(--color-crema);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.valor-precio {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--color-dorado);
+  margin-bottom: 4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  font-family: 'Oswald', sans-serif;
+}
+
+.texto-precio-final {
+  font-size: 11px;
+  color: var(--color-crema);
+  opacity: 0.8;
+}
+
+/* Contenedor de botones */
+.contenedor-botones {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-direction: column;
+}
+
+/* Botón agregar al carrito */
+.boton-carrito {
+  background: linear-gradient(135deg, #28a745, #218838);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex: 1;
+  font-family: 'Oswald', sans-serif;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.boton-carrito:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Botón comprar */
+.boton-contactar {
+  background: linear-gradient(135deg, var(--color-rojo), #a52a2a);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex: 1;
+  font-family: 'Oswald', sans-serif;
+  border: 1px solid var(--color-dorado);
+}
+
+.boton-contactar:hover {
+  background: linear-gradient(135deg, #a52a2a, var(--color-rojo));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+}
+
+/* Botón deshabilitado */
+.boton-carrito.boton-deshabilitado,
+.boton-contactar.boton-deshabilitado {
+  background: linear-gradient(135deg, var(--color-metal), #6a6a6a);
+  color: #dee2e6;
+  cursor: not-allowed;
+  transform: none;
+  border: 1px solid var(--color-metal);
+}
+
+.boton-carrito.boton-deshabilitado:hover,
+.boton-contactar.boton-deshabilitado:hover {
+  background: linear-gradient(135deg, var(--color-metal), #6a6a6a);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Estados especiales */
+.destacada {
+  border: 2px solid var(--color-dorado);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.destacada .barra-superior-color {
+  background: linear-gradient(90deg, var(--color-dorado), var(--color-rojo), var(--color-dorado));
+  background-size: 200% 100%;
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.sin-stock {
+  opacity: 0.7;
+  background: linear-gradient(135deg, var(--color-crema), #e5e5d0);
+}
+
+.sin-stock .imagen-moto {
+  filter: grayscale(70%);
+}
+
+.sin-stock .contenedor-precio {
+  background: linear-gradient(135deg, var(--color-metal), #6a6a6a);
+}
+
+.sin-stock .valor-precio {
+  color: var(--color-metal);
+}
+
+/* Efectos adicionales para el tema Royal Enfield */
+.card-moto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.contenido-card {
+  position: relative;
+  z-index: 2;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .contenedor-botones {
+    flex-direction: row;
+  }
+  
+  .boton-carrito,
+  .boton-contactar {
+    font-size: 12px;
+    padding: 9px 14px;
+  }
+}
