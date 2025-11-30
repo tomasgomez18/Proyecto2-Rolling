@@ -1,8 +1,9 @@
 const Suscripcion = () => {
   return (
-    <div>
+    <>
+
       
-    </div>
+    </>
   )
 }
 
