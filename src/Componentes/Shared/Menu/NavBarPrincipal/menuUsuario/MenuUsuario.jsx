@@ -3,7 +3,7 @@ import { useUser } from "../../../../Context/ContextoUsuario";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaHeadset, FaSignOutAlt } from "react-icons/fa";
 import { useState } from "react";
-import ModalPerfil from "./ModalPerfil";
+import ModalPerfil from "./Perfil/ModalPerfil";
 import "./MenuUsuario.css";
 
 const MenuUsuario = () => {
