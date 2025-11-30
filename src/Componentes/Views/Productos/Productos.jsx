@@ -4,8 +4,8 @@ import BuscadorProducto from "./ComponenteProducto/PaginaProductos/componenteBus
 const Productos = () => {
   return (
     <div>
-      <BuscadorProducto/>
-      <CardProducto/>
+      <C/>
+      
     </div>
   );
 };

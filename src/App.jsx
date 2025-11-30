@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Menu from "./Componentes/Shared/Menu/Menu";
 import  Home  from "./Componentes/Views/Home/Home";
+import Ofertas from './Componentes/Views/Productos/Ofertas/Ofertas';
 import Contacto from "./Componentes/Views/Contacto/Contacto";
 import AdminPanel from "./Componentes/Admin/AdminPanel";
 import RutaProtegida from "./Componentes/Utils/RutaProtegida"; 
@@ -10,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { UserStorage } from "./Componentes/Utils/UsuarioStorage";
 import { UserProvider } from "./Componentes/Context/ContextoUsuario";
+
 
 function App() {
   useEffect(() => {
