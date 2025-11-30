@@ -4,10 +4,13 @@ body {
     padding: 0;
     height: 100%;
     width: 100%;
-    overflow: hidden;
     font-family: Arial, sans-serif;
+    background-image: url('src/Public/FondoImg/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
-
 
 .form-container {
     display: flex;
@@ -15,18 +18,21 @@ body {
     align-items: center;
     height: 100vh;
     width: 100%;
-    background: #f4f4f4;
 }
 
-
 .subscription-form {
-    background: white;
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 14px;
     padding: 30px 40px;
-    border-radius: 12px;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
     text-align: center;
+    color: white;
+    transition: all 0.3s ease;
 }
 
 .subscription-form h2 {
@@ -38,8 +44,15 @@ body {
     padding: 12px;
     margin-bottom: 15px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(255, 234, 0, 0.907);
+    background: rgba(233, 210, 210, 0.05);
+    color: white;
     font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.subscription-form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .subscription-form button {
@@ -47,27 +60,39 @@ body {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background-color: #007bff;
-    color: white;
+    background-color: #000;
+    color: #fff;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .subscription-form button:hover {
-    background-color: #0056c1;
+    background-color: #8a7314;
+    transform: scale(1.03);
 }
 
-.error {
-    color: #d8000c;
+.error,
+.errorGeneral {
+    color: #f5f5dc;
     font-size: 0.85rem;
     margin-bottom: 10px;
+    opacity: 0;
+    animation: aparecer 0.3s forwards;
 }
 
-.errorGeneral {
-    color: #d8000c;
-    font-size: 0.9rem;
-    margin-top: 10px;
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
+
 .mensaje-enviado {
     position: fixed;
     top: 0;
@@ -79,14 +104,17 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
 }
 
 .mensaje-contenedor {
-    background: #000;
-    color: white;
+    background: rgba(204, 180, 61, 0.05);
+    backdrop-filter: blur(15px);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+    animation: scaleUp 0.3s ease-out;
 }
 
 .mensaje-contenedor button {
@@ -95,9 +123,40 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s;
 }
 
-@media (max-width: 480px) 
+.mensaje-contenedor button:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 480px) {
     .subscription-form {
-        padding: 25px;
-    } 
+        padding: 25px;
+    }
+}
