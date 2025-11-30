@@ -1,5 +1,5 @@
 import React from 'react';
-import './Categoria.css';
+import './Categorias.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Col, Row, Card } from 'react-bootstrap';
 import { motion } from 'framer-motion';
