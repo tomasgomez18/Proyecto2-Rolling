@@ -107,7 +107,7 @@ const Suscripcion = () => {
             <Toaster position="top-right" />
             <div className="form-container">
                 <form ref={form} onSubmit={sendEmail} className="subscription-form">
-                    <h2 className="suscribete" style={{ color: "black", display: "flex", alignItems: "center" }}>
+                    <h2 className="suscribete" style={{ color: "white", display: "flex", alignItems: "center" }}>
                         Suscríbete a Rolling Motors
                         <CircleDashed
                             size={24}
