@@ -272,7 +272,6 @@ export const ProveedorProductos = ({ children }) => {
     }
   }, []);
 
-  // Editar producto existente
   const editarProducto = useCallback(async (id, datosActualizados) => {
     try {
       const productoExistente = productos.find(p => p.id === id);

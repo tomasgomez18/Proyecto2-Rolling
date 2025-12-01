@@ -66,7 +66,6 @@ const AdminPanel = () => {
     }
   }, [eliminarProducto]);
 
-  // Componente para mostrar imagen en tabla
   const ImagenProducto = ({ imagen, nombre }) => {
     const [error, setError] = useState(false);
 

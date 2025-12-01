@@ -12,6 +12,7 @@ import "./App.css";
 import { UserStorage } from "./Componentes/Utils/UsuarioStorage";
 import { UserProvider } from "./Componentes/Context/ContextoUsuario";
 import { ProveedorProductos } from "./Componentes/Context/ContextoProducto";
+import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/Detalle-Producto/DetalleProducto"
 import Productos from "./Componentes/Views/Productos/Productos";
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
               <Route path="/ofertas" element={<Ofertas />} />
               <Route path="/productos" element={<PaginaProductos />} />
               <Route path="/productos-todos" element={<Productos />} />
+              <Route path="/detalleProducto" element={<DetalleProducto />} />
+
               <Route
                 path="/admin"
                 element={

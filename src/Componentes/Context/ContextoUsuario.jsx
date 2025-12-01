@@ -30,10 +30,9 @@ export const UserProvider = ({ children }) => {
 
       console.log(`✅ ${dataUsuarios.length} usuarios activos, ${dataSuspendidos.length} suspendidos`);
 
-      // Recuperar último usuario de localStorage (solo para sesión)
       const ultimo = JSON.parse(localStorage.getItem("ultimoUsuario") || "null");
       if (ultimo) {
-        // Verificar que el usuario aún existe en la base de datos
+       
         const usuarioValido = dataUsuarios.find(u => u.id === ultimo.id);
         if (usuarioValido) {
           setUsuarioActual(usuarioValido);
@@ -111,7 +110,7 @@ export const UserProvider = ({ children }) => {
 
       console.log('⚠️ Suspendiendo usuario:', usuario.nombreDeUsuario);
 
-      // Mover de usuarios a usuariosSuspendidos
+  
       await fetch(`http://localhost:3001/usuarios/${id}`, { method: 'DELETE' });
       
       const usuarioSuspendido = { 
@@ -158,7 +157,6 @@ export const UserProvider = ({ children }) => {
         body: JSON.stringify(usuario)
       });
 
-      // Actualizar estados locales
       setUsuariosSuspendidos(prev => prev.filter(u => u.id !== id));
       setUsuarios(prev => [...prev, usuario]);
 
