@@ -43,26 +43,10 @@
       "año": "2024",
       "kilometros": "",
       "ubicacion": "Envío a todo el país",
-      "imagen": "https://images.unsplash.com/photo-1621361511124-8d8c8d8c8d8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "imagen": "https://images.unsplash.com/photo-1621361511124-8d8c8c8c8d8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
       "destacado": false,
       "stock": true,
       "fechaCreacion": "2024-01-17T09:15:00Z"
-    },
-    {
-      "id": "4",
-      "nombre": "Guantes de cuero Alpinestars",
-      "precio": "120",
-      "descripcion": "Guantes de cuero de alta calidad con protecciones.",
-      "categoria": "indumentaria",
-      "marca": "Alpinestars",
-      "modelo": "GP Pro",
-      "año": "2024",
-      "kilometros": "",
-      "ubicacion": "Envío a todo el país",
-      "imagen": "https://images.unsplash.com/photo-1626808642875-0aa545482dfb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-      "destacado": true,
-      "stock": true,
-      "fechaCreacion": "2024-01-18T11:45:00Z"
     },
     {
       "id": "5",
@@ -186,6 +170,8 @@
       "nombreDeUsuario": "admin",
       "contraseña": "admin123",
       "role": "admin",
+      "fechaNacimiento": "1990-01-01",
+      "pais": "Argentina",
       "fechaCreacion": "2024-01-01T00:00:00Z"
     },
     {
@@ -196,6 +182,8 @@
       "nombreDeUsuario": "juanperez",
       "contraseña": "cliente123",
       "role": "cliente",
+      "fechaNacimiento": "1995-05-15",
+      "pais": "Argentina",
       "fechaCreacion": "2024-01-02T10:30:00Z"
     }
   ],

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const ContextoProducto = createContext();
 
@@ -25,11 +25,13 @@ export const ProveedorProductos = ({ children }) => {
     stock: ''
   });
 
-  // Cargar productos desde json-server
-  const cargarProductos = async () => {
+  // Cargar productos desde json-server - memoizado para evitar loops
+  const cargarProductos = useCallback(async () => {
     try {
       setCargando(true);
       setError(null);
+      console.log('🔍 Cargando productos de json-server...');
+      
       const respuesta = await fetch('http://localhost:3001/productos');
       
       if (!respuesta.ok) {
@@ -37,19 +39,20 @@ export const ProveedorProductos = ({ children }) => {
       }
       
       const datos = await respuesta.json();
+      console.log(`✅ ${datos.length} productos cargados`);
       setProductos(datos);
     } catch (error) {
-      console.error('Error cargando productos:', error);
-      setError('No se pudieron cargar los productos. Verifica que json-server esté ejecutándose.');
+      console.error('❌ Error cargando productos:', error);
+      setError('No se pudieron cargar los productos. Verifica que json-server esté ejecutándose en http://localhost:3001');
     } finally {
       setCargando(false);
     }
-  };
+  }, []);
 
   // Cargar productos al iniciar
   useEffect(() => {
     cargarProductos();
-  }, []);
+  }, [cargarProductos]);
 
   // Filtrar productos según los filtros activos
   const productosFiltrados = productos.filter(producto => {
@@ -122,12 +125,12 @@ export const ProveedorProductos = ({ children }) => {
   });
 
   // Función para actualizar filtros
-  const actualizarFiltros = (nuevosFiltros) => {
+  const actualizarFiltros = useCallback((nuevosFiltros) => {
     setFiltros(prev => ({ ...prev, ...nuevosFiltros }));
-  };
+  }, []);
 
   // Función para limpiar todos los filtros
-  const limpiarFiltros = () => {
+  const limpiarFiltros = useCallback(() => {
     setFiltros({
       categoria: '',
       terminoBusqueda: '',
@@ -138,26 +141,26 @@ export const ProveedorProductos = ({ children }) => {
       destacado: '',
       stock: ''
     });
-  };
+  }, []);
 
   // Función específica para filtrar por categoría
-  const filtrarPorCategoria = (categoria) => {
+  const filtrarPorCategoria = useCallback((categoria) => {
     setFiltros(prev => ({
       ...prev,
       categoria: categoria
     }));
-  };
+  }, []);
 
   // Obtener todas las categorías únicas de los productos
-  const obtenerCategoriasUnicas = () => {
+  const obtenerCategoriasUnicas = useCallback(() => {
     const categorias = productos
       .map(p => p.categoria)
       .filter(categoria => categoria && categoria.trim() !== '');
     return [...new Set(categorias)];
-  };
+  }, [productos]);
 
   // Obtener marcas únicas para una categoría específica
-  const obtenerMarcasPorCategoria = (categoria) => {
+  const obtenerMarcasPorCategoria = useCallback((categoria) => {
     const productosCategoria = categoria 
       ? productos.filter(p => p.categoria === categoria)
       : productos;
@@ -166,18 +169,18 @@ export const ProveedorProductos = ({ children }) => {
       .map(p => p.marca)
       .filter(marca => marca && marca.trim() !== '');
     return [...new Set(marcas)];
-  };
+  }, [productos]);
 
   // Obtener todos los productos de una categoría específica
-  const obtenerProductosPorCategoria = (categoria) => {
+  const obtenerProductosPorCategoria = useCallback((categoria) => {
     if (!categoria) return productos;
     return productos.filter(producto => 
       producto.categoria?.toLowerCase() === categoria.toLowerCase()
     );
-  };
+  }, [productos]);
 
   // Obtener estadísticas de productos
-  const obtenerEstadisticas = () => {
+  const obtenerEstadisticas = useCallback(() => {
     const productosPorCategoria = {};
     const productosPorMarca = {};
     
@@ -201,10 +204,10 @@ export const ProveedorProductos = ({ children }) => {
       categoriasUnicas: Object.keys(productosPorCategoria).length,
       marcasUnicas: Object.keys(productosPorMarca).length
     };
-  };
+  }, [productos]);
 
   // Obtener rango de precios
-  const obtenerRangoPrecios = () => {
+  const obtenerRangoPrecios = useCallback(() => {
     if (productos.length === 0) return { min: 0, max: 0 };
     
     const precios = productos.map(p => parseFloat(p.precio) || 0);
@@ -213,10 +216,10 @@ export const ProveedorProductos = ({ children }) => {
       max: Math.max(...precios),
       promedio: precios.reduce((a, b) => a + b, 0) / precios.length
     };
-  };
+  }, [productos]);
 
   // Buscar productos por término (para autocompletar)
-  const buscarSugerencias = (termino) => {
+  const buscarSugerencias = useCallback((termino) => {
     if (!termino || termino.length < 2) return [];
     
     return productos
@@ -228,19 +231,22 @@ export const ProveedorProductos = ({ children }) => {
           producto.modelo?.toLowerCase().includes(busqueda)
         );
       })
-      .slice(0, 5); // Limitar a 5 sugerencias
-  };
+      .slice(0, 5);
+  }, [productos]);
 
   // Agregar un nuevo producto
-  const agregarProducto = async (producto) => {
+  const agregarProducto = useCallback(async (producto) => {
     try {
       const nuevoProducto = {
         ...producto,
         id: crypto.randomUUID(),
         fechaCreacion: new Date().toISOString(),
         stock: producto.stock !== undefined ? producto.stock : true,
-        destacado: producto.destacado !== undefined ? producto.destacado : false
+        destacado: producto.destacado !== undefined ? producto.destacado : false,
+        precio: producto.precio.toString()
       };
+
+      console.log('📤 Agregando producto:', nuevoProducto);
 
       const respuesta = await fetch('http://localhost:3001/productos', {
         method: 'POST',
@@ -250,92 +256,117 @@ export const ProveedorProductos = ({ children }) => {
         body: JSON.stringify(nuevoProducto)
       });
 
-      if (!respuesta.ok) throw new Error('Error al agregar producto');
+      if (!respuesta.ok) {
+        const errorData = await respuesta.json();
+        throw new Error(errorData.message || 'Error al agregar producto');
+      }
 
       const productoAgregado = await respuesta.json();
       setProductos(prev => [...prev, productoAgregado]);
       
+      console.log('✅ Producto agregado:', productoAgregado);
       return { exito: true, producto: productoAgregado };
     } catch (error) {
-      console.error('Error agregando producto:', error);
+      console.error('❌ Error agregando producto:', error);
       return { exito: false, mensaje: error.message };
     }
-  };
+  }, []);
 
   // Editar producto existente
-  const editarProducto = async (id, datosActualizados) => {
+  const editarProducto = useCallback(async (id, datosActualizados) => {
     try {
+      const productoExistente = productos.find(p => p.id === id);
+      if (!productoExistente) {
+        throw new Error('Producto no encontrado');
+      }
+
+      const productoActualizado = {
+        ...productoExistente,
+        ...datosActualizados,
+        fechaModificacion: new Date().toISOString(),
+        precio: datosActualizados.precio?.toString() || productoExistente.precio
+      };
+
+      console.log('📝 Editando producto:', productoActualizado);
+
       const respuesta = await fetch(`http://localhost:3001/productos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...datosActualizados,
-          fechaModificacion: new Date().toISOString()
-        })
+        body: JSON.stringify(productoActualizado)
       });
 
-      if (!respuesta.ok) throw new Error('Error al editar producto');
+      if (!respuesta.ok) {
+        const errorData = await respuesta.json();
+        throw new Error(errorData.message || 'Error al editar producto');
+      }
 
       const productoEditado = await respuesta.json();
       setProductos(prev => 
         prev.map(p => p.id === id ? productoEditado : p)
       );
       
+      console.log('✅ Producto editado:', productoEditado);
       return { exito: true, producto: productoEditado };
     } catch (error) {
-      console.error('Error editando producto:', error);
+      console.error('❌ Error editando producto:', error);
       return { exito: false, mensaje: error.message };
     }
-  };
+  }, [productos]);
 
   // Eliminar producto
-  const eliminarProducto = async (id) => {
+  const eliminarProducto = useCallback(async (id) => {
     try {
+      console.log('🗑️ Eliminando producto ID:', id);
+
       const respuesta = await fetch(`http://localhost:3001/productos/${id}`, {
         method: 'DELETE'
       });
 
-      if (!respuesta.ok) throw new Error('Error al eliminar producto');
+      if (!respuesta.ok) {
+        const errorData = await respuesta.text();
+        throw new Error(errorData || 'Error al eliminar producto');
+      }
 
       setProductos(prev => prev.filter(p => p.id !== id));
+      console.log('✅ Producto eliminado');
       return { exito: true };
     } catch (error) {
-      console.error('Error eliminando producto:', error);
+      console.error('❌ Error eliminando producto:', error);
       return { exito: false, mensaje: error.message };
     }
-  };
+  }, []);
 
   // Obtener producto por ID
-  const obtenerProductoPorId = (id) => {
+  const obtenerProductoPorId = useCallback((id) => {
     return productos.find(p => p.id === id);
-  };
+  }, [productos]);
 
   // Obtener productos destacados
-  const obtenerProductosDestacados = () => {
+  const obtenerProductosDestacados = useCallback(() => {
     return productos.filter(p => p.destacado);
-  };
+  }, [productos]);
 
   // Obtener productos con stock
-  const obtenerProductosConStock = () => {
+  const obtenerProductosConStock = useCallback(() => {
     return productos.filter(p => p.stock);
-  };
+  }, [productos]);
 
   // Obtener productos recientes
-  const obtenerProductosRecientes = (limite = 5) => {
+  const obtenerProductosRecientes = useCallback((limite = 5) => {
     return [...productos]
       .sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion))
       .slice(0, limite);
-  };
+  }, [productos]);
 
   // Actualizar estado de stock
-  const actualizarStockProducto = async (id, tieneStock) => {
+  const actualizarStockProducto = useCallback(async (id, tieneStock) => {
     const producto = obtenerProductoPorId(id);
     if (!producto) return { exito: false, mensaje: 'Producto no encontrado' };
     
     return await editarProducto(id, { ...producto, stock: tieneStock });
-  };
+  }, [editarProducto, obtenerProductoPorId]);
 
   // Valor del contexto
   const valorContexto = {

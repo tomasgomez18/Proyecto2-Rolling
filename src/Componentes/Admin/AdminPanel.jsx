@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useUser } from "../Context/ContextoUsuario";
+import { useProductos } from "../Context/ContextoProducto";
 import MapaUsuarios from "./MapaUsuarios";
 import "./css/AdminPanel.css";
 
@@ -7,27 +8,87 @@ const AdminPanel = () => {
   const {
     usuarios,
     usuariosSuspendidos,
-    productos,
     esAdministrador,
     suspenderUsuario,
     reactivarUsuario,
     eliminarUsuarioSuspendido,
     editarUsuario,
+    sincronizarConAPI,
+  } = useUser();
+
+  const {
+    productos,
+    cargando,
     agregarProducto,
     editarProducto,
     eliminarProducto,
-    sincronizarConAPI,
-  } = useUser();
+    cargarProductos,
+    obtenerEstadisticas
+  } = useProductos();
 
   const [vistaActiva, setVistaActiva] = useState("usuarios");
   const [usuarioEditando, setUsuarioEditando] = useState(null);
   const [productoEditando, setProductoEditando] = useState(null);
   const [mostrarFormProducto, setMostrarFormProducto] = useState(false);
-  const [modoFormularioProducto, setModoFormularioProducto] = useState("agregar"); // "agregar" o "editar"
+  const [modoFormularioProducto, setModoFormularioProducto] = useState("agregar");
 
-  const manejarSincronizacion = async () => {
+  const estadisticas = obtenerEstadisticas();
+
+  // Memoizar el handler de sincronización
+  const manejarSincronizacion = useCallback(async () => {
     const resultado = await sincronizarConAPI();
     alert(resultado.mensaje);
+  }, [sincronizarConAPI]);
+
+  // Recargar productos solo cuando la vista de productos se active
+  useEffect(() => {
+    if (vistaActiva === "productos") {
+      cargarProductos();
+    }
+  }, [vistaActiva, cargarProductos]);
+
+  // Función para manejar edición de producto
+  const manejarEditarProducto = useCallback((producto) => {
+    setProductoEditando(producto);
+    setModoFormularioProducto("editar");
+    setMostrarFormProducto(true);
+  }, []);
+
+  // Función para manejar eliminación de producto
+  const manejarEliminarProducto = useCallback(async (id) => {
+    if (window.confirm("¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer.")) {
+      const resultado = await eliminarProducto(id);
+      if (resultado.exito) {
+        alert("✅ Producto eliminado correctamente");
+      } else {
+        alert("❌ Error: " + resultado.mensaje);
+      }
+    }
+  }, [eliminarProducto]);
+
+  // Componente para mostrar imagen en tabla
+  const ImagenProducto = ({ imagen, nombre }) => {
+    const [error, setError] = useState(false);
+
+    if (!imagen) {
+      return <span className="sin-imagen">📷 Sin imagen</span>;
+    }
+
+    return (
+      <div className="contenedor-imagen-tabla">
+        {error ? (
+          <div className="imagen-error">❌ Error</div>
+        ) : (
+          <img 
+            src={imagen} 
+            alt={nombre} 
+            onError={() => setError(true)}
+            onClick={() => window.open(imagen, '_blank')}
+            title="Click para ver imagen completa"
+          />
+        )}
+      </div>
+    );
   };
 
   if (!esAdministrador) {
@@ -61,17 +122,35 @@ const AdminPanel = () => {
     });
 
     const [errorImagen, setErrorImagen] = useState(false);
+    const [enviando, setEnviando] = useState(false);
 
-    const manejarEnvio = (e) => {
+    const manejarEnvio = async (e) => {
       e.preventDefault();
+      setEnviando(true);
       
-      if (esEdicion) {
-        editarProducto(productoEditando.id, datosFormulario);
-      } else {
-        agregarProducto(datosFormulario);
+      try {
+        if (esEdicion) {
+          const resultado = await editarProducto(productoEditando.id, datosFormulario);
+          if (resultado.exito) {
+            alert("✅ Producto actualizado correctamente");
+          } else {
+            alert("❌ Error: " + resultado.mensaje);
+          }
+        } else {
+          const resultado = await agregarProducto(datosFormulario);
+          if (resultado.exito) {
+            alert("✅ Producto agregado correctamente");
+          } else {
+            alert("❌ Error: " + resultado.mensaje);
+          }
+        }
+        
+        cerrarFormulario();
+      } catch (error) {
+        alert("❌ Error inesperado: " + error.message);
+      } finally {
+        setEnviando(false);
       }
-      
-      cerrarFormulario();
     };
 
     const cerrarFormulario = () => {
@@ -114,6 +193,7 @@ const AdminPanel = () => {
                   })
                 }
                 required
+                disabled={enviando}
               />
             </div>
 
@@ -133,15 +213,14 @@ const AdminPanel = () => {
                 required
                 min="0"
                 step="0.01"
+                disabled={enviando}
               />
             </div>
 
             <div className="campo-formulario">
               <label htmlFor="categoria">Categoría *</label>
-              <input
+              <select
                 id="categoria"
-                type="text"
-                placeholder="Ejm: Motocicletas, Accesorios, Repuestos"
                 value={datosFormulario.categoria}
                 onChange={(e) =>
                   setDatosFormulario({
@@ -150,7 +229,15 @@ const AdminPanel = () => {
                   })
                 }
                 required
-              />
+                disabled={enviando}
+              >
+                <option value="">Seleccione una categoría</option>
+                <option value="motocicletas">Motocicletas</option>
+                <option value="protecciones">Protecciones</option>
+                <option value="indumentaria">Indumentaria</option>
+                <option value="accesorios">Accesorios</option>
+                <option value="repuestos">Repuestos</option>
+              </select>
             </div>
 
             <div className="campo-formulario">
@@ -168,6 +255,7 @@ const AdminPanel = () => {
                   setErrorImagen(false);
                 }}
                 required
+                disabled={enviando}
               />
               {datosFormulario.imagen && (
                 <div className="vista-previa-imagen">
@@ -180,6 +268,7 @@ const AdminPanel = () => {
                       src={datosFormulario.imagen} 
                       alt="Vista previa" 
                       onError={() => setErrorImagen(true)}
+                      onLoad={() => setErrorImagen(false)}
                     />
                   )}
                 </div>
@@ -201,6 +290,7 @@ const AdminPanel = () => {
                     })
                   }
                   required
+                  disabled={enviando}
                 />
               </div>
 
@@ -218,6 +308,7 @@ const AdminPanel = () => {
                     })
                   }
                   required
+                  disabled={enviando}
                 />
               </div>
             </div>
@@ -236,6 +327,7 @@ const AdminPanel = () => {
                       año: e.target.value,
                     })
                   }
+                  disabled={enviando}
                 />
               </div>
 
@@ -252,6 +344,7 @@ const AdminPanel = () => {
                       kilometros: e.target.value,
                     })
                   }
+                  disabled={enviando}
                 />
               </div>
             </div>
@@ -269,6 +362,7 @@ const AdminPanel = () => {
                     ubicacion: e.target.value,
                   })
                 }
+                disabled={enviando}
               />
             </div>
 
@@ -286,6 +380,7 @@ const AdminPanel = () => {
                 }
                 required
                 rows="4"
+                disabled={enviando}
               />
             </div>
 
@@ -302,6 +397,7 @@ const AdminPanel = () => {
                         destacado: e.target.checked,
                       })
                     }
+                    disabled={enviando}
                   />
                   <span>Producto destacado</span>
                 </label>
@@ -319,6 +415,7 @@ const AdminPanel = () => {
                         stock: e.target.checked,
                       })
                     }
+                    disabled={enviando}
                   />
                   <span>En stock</span>
                 </label>
@@ -326,10 +423,20 @@ const AdminPanel = () => {
             </div>
 
             <div className="botones-formulario">
-              <button type="submit" className="boton-guardar">
-                {esEdicion ? "💾 Guardar Cambios" : "➕ Agregar Producto"}
+              <button 
+                type="submit" 
+                className="boton-guardar"
+                disabled={enviando}
+              >
+                {enviando ? "⏳ Procesando..." : 
+                  esEdicion ? "💾 Guardar Cambios" : "➕ Agregar Producto"}
               </button>
-              <button type="button" onClick={cerrarFormulario} className="boton-cancelar">
+              <button 
+                type="button" 
+                onClick={cerrarFormulario} 
+                className="boton-cancelar"
+                disabled={enviando}
+              >
                 ❌ Cancelar
               </button>
             </div>
@@ -423,7 +530,11 @@ const AdminPanel = () => {
               <button type="submit" className="boton-guardar">
                 💾 Guardar Cambios
               </button>
-              <button type="button" onClick={() => setUsuarioEditando(null)} className="boton-cancelar">
+              <button 
+                type="button" 
+                onClick={() => setUsuarioEditando(null)} 
+                className="boton-cancelar"
+              >
                 ❌ Cancelar
               </button>
             </div>
@@ -433,40 +544,15 @@ const AdminPanel = () => {
     );
   };
 
-  const manejarEditarProducto = (producto) => {
-    setProductoEditando(producto);
-    setModoFormularioProducto("editar");
-    setMostrarFormProducto(true);
-  };
-
-  const manejarEliminarProducto = async (id) => {
-    await eliminarProducto(id);
-  };
-
-  // Componente para mostrar imagen en tabla
-  const ImagenProducto = ({ imagen, nombre }) => {
-    const [error, setError] = useState(false);
-
-    if (!imagen) {
-      return <span className="sin-imagen">📷 Sin imagen</span>;
-    }
-
+  if (cargando && vistaActiva === "productos") {
     return (
-      <div className="contenedor-imagen-tabla">
-        {error ? (
-          <div className="imagen-error">❌ Error</div>
-        ) : (
-          <img 
-            src={imagen} 
-            alt={nombre} 
-            onError={() => setError(true)}
-            onClick={() => window.open(imagen, '_blank')}
-            title="Click para ver imagen completa"
-          />
-        )}
+      <div className="panel-administracion">
+        <div className="cargando">
+          <p>Cargando productos...</p>
+        </div>
       </div>
     );
-  };
+  }
 
   return (
     <div className="panel-administracion">
@@ -690,7 +776,7 @@ const AdminPanel = () => {
           
           <div className="tabla-resumen">
             <div className="tarjeta-resumen">
-              <span className="numero-resumen">{productos.length}</span>
+              <span className="numero-resumen">{estadisticas.total}</span>
               <span className="texto-resumen">Total Productos</span>
             </div>
             <div className="tarjeta-resumen">
@@ -700,15 +786,11 @@ const AdminPanel = () => {
               <span className="texto-resumen">Valor Total</span>
             </div>
             <div className="tarjeta-resumen">
-              <span className="numero-resumen">
-                {productos.filter(p => p.destacado).length}
-              </span>
+              <span className="numero-resumen">{estadisticas.destacados}</span>
               <span className="texto-resumen">Destacados</span>
             </div>
             <div className="tarjeta-resumen">
-              <span className="numero-resumen">
-                {productos.filter(p => p.stock).length}
-              </span>
+              <span className="numero-resumen">{estadisticas.disponibles}</span>
               <span className="texto-resumen">En Stock</span>
             </div>
           </div>
