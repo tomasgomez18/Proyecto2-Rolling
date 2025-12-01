@@ -4,6 +4,7 @@ import Menu from "./Componentes/Shared/Menu/Menu"
 import { Home } from './Componentes/Views/Home/Home'
 import './App.css'
 import Ofertas from "./Componentes/Views/Productos/Ofertas/Ofertas";
+import Footer from "./Componentes/Shared/Footer/Footer";
 
 
 
