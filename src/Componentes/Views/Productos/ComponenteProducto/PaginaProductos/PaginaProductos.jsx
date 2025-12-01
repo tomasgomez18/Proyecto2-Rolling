@@ -19,7 +19,7 @@ const PaginaProductos = () => {
 
   return (
     <div className="contenedor-pagina-productos">
-      <div className="encabezado-productos">
+      <div className="encabezado-productos mt-5 p-3">
         <h1 className="titulo-pagina">
           {filtros.categoria 
             ? `Productos - ${filtros.categoria.charAt(0).toUpperCase() + filtros.categoria.slice(1)}`

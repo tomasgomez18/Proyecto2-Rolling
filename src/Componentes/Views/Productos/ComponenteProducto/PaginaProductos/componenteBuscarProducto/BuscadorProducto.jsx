@@ -55,7 +55,7 @@ const BuscadorProducto = () => {
     <Container className="my-4 buscador-royal-enfield">
       <Row>
         <Col lg={12}>
-          <h2 className="text-center mb-3 titulo-buscador">Buscador de Productos</h2>
+          <h2 className="text-center mb-3 titulo-buscador mt-2">Buscador de Productos</h2>
           <Card className="shadow-sm mb-3 card-buscador">
             <Card.Body className="cuerpo-buscador">
               <Form onSubmit={manejarAplicarFiltros}>
