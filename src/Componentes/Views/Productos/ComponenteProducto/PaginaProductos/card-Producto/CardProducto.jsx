@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import './CardProducto.css'; 
 
 const CardProducto = ({ 
-  marca = "Royal Enfield",
-  modelo = "Classic 350", 
-  año = 2020,
-  precio = "450000",
-  imagen = "https://images.pexels.com/photos/5192876/pexels-photo-5192876.jpeg",
-  kilometros = "12,000",
-  ubicacion = "Buenos Aires, AR",
-  descripcion = "Mantenimiento al día. Color original. Algunos detalles estéticos mínimos.",
-  destacado = true, 
+  marca = "",
+  modelo = "", 
+  año = "",
+  precio = "",
+  imagen = "",
+  kilometros = "",
+  ubicacion = "",
+  descripcion = "",
+  destacado = false, 
   stock = true
 }) => {
   const navigate = useNavigate(); 

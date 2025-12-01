@@ -14,12 +14,16 @@ const AdminPanel = () => {
     eliminarUsuarioSuspendido,
     editarUsuario,
     agregarProducto,
+    editarProducto,
+    eliminarProducto,
     sincronizarConAPI,
   } = useUser();
 
   const [vistaActiva, setVistaActiva] = useState("usuarios");
   const [usuarioEditando, setUsuarioEditando] = useState(null);
+  const [productoEditando, setProductoEditando] = useState(null);
   const [mostrarFormProducto, setMostrarFormProducto] = useState(false);
+  const [modoFormularioProducto, setModoFormularioProducto] = useState("agregar"); // "agregar" o "editar"
 
   const manejarSincronizacion = async () => {
     const resultado = await sincronizarConAPI();
@@ -38,79 +42,295 @@ const AdminPanel = () => {
   }
 
   const FormularioProducto = () => {
+    const esEdicion = modoFormularioProducto === "editar";
+    const producto = esEdicion ? productoEditando : null;
+    
     const [datosFormulario, setDatosFormulario] = useState({
-      nombre: "",
-      precio: "",
-      descripcion: "",
-      categoria: "",
+      nombre: producto?.nombre || "",
+      precio: producto?.precio || "",
+      descripcion: producto?.descripcion || "",
+      categoria: producto?.categoria || "",
+      marca: producto?.marca || "",
+      modelo: producto?.modelo || "",
+      año: producto?.año || "",
+      kilometros: producto?.kilometros || "",
+      ubicacion: producto?.ubicacion || "",
+      imagen: producto?.imagen || "",
+      destacado: producto?.destacado || false,
+      stock: producto?.stock !== undefined ? producto.stock : true
     });
+
+    const [errorImagen, setErrorImagen] = useState(false);
 
     const manejarEnvio = (e) => {
       e.preventDefault();
-      agregarProducto(datosFormulario);
+      
+      if (esEdicion) {
+        editarProducto(productoEditando.id, datosFormulario);
+      } else {
+        agregarProducto(datosFormulario);
+      }
+      
+      cerrarFormulario();
+    };
+
+    const cerrarFormulario = () => {
       setMostrarFormProducto(false);
-      setDatosFormulario({ nombre: "", precio: "", descripcion: "", categoria: "" });
+      setProductoEditando(null);
+      setModoFormularioProducto("agregar");
+      setDatosFormulario({ 
+        nombre: "", 
+        precio: "", 
+        descripcion: "", 
+        categoria: "", 
+        marca: "", 
+        modelo: "",
+        año: "",
+        kilometros: "",
+        ubicacion: "",
+        imagen: "",
+        destacado: false,
+        stock: true
+      });
+      setErrorImagen(false);
     };
 
     return (
       <div className="superposicion-formulario">
         <div className="contenedor-formulario">
-          <h3>Agregar Producto</h3>
+          <h3>{esEdicion ? "Editar Producto" : "Agregar Producto"}</h3>
           <form onSubmit={manejarEnvio}>
-            <input
-              type="text"
-              placeholder="Nombre"
-              value={datosFormulario.nombre}
-              onChange={(e) =>
-                setDatosFormulario({
-                  ...datosFormulario,
-                  nombre: e.target.value,
-                })
-              }
-              required
-            />
-            <input
-              type="number"
-              placeholder="Precio"
-              value={datosFormulario.precio}
-              onChange={(e) =>
-                setDatosFormulario({
-                  ...datosFormulario,
-                  precio: e.target.value,
-                })
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Categoría"
-              value={datosFormulario.categoria}
-              onChange={(e) =>
-                setDatosFormulario({
-                  ...datosFormulario,
-                  categoria: e.target.value,
-                })
-              }
-              required
-            />
-            <textarea
-              placeholder="Descripción"
-              value={datosFormulario.descripcion}
-              onChange={(e) =>
-                setDatosFormulario({
-                  ...datosFormulario,
-                  descripcion: e.target.value,
-                })
-              }
-              required
-            />
+            <div className="campo-formulario">
+              <label htmlFor="nombre">Nombre del producto *</label>
+              <input
+                id="nombre"
+                type="text"
+                placeholder="Ejm: Motocicleta Yamaha MT-07"
+                value={datosFormulario.nombre}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    nombre: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="precio">Precio (USD) *</label>
+              <input
+                id="precio"
+                type="number"
+                placeholder="Ejm: 999.99"
+                value={datosFormulario.precio}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    precio: e.target.value,
+                  })
+                }
+                required
+                min="0"
+                step="0.01"
+              />
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="categoria">Categoría *</label>
+              <input
+                id="categoria"
+                type="text"
+                placeholder="Ejm: Motocicletas, Accesorios, Repuestos"
+                value={datosFormulario.categoria}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    categoria: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="imagen">URL de la imagen *</label>
+              <input
+                id="imagen"
+                type="url"
+                placeholder="https://ejemplo.com/imagen.jpg"
+                value={datosFormulario.imagen}
+                onChange={(e) => {
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    imagen: e.target.value,
+                  });
+                  setErrorImagen(false);
+                }}
+                required
+              />
+              {datosFormulario.imagen && (
+                <div className="vista-previa-imagen">
+                  {errorImagen ? (
+                    <div className="fallback-imagen">
+                      ❌ Error al cargar la imagen
+                    </div>
+                  ) : (
+                    <img 
+                      src={datosFormulario.imagen} 
+                      alt="Vista previa" 
+                      onError={() => setErrorImagen(true)}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="grid-campos">
+              <div className="campo-formulario">
+                <label htmlFor="marca">Marca *</label>
+                <input
+                  id="marca"
+                  type="text"
+                  placeholder="Ejm: Yamaha, Honda, Kawasaki"
+                  value={datosFormulario.marca}
+                  onChange={(e) =>
+                    setDatosFormulario({
+                      ...datosFormulario,
+                      marca: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="campo-formulario">
+                <label htmlFor="modelo">Modelo *</label>
+                <input
+                  id="modelo"
+                  type="text"
+                  placeholder="Ejm: MT-07, CBR 600RR, Ninja 400"
+                  value={datosFormulario.modelo}
+                  onChange={(e) =>
+                    setDatosFormulario({
+                      ...datosFormulario,
+                      modelo: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="grid-campos">
+              <div className="campo-formulario">
+                <label htmlFor="año">Año</label>
+                <input
+                  id="año"
+                  type="text"
+                  placeholder="Ejm: 2023"
+                  value={datosFormulario.año}
+                  onChange={(e) =>
+                    setDatosFormulario({
+                      ...datosFormulario,
+                      año: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div className="campo-formulario">
+                <label htmlFor="kilometros">Kilómetros</label>
+                <input
+                  id="kilometros"
+                  type="text"
+                  placeholder="Ejm: 15,000 km"
+                  value={datosFormulario.kilometros}
+                  onChange={(e) =>
+                    setDatosFormulario({
+                      ...datosFormulario,
+                      kilometros: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="ubicacion">Ubicación</label>
+              <input
+                id="ubicacion"
+                type="text"
+                placeholder="Ejm: Buenos Aires, Argentina"
+                value={datosFormulario.ubicacion}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    ubicacion: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="descripcion">Descripción *</label>
+              <textarea
+                id="descripcion"
+                placeholder="Descripción detallada del producto, características, especificaciones técnicas..."
+                value={datosFormulario.descripcion}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    descripcion: e.target.value,
+                  })
+                }
+                required
+                rows="4"
+              />
+            </div>
+
+            <div className="grid-campos">
+              <div className="campo-formulario">
+                <label htmlFor="destacado" className="checkbox-label">
+                  <input
+                    id="destacado"
+                    type="checkbox"
+                    checked={datosFormulario.destacado}
+                    onChange={(e) =>
+                      setDatosFormulario({
+                        ...datosFormulario,
+                        destacado: e.target.checked,
+                      })
+                    }
+                  />
+                  <span>Producto destacado</span>
+                </label>
+              </div>
+
+              <div className="campo-formulario">
+                <label htmlFor="stock" className="checkbox-label">
+                  <input
+                    id="stock"
+                    type="checkbox"
+                    checked={datosFormulario.stock}
+                    onChange={(e) =>
+                      setDatosFormulario({
+                        ...datosFormulario,
+                        stock: e.target.checked,
+                      })
+                    }
+                  />
+                  <span>En stock</span>
+                </label>
+              </div>
+            </div>
+
             <div className="botones-formulario">
-              <button type="submit">Agregar</button>
-              <button
-                type="button"
-                onClick={() => setMostrarFormProducto(false)}
-              >
-                Cancelar
+              <button type="submit" className="boton-guardar">
+                {esEdicion ? "💾 Guardar Cambios" : "➕ Agregar Producto"}
+              </button>
+              <button type="button" onClick={cerrarFormulario} className="boton-cancelar">
+                ❌ Cancelar
               </button>
             </div>
           </form>
@@ -138,55 +358,112 @@ const AdminPanel = () => {
         <div className="contenedor-formulario">
           <h3>Editar Usuario</h3>
           <form onSubmit={manejarEnvio}>
-            <input
-              type="text"
-              value={datosFormulario.nombreDeUsuario}
-              onChange={(e) =>
-                setDatosFormulario({
-                  ...datosFormulario,
-                  nombreDeUsuario: e.target.value,
-                })
-              }
-              required
-            />
-            <input
-              type="email"
-              value={datosFormulario.email}
-              onChange={(e) =>
-                setDatosFormulario({
-                  ...datosFormulario,
-                  email: e.target.value,
-                })
-              }
-              required
-            />
-            <input
-              type="text"
-              value={datosFormulario.pais}
-              onChange={(e) =>
-                setDatosFormulario({ ...datosFormulario, pais: e.target.value })
-              }
-              required
-            />
-            <input
-              type="date"
-              value={datosFormulario.fechaNacimiento}
-              onChange={(e) =>
-                setDatosFormulario({
-                  ...datosFormulario,
-                  fechaNacimiento: e.target.value,
-                })
-              }
-              required
-            />
+            <div className="campo-formulario">
+              <label htmlFor="nombreUsuario">Nombre de usuario *</label>
+              <input
+                id="nombreUsuario"
+                type="text"
+                value={datosFormulario.nombreDeUsuario}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    nombreDeUsuario: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="emailUsuario">Email *</label>
+              <input
+                id="emailUsuario"
+                type="email"
+                value={datosFormulario.email}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    email: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="paisUsuario">País *</label>
+              <input
+                id="paisUsuario"
+                type="text"
+                value={datosFormulario.pais}
+                onChange={(e) =>
+                  setDatosFormulario({ ...datosFormulario, pais: e.target.value })
+                }
+                required
+              />
+            </div>
+
+            <div className="campo-formulario">
+              <label htmlFor="fechaNacimiento">Fecha de nacimiento *</label>
+              <input
+                id="fechaNacimiento"
+                type="date"
+                value={datosFormulario.fechaNacimiento}
+                onChange={(e) =>
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    fechaNacimiento: e.target.value,
+                  })
+                }
+                required
+              />
+            </div>
+
             <div className="botones-formulario">
-              <button type="submit">Guardar</button>
-              <button type="button" onClick={() => setUsuarioEditando(null)}>
-                Cancelar
+              <button type="submit" className="boton-guardar">
+                💾 Guardar Cambios
+              </button>
+              <button type="button" onClick={() => setUsuarioEditando(null)} className="boton-cancelar">
+                ❌ Cancelar
               </button>
             </div>
           </form>
         </div>
+      </div>
+    );
+  };
+
+  const manejarEditarProducto = (producto) => {
+    setProductoEditando(producto);
+    setModoFormularioProducto("editar");
+    setMostrarFormProducto(true);
+  };
+
+  const manejarEliminarProducto = async (id) => {
+    await eliminarProducto(id);
+  };
+
+  // Componente para mostrar imagen en tabla
+  const ImagenProducto = ({ imagen, nombre }) => {
+    const [error, setError] = useState(false);
+
+    if (!imagen) {
+      return <span className="sin-imagen">📷 Sin imagen</span>;
+    }
+
+    return (
+      <div className="contenedor-imagen-tabla">
+        {error ? (
+          <div className="imagen-error">❌ Error</div>
+        ) : (
+          <img 
+            src={imagen} 
+            alt={nombre} 
+            onError={() => setError(true)}
+            onClick={() => window.open(imagen, '_blank')}
+            title="Click para ver imagen completa"
+          />
+        )}
       </div>
     );
   };
@@ -200,21 +477,21 @@ const AdminPanel = () => {
             className={vistaActiva === "usuarios" ? "btn-activo" : ""}
             onClick={() => setVistaActiva("usuarios")}
           >
-            Usuarios ({usuarios.length})
+            👤 Usuarios ({usuarios.length})
           </button>
 
           <button
             className={vistaActiva === "suspendidos" ? "btn-activo" : ""}
             onClick={() => setVistaActiva("suspendidos")}
           >
-            Suspendidos ({usuariosSuspendidos.length})
+            ⚠️ Suspendidos ({usuariosSuspendidos.length})
           </button>
 
           <button
             className={vistaActiva === "productos" ? "btn-activo" : ""}
             onClick={() => setVistaActiva("productos")}
           >
-            Productos ({productos.length})
+            📦 Productos ({productos.length})
           </button>
 
           <button
@@ -227,20 +504,36 @@ const AdminPanel = () => {
 
         <div className="controles-encabezado">
           <button className="boton-sincronizar" onClick={manejarSincronizacion}>
-            🔄 Sincronizar
+            🔄 Sincronizar con API
           </button>
         </div>
       </header>
 
       {vistaActiva === "usuarios" && (
         <div className="contenedor-tabla">
-          <h2>Usuarios Activos</h2>
+          <h2>👥 Usuarios Activos</h2>
+          <div className="tabla-resumen">
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">{usuarios.filter(u => u.role === 'admin').length}</span>
+              <span className="texto-resumen">Administradores</span>
+            </div>
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">{usuarios.filter(u => u.role === 'user').length}</span>
+              <span className="texto-resumen">Usuarios Normales</span>
+            </div>
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">{usuarios.length}</span>
+              <span className="texto-resumen">Total Activos</span>
+            </div>
+          </div>
+          
           <div className="tabla-responsive">
             <table className="tabla-administracion">
               <thead>
                 <tr>
                   <th>Usuario</th>
                   <th>Email</th>
+                  <th>Rol</th>
                   <th>País</th>
                   <th>Fecha Nac</th>
                   <th>Acciones</th>
@@ -249,24 +542,37 @@ const AdminPanel = () => {
               <tbody>
                 {usuarios.map((u) => (
                   <tr key={u.id}>
-                    <td data-label="Usuario">{u.nombreDeUsuario}</td>
+                    <td data-label="Usuario">
+                      <div className="info-usuario">
+                        <span className="nombre-usuario">{u.nombreDeUsuario}</span>
+                      </div>
+                    </td>
                     <td data-label="Email">{u.email}</td>
-                    <td data-label="País">{u.pais}</td>
+                    <td data-label="Rol">
+                      <span className={`badge-rol ${u.role === 'admin' ? 'badge-admin' : 'badge-user'}`}>
+                        {u.role === 'admin' ? '👑 Admin' : '👤 Usuario'}
+                      </span>
+                    </td>
+                    <td data-label="País">{u.pais || 'No especificado'}</td>
                     <td data-label="Fecha Nac">{new Date(u.fechaNacimiento).toLocaleDateString()}</td>
                     <td data-label="Acciones">
                       <div className="acciones">
                         <button 
                           className="boton-editar"
                           onClick={() => setUsuarioEditando(u)}
+                          title="Editar usuario"
                         >
-                          Editar
+                          ✏️ Editar
                         </button>
-                        <button 
-                          className="boton-suspender"
-                          onClick={() => suspenderUsuario(u.id)}
-                        >
-                          Suspender
-                        </button>
+                        {u.role !== 'admin' && (
+                          <button 
+                            className="boton-suspender"
+                            onClick={() => suspenderUsuario(u.id)}
+                            title="Suspender usuario"
+                          >
+                            ⚠️ Suspender
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -275,7 +581,7 @@ const AdminPanel = () => {
             </table>
             {usuarios.length === 0 && (
               <div className="sin-datos">
-                No hay usuarios activos
+                📭 No hay usuarios activos en el sistema
               </div>
             )}
           </div>
@@ -284,7 +590,25 @@ const AdminPanel = () => {
 
       {vistaActiva === "suspendidos" && (
         <div className="contenedor-tabla">
-          <h2>Usuarios Suspendidos</h2>
+          <h2>⚠️ Usuarios Suspendidos</h2>
+          <div className="tabla-resumen">
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">{usuariosSuspendidos.length}</span>
+              <span className="texto-resumen">Total Suspendidos</span>
+            </div>
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">
+                {usuariosSuspendidos.filter(u => {
+                  const fechaSuspension = new Date(u.fechaSuspension);
+                  const hoy = new Date();
+                  const diffDias = Math.floor((hoy - fechaSuspension) / (1000 * 60 * 60 * 24));
+                  return diffDias > 30;
+                }).length}
+              </span>
+              <span className="texto-resumen">Más de 30 días</span>
+            </div>
+          </div>
+          
           <div className="tabla-responsive">
             <table className="tabla-administracion">
               <thead>
@@ -292,38 +616,57 @@ const AdminPanel = () => {
                   <th>Usuario</th>
                   <th>Email</th>
                   <th>Fecha Suspensión</th>
+                  <th>Días Suspendido</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {usuariosSuspendidos.map((u) => (
-                  <tr key={u.id}>
-                    <td data-label="Usuario">{u.nombreDeUsuario}</td>
-                    <td data-label="Email">{u.email}</td>
-                    <td data-label="Fecha Suspensión">{new Date(u.fechaSuspension).toLocaleDateString()}</td>
-                    <td data-label="Acciones">
-                      <div className="acciones">
-                        <button 
-                          className="boton-reactivar"
-                          onClick={() => reactivarUsuario(u.id)}
-                        >
-                          Reactivar
-                        </button>
-                        <button 
-                          className="boton-eliminar"
-                          onClick={() => eliminarUsuarioSuspendido(u.id)}
-                        >
-                          Eliminar
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {usuariosSuspendidos.map((u) => {
+                  const fechaSuspension = new Date(u.fechaSuspension);
+                  const hoy = new Date();
+                  const diffDias = Math.floor((hoy - fechaSuspension) / (1000 * 60 * 60 * 24));
+                  
+                  return (
+                    <tr key={u.id}>
+                      <td data-label="Usuario">
+                        <div className="info-usuario">
+                          <span className="nombre-usuario">{u.nombreDeUsuario}</span>
+                          <span className="rol-usuario">{u.role}</span>
+                        </div>
+                      </td>
+                      <td data-label="Email">{u.email}</td>
+                      <td data-label="Fecha Suspensión">{fechaSuspension.toLocaleDateString()}</td>
+                      <td data-label="Días Suspendido">
+                        <span className={`badge-dias ${diffDias > 30 ? 'badge-peligro' : 'badge-advertencia'}`}>
+                          {diffDias} días
+                        </span>
+                      </td>
+                      <td data-label="Acciones">
+                        <div className="acciones">
+                          <button 
+                            className="boton-reactivar"
+                            onClick={() => reactivarUsuario(u.id)}
+                            title="Reactivar usuario"
+                          >
+                            ✅ Reactivar
+                          </button>
+                          <button 
+                            className="boton-eliminar"
+                            onClick={() => eliminarUsuarioSuspendido(u.id)}
+                            title="Eliminar permanentemente"
+                          >
+                            🗑️ Eliminar
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             {usuariosSuspendidos.length === 0 && (
               <div className="sin-datos">
-                No hay usuarios suspendidos
+                ✅ No hay usuarios suspendidos
               </div>
             )}
           </div>
@@ -333,38 +676,137 @@ const AdminPanel = () => {
       {vistaActiva === "productos" && (
         <div className="contenedor-tabla">
           <div className="encabezado-productos">
-            <h2>Productos</h2>
+            <h2>📦 Gestión de Productos</h2>
             <button 
               className="boton-agregar"
-              onClick={() => setMostrarFormProducto(true)}
+              onClick={() => {
+                setModoFormularioProducto("agregar");
+                setMostrarFormProducto(true);
+              }}
             >
-              + Agregar Producto
+              ➕ Agregar Producto
             </button>
           </div>
+          
+          <div className="tabla-resumen">
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">{productos.length}</span>
+              <span className="texto-resumen">Total Productos</span>
+            </div>
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">
+                ${productos.reduce((total, p) => total + (parseFloat(p.precio) || 0), 0).toFixed(2)}
+              </span>
+              <span className="texto-resumen">Valor Total</span>
+            </div>
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">
+                {productos.filter(p => p.destacado).length}
+              </span>
+              <span className="texto-resumen">Destacados</span>
+            </div>
+            <div className="tarjeta-resumen">
+              <span className="numero-resumen">
+                {productos.filter(p => p.stock).length}
+              </span>
+              <span className="texto-resumen">En Stock</span>
+            </div>
+          </div>
+          
           <div className="tabla-responsive">
             <table className="tabla-administracion">
               <thead>
                 <tr>
+                  <th>Imagen</th>
                   <th>Nombre</th>
                   <th>Precio</th>
                   <th>Categoría</th>
-                  <th>Fecha</th>
+                  <th>Marca/Modelo</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {productos.map((p) => (
                   <tr key={p.id}>
-                    <td data-label="Nombre">{p.nombre}</td>
-                    <td data-label="Precio">${p.precio}</td>
-                    <td data-label="Categoría">{p.categoria}</td>
-                    <td data-label="Fecha">{new Date(p.fechaCreacion).toLocaleDateString()}</td>
+                    <td data-label="Imagen">
+                      <ImagenProducto imagen={p.imagen} nombre={p.nombre} />
+                    </td>
+                    <td data-label="Nombre">
+                      <div className="info-producto">
+                        <strong className="nombre-producto">{p.nombre}</strong>
+                        <div className="detalles-adicionales">
+                          {p.año && <span className="detalle">📅 {p.año}</span>}
+                          {p.kilometros && <span className="detalle">📏 {p.kilometros}</span>}
+                          {p.ubicacion && <span className="detalle">📍 {p.ubicacion}</span>}
+                        </div>
+                        {p.descripcion && (
+                          <div className="descripcion-corta" title={p.descripcion}>
+                            {p.descripcion.length > 60 
+                              ? `${p.descripcion.substring(0, 60)}...` 
+                              : p.descripcion}
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                    <td data-label="Precio">
+                      <span className="precio-producto">
+                        ${parseFloat(p.precio).toFixed(2)}
+                      </span>
+                    </td>
+                    <td data-label="Categoría">
+                      <span className="badge-categoria">{p.categoria}</span>
+                    </td>
+                    <td data-label="Marca/Modelo">
+                      <div className="marca-modelo">
+                        <span className="marca">{p.marca}</span>
+                        <span className="modelo">{p.modelo}</span>
+                      </div>
+                    </td>
+                    <td data-label="Estado">
+                      <div className="estados-producto">
+                        {p.destacado && (
+                          <span className="badge-destacado" title="Producto destacado">
+                            ⭐ Destacado
+                          </span>
+                        )}
+                        {!p.stock && (
+                          <span className="badge-sin-stock" title="Sin stock">
+                            ⛔ Sin stock
+                          </span>
+                        )}
+                        {p.stock && !p.destacado && (
+                          <span className="badge-normal" title="Disponible">
+                            ✅ Disponible
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td data-label="Acciones">
+                      <div className="acciones">
+                        <button 
+                          className="boton-editar"
+                          onClick={() => manejarEditarProducto(p)}
+                          title="Editar producto"
+                        >
+                          ✏️ Editar
+                        </button>
+                        <button 
+                          className="boton-eliminar"
+                          onClick={() => manejarEliminarProducto(p.id)}
+                          title="Eliminar producto"
+                        >
+                          🗑️ Eliminar
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             {productos.length === 0 && (
               <div className="sin-datos">
-                No hay productos registrados
+                📦 No hay productos registrados. ¡Agrega el primero!
               </div>
             )}
           </div>
