@@ -3,6 +3,8 @@ import "./Suscripcion.css";
 import emailjs from "@emailjs/browser";
 import { Toaster } from "react-hot-toast";
 import { Modal, Button } from "react-bootstrap";
+import { CircleDashed } from "lucide-react";
+
 
 
 
@@ -115,7 +117,10 @@ const Suscripcion = () => {
             <Toaster position="top-right" />
             <div className="form-container">
                 <form ref={form} onSubmit={sendEmail} className="subscription-form">
-                    <h2 className="suscribete ">Suscríbete</h2>
+                    <h2 className="suscribete">
+                        Suscríbete a Rolling Motors 🛞
+                    </h2>
+
 
                     <input type="text" name="user_name" placeholder="Nombre" />
                     {renderError(errores.nombre)}
@@ -165,11 +170,17 @@ const Suscripcion = () => {
                     backdropFilter: "blur(10px)"
                 }}>
                     <Modal.Header closeButton closeVariant="white">
-                        <Modal.Title>Suscripción Premium VIP</Modal.Title>
+                        <Modal.Title style={{ color: "black", fontWeight: "bold" }}>
+                            Suscripción Premium <span style={{ color: "#eee605" }}>VIP</span>
+                        </Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
-                        <h5>Beneficios Exclusivos:</h5>
+                        <h5 className="" style={{ color: "black", fontWeight: "bold" }}>
+                            Beneficios Exclusivos:
+                        </h5>
+
+
                         <ul>
                             <li>⭐ Acceso a ofertas flash</li>
                             <li>⭐ Descuentos exclusivos del 20%</li>
