@@ -31,7 +31,7 @@ const ListaProductos = () => {
   }
 
   return (
-    <div className="contenedor-lista-productos">
+    <div className="contenedor-lista-productos mt-5 ">
       <Row className="g-4">
         {productosFiltrados.map(producto => (
           <Col key={producto.id} xs={12} sm={6} lg={4} xl={3}>

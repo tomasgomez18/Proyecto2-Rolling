@@ -1,122 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { useProductos } from '../../../../Context/ContextoProducto';
-import CardProducto from './card-Producto/CardProducto';
-import './Lista-Productos/ListaProducto.css';
+import React from 'react';
+import { Container } from 'react-bootstrap';
+import BuscadorProducto from './componenteBuscarProducto/BuscadorProducto';
+import ListaProductos from './Lista-Productos/ListaProductos';
+import './PaginaProductos.css';
 
-const ListaProductos = () => {
-  const { productos, cargando, filtros, actualizarFiltros, limpiarFiltros } = useProductos();
-  const [productosFiltrados, setProductosFiltrados] = useState([]);
-
-  useEffect(() => {
-    if (productos) {
-      const filtrados = productos.filter(producto => {
-        // Filtro por categoría
-        if (filtros.categoria && producto.categoria !== filtros.categoria) {
-          return false;
-        }
-        
-        // Filtro por búsqueda
-        if (filtros.terminoBusqueda) {
-          const termino = filtros.terminoBusqueda.toLowerCase();
-          const coincideNombre = producto.nombre?.toLowerCase().includes(termino);
-          const coincideMarca = producto.marca?.toLowerCase().includes(termino);
-          const coincideModelo = producto.modelo?.toLowerCase().includes(termino);
-          const coincideDescripcion = producto.descripcion?.toLowerCase().includes(termino);
-          
-          if (!(coincideNombre || coincideMarca || coincideModelo || coincideDescripcion)) {
-            return false;
-          }
-        }
-        
-        // Filtro por precio
-        if (filtros.precioMin && parseFloat(producto.precio) < parseFloat(filtros.precioMin)) {
-          return false;
-        }
-        if (filtros.precioMax && parseFloat(producto.precio) > parseFloat(filtros.precioMax)) {
-          return false;
-        }
-        
-        // Filtro por marca
-        if (filtros.marca && producto.marca !== filtros.marca) {
-          return false;
-        }
-        
-        // Filtro por stock
-        if (filtros.soloStock && !producto.stock) {
-          return false;
-        }
-        
-        return true;
-      });
-      
-      setProductosFiltrados(filtrados);
-    }
-  }, [productos, filtros]);
-
-  if (cargando) {
-    return <div className="cargando-productos">Cargando productos...</div>;
-  }
-
+const PaginaProductos = () => {
   return (
-    <div className="contenedor-productos">
-      {/* Filtros */}
-      <div className="filtros-productos">
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          value={filtros.terminoBusqueda}
-          onChange={(e) => actualizarFiltros({ terminoBusqueda: e.target.value })}
-        />
-        
-        <select
-          value={filtros.categoria}
-          onChange={(e) => actualizarFiltros({ categoria: e.target.value })}
-        >
-          <option value="">Todas las categorías</option>
-          {[...new Set(productos.map(p => p.categoria))].map(categoria => (
-            <option key={categoria} value={categoria}>{categoria}</option>
-          ))}
-        </select>
-        
-        <select
-          value={filtros.marca}
-          onChange={(e) => actualizarFiltros({ marca: e.target.value })}
-        >
-          <option value="">Todas las marcas</option>
-          {[...new Set(productos.map(p => p.marca))].map(marca => (
-            <option key={marca} value={marca}>{marca}</option>
-          ))}
-        </select>
-        
-        <button onClick={limpiarFiltros}>Limpiar filtros</button>
+    <Container fluid className="pagina-productos mt-5 py-5">
+
+      <div className="contenido-principal">
+        <div className="seccion-buscador">
+          <div className="encabezado-buscador">
+            <h2 className="titulo-seccion">
+              Encuentra Tu Classic
+            </h2>
+            <p className="descripcion-seccion">
+              Filtra y encuentra la motocicleta que se adapte a tu estilo de vida
+            </p>
+          </div>
+          <BuscadorProducto />
+        </div>
+
+        <div className="seccion-lista-productos">
+          <div className="encabezado-lista">
+            <h2 className="titulo-seccion">
+              <span className="icono-titulo">⭐</span>
+              Nuestro Catálogo
+            </h2>
+            <p className="descripcion-seccion">
+              Colección de motocicletas Royal Enfield disponibles
+            </p>
+          </div>
+          <ListaProductos />
+        </div>
       </div>
 
-      {/* Lista de productos */}
-      <div className="grid-productos">
-        {productosFiltrados.map((producto) => (
-          <CardProducto
-            key={producto.id}
-            marca={producto.marca}
-            modelo={producto.modelo}
-            año={producto.año}
-            precio={producto.precio}
-            imagen={producto.imagen}
-            kilometros={producto.kilometros}
-            ubicacion={producto.ubicacion}
-            descripcion={producto.descripcion}
-            destacado={producto.destacado}
-            stock={producto.stock}
-          />
-        ))}
-      </div>
-      
-      {productosFiltrados.length === 0 && (
-        <div className="sin-resultados">
-          No se encontraron productos que coincidan con los filtros.
+      <div className="informacion-adicional">
+        <div className="tarjeta-informativa">
+          <div className="icono-tarjeta">👨‍🔧</div>
+          <h3>Asesoría Especializada</h3>
+          <p className="texto-tarjeta">
+            Nuestros expertos en motocicletas clásicas están listos para ayudarte 
+            a encontrar la Royal Enfield perfecta para ti.
+          </p>
+          <button className="boton-contacto">
+            <span className="texto-boton">Contactar Concesionario</span>
+            <span className="icono-boton">→</span>
+          </button>
         </div>
-      )}
-    </div>
+      </div>
+    </Container>
   );
 };
 
-export default ListaProductos;
+export default PaginaProductos;
