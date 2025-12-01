@@ -190,5 +190,17 @@ body {
 .btn-premium:hover {
     background: #b99716;
 }
+.suscribete {
+    color: #ebe0a2; 
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: default; 
+}
+
+
 
 

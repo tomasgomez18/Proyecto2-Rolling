@@ -234,7 +234,7 @@ const Suscripcion = () => {
                 backdrop="static"
             >
                 <div style={{
-                    background: "rgba(0,0,0,0.8)",
+                    background: "rgba(22, 0, 0, 0.8)",
                     color: "#f5f5dc",
                     borderRadius: "10px",
                     padding: "20px",
@@ -246,9 +246,13 @@ const Suscripcion = () => {
                         <p>Gracias por suscribirte a nuestro plan VIP.</p>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowConfirm(false)}>
+                        <Button
+                            style={{ backgroundColor: "#000", color: "#fff", border: "none" }}
+                            onClick={() => setShowConfirm(false)}
+                        >
                             Cerrar
                         </Button>
+
                     </Modal.Footer>
                 </div>
             </Modal>
