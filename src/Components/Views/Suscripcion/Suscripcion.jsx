@@ -105,7 +105,7 @@ const Suscripcion = () => {
                     <input type="text" name="last_name" placeholder="Apellido" />
                     {renderError(errores.apellido)}
 
-                    <input type="email" name="user_email" placeholder="Correo Gmail" />
+                    <input type="email" name="user_email" placeholder="Gmail" />
                     {renderError(errores.email)}
 
                     {errorGeneral && <div className="errorGeneral animar-error">{errorGeneral}</div>}
@@ -235,7 +235,7 @@ const Suscripcion = () => {
                 backdrop="static"
             >
                 <div style={{
-                    background: "rgba(22, 0, 0, 0.8)",
+                    background: "rgba(25, 24, 24, 0.8)",
                     color: "#f5f5dc",
                     borderRadius: "10px",
                     padding: "20px",

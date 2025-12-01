@@ -30,7 +30,7 @@ body {
     max-width: 400px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
     text-align: center;
-    color: white;
+    color: rgb(71, 67, 67);
     transition: all 0.3s ease;
 }
 
@@ -200,7 +200,102 @@ body {
     letter-spacing: 1px;
     cursor: default; 
 }
+.subscription-form input {
+    background: rgba(0,0,0,0.7);        /* Mismo fondo del modal */
+    backdrop-filter: blur(10px);        /* Mismo blur suave */
+    color: #fff;
+    border: 1px solid #eee605;          /* Amarillo de tu paleta */
+    padding: 12px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+/* Placeholder más suave */
+.subscription-form input::placeholder {
+    color: #f5f5dcaa;
+}
+/* Fondo cuando el navegador completa automáticamente */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px rgba(0,0,0,0.7) inset !important;
+    -webkit-text-fill-color: #fff !important;
+    border: 1px solid #eee605 !important;
+}
+
+/* Lista de sugerencias del navegador */
+input::-webkit-autocomplete-list {
+    background: rgba(0,0,0,0.7) !important;   /* MISMO fondo que tu modal */
+    backdrop-filter: blur(10px) !important;   /* Blur igual que el modal */
+    color: #fff !important;
+    border: 1px solid #eee605;
+}
+
+/* Hover en cada sugerencia */
+input::-webkit-autocomplete-item:hover {
+    background: rgba(58, 58, 56, 0.15) !important;
+}
+
+/* Fondo del menú desplegable del select */
+select option {
+    background: rgba(0,0,0,0.7) !important;   /* Igual al modal */
+    backdrop-filter: blur(10px) !important;   /* Blur igual */
+    color: #fff !important;
+}
+
+/* Hover al pasar sobre una opción */
+select option:hover {
+    background: rgba(238,230,5,0.15) !important;  /* Amarillo suave */
+}
+
+/* Para navegadores que no aplican hover directamente */
+select:focus option:checked {
+    background: rgba(238,230,5,0.15) !important;
+}
+/* ============================================================
+   AUTOCOMPLETADO (inputs con sugerencias de Chrome)
+   ============================================================ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.7) inset !important;
+    -webkit-text-fill-color: #fff !important;
+    border: 1px solid #eee605 !important;
+}
 
 
+/* ============================================================
+   SELECT (método de pago)
+   ============================================================ */
+select {
+    background: rgba(0, 0, 0, 0.4) !important;
+    color: #ffffff !important;
+    border: 1px solid #eee605 !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-appearance: none;
+    appearance: none;
+}
 
+/* Todas las opciones */
+select option {
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: #ffffff !important;
+}
 
+/* Opción seleccionada (cuando el select está cerrado) */
+select option:checked {
+    background: rgba(0, 0, 0, 0.4) !important;
+    color: #ffffff !important;
+}
+
+/* Opción activa o hover */
+select option:hover,
+select option:active {
+    background: rgba(0, 0, 0, 0.4) !important;
+    color: #ffffff !important;
+}
+
+/* Opción deshabilitada (Selecciona un método) */
+select option[disabled] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #bbbbbb !important;
+}
