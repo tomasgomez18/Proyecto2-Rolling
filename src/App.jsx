@@ -12,7 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { UserStorage } from "./Componentes/Utils/UsuarioStorage";
 import { UserProvider } from "./Componentes/Context/ContextoUsuario";
-
+import { ProveedorProductos } from "./Componentes/Context/ContextoProducto";
 
 function App() {
   useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-
+    <ProveedorProductos>
       <UserProvider>
         <BrowserRouter>
           <Menu />
@@ -45,7 +45,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </UserProvider>
-
+</ProveedorProductos>
     </>
   );
 }

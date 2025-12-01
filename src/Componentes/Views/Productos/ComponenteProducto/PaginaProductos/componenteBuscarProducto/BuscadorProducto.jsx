@@ -21,7 +21,7 @@ const BuscadorProducto = () => {
       precioMax: filtros.precioMax,
       marca: filtros.marca,
       modelo: filtros.modelo
-    });
+    },[]);
   }, [filtros]);
 
   // Obtener marcas y modelos únicos para los selects
