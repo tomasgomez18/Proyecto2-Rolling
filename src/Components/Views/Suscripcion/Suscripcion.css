@@ -276,3 +276,13 @@ select option[disabled] {
     background: rgba(255, 255, 255, 0.05) !important;
     color: #bbbbbb !important;
 }
+.error {
+    color: #ffffff;        
+    margin-top: -10px;     
+    margin-bottom: 4px;    
+    font-size: 13px;
+    text-align: left;
+    padding-left: 1px;
+}
+
+
