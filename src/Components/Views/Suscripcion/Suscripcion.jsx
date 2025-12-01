@@ -6,25 +6,15 @@ import { Modal, Button } from "react-bootstrap";
 import { CircleDashed } from "lucide-react";
 
 
-
-
-
-
-
 const Suscripcion = () => {
     const form = useRef();
     const [mensajeEnviado, setMensajeEnviado] = useState(false);
     const [errores, setErrores] = useState({ nombre: "", apellido: "", email: "" });
     const [errorGeneral, setErrorGeneral] = useState("");
-
-
-
-
     const [showPremium, setShowPremium] = useState(false);
     const [metodoPago, setMetodoPago] = useState("");
     const [numeroTarjeta, setNumeroTarjeta] = useState("");
     const [aceptaLegal, setAceptaLegal] = useState(false);
-
     const [showConfirm, setShowConfirm] = useState(false);
 
     const sendEmail = (e) => {
@@ -117,16 +107,14 @@ const Suscripcion = () => {
             <Toaster position="top-right" />
             <div className="form-container">
                 <form ref={form} onSubmit={sendEmail} className="subscription-form">
-                    <h2 className="suscribete">
+                    <h2 className="suscribete" style={{ color: "black", display: "flex", alignItems: "center" }}>
                         Suscríbete a Rolling Motors
                         <CircleDashed
                             size={24}
                             strokeWidth={2}
-                            style={{ marginLeft: "8px", color: "#eee605" }}
+                            style={{ marginLeft: "8px", color: "black" }}
                         />
                     </h2>
-
-
 
                     <input type="text" name="user_name" placeholder="Nombre" />
                     {renderError(errores.nombre)}
@@ -160,8 +148,6 @@ const Suscripcion = () => {
                     )}
                 </form>
             </div>
-
-
             <Modal
                 show={showPremium}
                 onHide={() => setShowPremium(false)}
@@ -177,24 +163,19 @@ const Suscripcion = () => {
                 }}>
                     <Modal.Header closeButton closeVariant="white">
                         <Modal.Title style={{ color: "black", fontWeight: "bold" }}>
-                            Suscripción Premium <span style={{ color: "#eee605" }}>VIP</span>
+                            Suscripción Premium <span style={{ color: "#eee605" }}>VIP 🛞</span>
                         </Modal.Title>
                     </Modal.Header>
-
                     <Modal.Body>
                         <h5 className="" style={{ color: "black", fontWeight: "bold" }}>
                             Beneficios Exclusivos:
                         </h5>
-
-
                         <ul>
                             <li>⭐ Acceso a ofertas flash</li>
                             <li>⭐ Descuentos exclusivos del 20%</li>
                             <li>⭐ Envíos prioritarios</li>
                         </ul>
-
                         <hr style={{ borderColor: "#f5f5dc55" }} />
-
                         <h6>Método de pago:</h6>
                         <select
                             value={metodoPago}
@@ -214,8 +195,6 @@ const Suscripcion = () => {
                             <option value="paypal">PayPal</option>
                             <option value="transferencia">Transferencia bancaria</option>
                         </select>
-
-
                         {metodoPago === "tarjeta" && (
                             <input
                                 type="text"
@@ -231,8 +210,6 @@ const Suscripcion = () => {
                                 }}
                             />
                         )}
-
-
                         <div className="mt-3">
                             <input
                                 type="checkbox"
@@ -245,7 +222,6 @@ const Suscripcion = () => {
                             </label>
                         </div>
                     </Modal.Body>
-
                     <Modal.Footer>
                         <Button
                             style={{ backgroundColor: "#000", color: "#fff", border: "none" }}
@@ -253,8 +229,6 @@ const Suscripcion = () => {
                         >
                             Cancelar
                         </Button>
-
-
                         <Button
                             variant="warning"
                             style={{ color: "black", fontWeight: "bold" }}
@@ -271,7 +245,6 @@ const Suscripcion = () => {
                     </Modal.Footer>
                 </div>
             </Modal>
-
             <Modal
                 show={showConfirm}
                 onHide={() => setShowConfirm(false)}
@@ -287,7 +260,10 @@ const Suscripcion = () => {
                     textAlign: "center"
                 }}>
                     <Modal.Body>
-                        <h4>¡Suscripción Premium confirmada!</h4>
+                        <h4>
+                            ¡Suscripción Premium <span style={{ color: "#eee605", fontWeight: "bold" }}>confirmada</span>!
+                        </h4>
+
                         <p>Gracias por suscribirte a nuestro plan VIP.</p>
                     </Modal.Body>
                     <Modal.Footer>
