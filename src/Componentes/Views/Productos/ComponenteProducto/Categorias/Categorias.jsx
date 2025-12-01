@@ -28,16 +28,10 @@ const Categorias = () => {
     }
   });
 
-  // Función para manejar el click en las categorías
   const manejarClickCategoria = (categoria) => {
-    navigate('/productos', { 
-      state: { 
-        categoriaSeleccionada: categoria 
-      } 
-    });
+    navigate('/productos', { state: { categoriaSeleccionada: categoria } });
   };
 
-  // Función para manejar el click en el taller
   const manejarClickTaller = () => {
     navigate('/taller');
   };
@@ -46,25 +40,19 @@ const Categorias = () => {
     <div className="d-flex justify-content-center contenedor-principal">
       <div className="contenedor-tarjeta">
 
-        {/* Categoría Motocicletas */}
         <motion.div 
           {...animacionScroll} 
           {...animacionHover("izquierda")}
           onClick={() => manejarClickCategoria('motocicletas')}
           className="cursor-pointer"
         >
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover"
-            style={{ height: '330px' }}
-          >
+          <Card className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover altura-tarjeta">
             <div className="superposicion-hover"></div>
             <Row className="g-0 h-100 contenido-tarjeta">
               <Col md={6}>
                 <div
                   className="w-100 h-100 imagen-tarjeta"
-                  style={{
-                    backgroundImage: `url(${imgCard})`
-                  }}
+                  style={{ backgroundImage: `url(${imgCard})` }}
                 ></div>
               </Col>
               <Col md={6}>
@@ -82,17 +70,13 @@ const Categorias = () => {
           </Card>
         </motion.div>
 
-        {/* Categoría Protecciones */}
         <motion.div 
           {...animacionScroll} 
           {...animacionHover("derecha")}
           onClick={() => manejarClickCategoria('protecciones')}
           className="cursor-pointer"
         >
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover"
-            style={{ height: '330px' }}
-          >
+          <Card className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover altura-tarjeta">
             <div className="superposicion-hover"></div>
             <Row className="g-0 h-100 contenido-tarjeta">
               <Col md={6} className="order-2 order-md-1">
@@ -109,34 +93,26 @@ const Categorias = () => {
               <Col md={6} className="order-1 order-md-2">
                 <div
                   className="w-100 h-100 imagen-tarjeta"
-                  style={{
-                    backgroundImage: `url(${ImgCascos})`
-                  }}
+                  style={{ backgroundImage: `url(${ImgCascos})` }}
                 ></div>
               </Col>
             </Row>
           </Card>
         </motion.div>
 
-        {/* Categoría Indumentaria */}
         <motion.div 
           {...animacionScroll} 
           {...animacionHover("izquierda")}
           onClick={() => manejarClickCategoria('indumentaria')}
           className="cursor-pointer"
         >
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover"
-            style={{ height: '330px' }}
-          >
+          <Card className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover altura-tarjeta">
             <div className="superposicion-hover"></div>
             <Row className="g-0 h-100 contenido-tarjeta">
               <Col md={6}>
                 <div
                   className="w-100 h-100 imagen-tarjeta"
-                  style={{
-                    backgroundImage: `url(${ImgIndumentaria})`
-                  }}
+                  style={{ backgroundImage: `url(${ImgIndumentaria})` }}
                 ></div>
               </Col>
               <Col md={6}>
@@ -154,17 +130,14 @@ const Categorias = () => {
           </Card>
         </motion.div>
 
-        {/* Categoría Taller */}
+
         <motion.div 
           {...animacionScroll} 
           {...animacionHover("derecha")}
           onClick={manejarClickTaller}
           className="cursor-pointer"
         >
-          <Card
-            className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover"
-            style={{ height: '330px' }}
-          >
+          <Card className="p-0 border-0 shadow-sm overflow-hidden mb-4 tarjeta-hover altura-tarjeta">
             <div className="superposicion-hover"></div>
             <Row className="g-0 h-100 contenido-tarjeta">
               <Col md={6} className="order-2 order-md-1">
@@ -181,9 +154,7 @@ const Categorias = () => {
               <Col md={6} className="order-1 order-md-2">
                 <div
                   className="w-100 h-100 imagen-tarjeta"
-                  style={{
-                    backgroundImage: `url(${ImgTaller})`
-                  }}
+                  style={{ backgroundImage: `url(${ImgTaller})` }}
                 ></div>
               </Col>
             </Row>

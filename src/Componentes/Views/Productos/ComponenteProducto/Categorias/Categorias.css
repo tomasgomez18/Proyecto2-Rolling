@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-/* Contenedor principal */
 .contenedor-principal {
     width: 95%;
     max-width: 1200px;
@@ -12,14 +11,26 @@
     padding: 20px 0;
 }
 
-/* Contenedor de tarjetas */
+
 .contenedor-tarjeta {
     width: 100%;
     border-radius: 0;
     overflow: hidden;
+    margin-top: 100px;
 }
 
-/* Imágenes de las tarjetas */
+.altura-tarjeta {
+    height: 250px;
+}
+
+@media (max-width: 768px) {
+    .altura-tarjeta {
+        height: auto;
+        min-height: 230px;
+    }
+}
+
+
 .imagen-tarjeta {
     width: 100%;
     height: 100%;
@@ -34,7 +45,6 @@
     transition: transform 0.3s ease;
 }
 
-/* Efectos hover para las tarjetas */
 .tarjeta-hover {
     transition: all 0.3s ease;
     cursor: pointer;
@@ -51,7 +61,7 @@
     transform: scale(1.05);
 }
 
-/* Cuerpo de la tarjeta */
+
 .cuerpo-tarjeta {
     background-color: #dadcdfff !important;
     display: flex;
@@ -61,7 +71,6 @@
     height: 100%;
 }
 
-/* Títulos de las categorías */
 .titulo-categoria {
     font-size: 2.2rem;
     font-weight: 800;
@@ -71,7 +80,6 @@
     letter-spacing: 1px;
 }
 
-/* Texto descriptivo */
 .texto-descripcion {
     color: #5d6d7e !important;
     font-size: 1.1rem;
@@ -79,7 +87,6 @@
     margin-bottom: 2rem;
 }
 
-/* Botones personalizados */
 .boton-categoria {
     background: transparent;
     border: 2px solid #2c3e50;
@@ -99,7 +106,7 @@
     box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3);
 }
 
-/* Efecto de superposición al hacer hover */
+
 .superposicion-hover {
     position: absolute;
     top: 0;
@@ -122,13 +129,12 @@
     opacity: 1;
 }
 
-/* Asegurar que el contenido esté por encima de la superposición */
 .contenido-tarjeta {
     position: relative;
     z-index: 2;
 }
 
-/* Diseño responsivo */
+
 @media (max-width: 768px) {
     .titulo-categoria {
         font-size: 1.8rem;
@@ -146,16 +152,4 @@
         height: auto !important;
         min-height: 280px;
     }
-}
-
-/* Animaciones de scroll */
-.animacion-scroll {
-    opacity: 0;
-    transform: translateY(80px);
-}
-
-.animacion-scroll.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 1.1s ease-out;
 }
