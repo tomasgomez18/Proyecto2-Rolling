@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Card, Button, InputGroup } from 'react-bootstrap';
-import { useProductos } from '../Context/ContextoProducto';
+import { useProductos } from '../../../../../Context/ContextoProducto';
 import './BuscadorProductos.css';
 
 const BuscadorProducto = () => {
