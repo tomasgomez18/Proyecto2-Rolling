@@ -14,7 +14,7 @@ const PaginaProductos = () => {
     if (location.state?.categoriaSeleccionada) {
       actualizarFiltros({ 
         categoria: location.state.categoriaSeleccionada 
-      });
+      },[]);
     }
   }, [location.state, actualizarFiltros]);
 
