@@ -102,17 +102,9 @@ const Suscripcion = () => {
 
     const handleNumeroTarjeta = (e) => {
         let value = e.target.value;
-
-        // Quitar espacios
         value = value.replace(/\s+/g, '');
-
-        // Permitir solo números
         value = value.replace(/\D/g, '');
-
-        // Limitar a 16 dígitos
         value = value.slice(0, 16);
-
-        // Agregar espacios cada 4 dígitos
         value = value.replace(/(.{4})/g, '$1 ').trim();
 
         setNumeroTarjeta(value);
@@ -191,17 +183,21 @@ const Suscripcion = () => {
                             value={metodoPago}
                             onChange={(e) => setMetodoPago(e.target.value)}
                             style={{
-                                width: "100%",
-                                padding: "8px",
-                                borderRadius: "5px",
-                                marginTop: "10px"
+                                background: "rgba(0, 0, 0, 0.4)",
+                                color: "#ffffff",
+                                border: "1px solid #eee605",
+                                backdropFilter: "blur(6px)",
+                                padding: "12px",
+                                borderRadius: "8px",
+                                width: "100%"
                             }}
                         >
-                            <option value="">Selecciona un método</option>
+                            <option value="" disabled>Selecciona un método</option>
                             <option value="tarjeta">Tarjeta de crédito</option>
-                            <option value="paypal">Mercado Pago</option>
-                            <option value="cripto">Cripto</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="transferencia">Transferencia bancaria</option>
                         </select>
+
 
                         {metodoPago === "tarjeta" && (
                             <input
