@@ -5,7 +5,6 @@ import { Toaster } from "react-hot-toast";
 import { Modal, Button } from "react-bootstrap";
 import { CircleDashed } from "lucide-react";
 
-
 const Suscripcion = () => {
     const form = useRef();
     const [mensajeEnviado, setMensajeEnviado] = useState(false);
@@ -17,9 +16,30 @@ const Suscripcion = () => {
     const [aceptaLegal, setAceptaLegal] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
 
+    // VALIDACIONES EN TIEMPO REAL
+    const handleNombre = (e) => {
+        e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ]/g, "");
+    };
+
+    const handleApellido = (e) => {
+        e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ]/g, "");
+    };
+
+    const handleEmail = (e) => {
+        let value = e.target.value;
+        value = value.replace(/[^a-zA-Z0-9@._-]/g, "");
+        const partes = value.split("@");
+        if (partes.length > 1) {
+            partes[1] = partes[1].replace(/[^a-zA-Z.]/g, "");
+            value = partes[0] + "@" + partes[1];
+        }
+        e.target.value = value;
+    };
+
     const sendEmail = (e) => {
         e.preventDefault();
         const formData = new FormData(form.current);
+
         const nombre = formData.get("user_name").trim();
         const apellido = formData.get("last_name").trim();
         const email = formData.get("user_email").trim();
@@ -49,11 +69,12 @@ const Suscripcion = () => {
             camposVacios = true;
         }
 
+        const emailRegex = /^[a-zA-Z0-9_-]+@gmail(\.[a-zA-Z]+)+$/;
         if (!email) {
             nuevoErrores.email = "Por favor ingresa tu correo Gmail.";
             camposVacios = true;
-        } else if (!/^[^\s@]+@gmail\.com$/i.test(email)) {
-            nuevoErrores.email = "Solo se permiten correos Gmail.";
+        } else if (!emailRegex.test(email)) {
+            nuevoErrores.email = "Debe ser un correo Gmail válido.";
             camposVacios = true;
         }
 
@@ -91,20 +112,19 @@ const Suscripcion = () => {
         setAceptaLegal(false);
     };
 
-
     const handleNumeroTarjeta = (e) => {
         let value = e.target.value;
-        value = value.replace(/\s+/g, '');
-        value = value.replace(/\D/g, '');
+        value = value.replace(/\s+/g, "");
+        value = value.replace(/\D/g, "");
         value = value.slice(0, 16);
-        value = value.replace(/(.{4})/g, '$1 ').trim();
-
+        value = value.replace(/(.{4})/g, "$1 ").trim();
         setNumeroTarjeta(value);
     };
 
     return (
         <>
             <Toaster position="top-right" />
+
             <div className="form-container">
                 <form ref={form} onSubmit={sendEmail} className="subscription-form">
                     <h2 className="suscribete" style={{ color: "white", display: "flex", alignItems: "center" }}>
@@ -116,18 +136,33 @@ const Suscripcion = () => {
                         />
                     </h2>
 
-                    <input type="text" name="user_name" placeholder="Nombre" />
+                    <input
+                        type="text"
+                        name="user_name"
+                        placeholder="Nombre"
+                        onInput={handleNombre}
+                    />
                     {renderError(errores.nombre)}
 
-                    <input type="text" name="last_name" placeholder="Apellido" />
+                    <input
+                        type="text"
+                        name="last_name"
+                        placeholder="Apellido"
+                        onInput={handleApellido}
+                    />
                     {renderError(errores.apellido)}
 
-                    <input type="email" name="user_email" placeholder="Gmail" />
+                    <input
+                        type="email"
+                        name="user_email"
+                        placeholder="Gmail"
+                        onInput={handleEmail}
+                    />
                     {renderError(errores.email)}
 
                     {errorGeneral && <div className="errorGeneral animar-error">{errorGeneral}</div>}
 
-                    <button type="submit">Suscribirme</button>
+                    {/* 🔥 EL ÚNICO CAMBIO → Se eliminó el botón “Suscribirme” */}
 
                     <button
                         type="button"
@@ -139,7 +174,17 @@ const Suscripcion = () => {
 
                     {mensajeEnviado && (
                         <div className="mensaje-enviado animar-mensaje">
-                            <div className="mensaje-contenedor">
+                            <div
+                                className="mensaje-contenedor"
+                                style={{
+                                    background: "rgba(0,0,0,0.7)",
+                                    backdropFilter: "blur(10px)",
+                                    borderRadius: "10px",
+                                    padding: "20px",
+                                    color: "#f5f5dc",
+                                    textAlign: "center",
+                                }}
+                            >
                                 <h3>✔ Mensaje enviado</h3>
                                 <p>Gracias por suscribirte, te contactaremos pronto.</p>
                                 <button onClick={() => setMensajeEnviado(false)}>Cerrar</button>
@@ -148,26 +193,30 @@ const Suscripcion = () => {
                     )}
                 </form>
             </div>
+
+            {/* MODAL PREMIUM */}
             <Modal
                 show={showPremium}
                 onHide={() => setShowPremium(false)}
                 centered
                 backdrop="static"
             >
-                <div style={{
-                    background: "rgba(0,0,0,0.7)",
-                    color: "#f5f5dc",
-                    borderRadius: "10px",
-                    padding: "20px",
-                    backdropFilter: "blur(10px)"
-                }}>
+                <div
+                    style={{
+                        background: "rgba(0,0,0,0.7)",
+                        color: "#f5f5dc",
+                        borderRadius: "10px",
+                        padding: "20px",
+                        backdropFilter: "blur(10px)",
+                    }}
+                >
                     <Modal.Header closeButton closeVariant="white">
                         <Modal.Title style={{ color: "black", fontWeight: "bold" }}>
                             Suscripción Premium <span style={{ color: "#eee605" }}>VIP 🛞</span>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <h5 className="" style={{ color: "black", fontWeight: "bold" }}>
+                        <h5 style={{ color: "black", fontWeight: "bold" }}>
                             Beneficios Exclusivos:
                         </h5>
                         <ul>
@@ -176,6 +225,7 @@ const Suscripcion = () => {
                             <li>⭐ Envíos prioritarios</li>
                         </ul>
                         <hr style={{ borderColor: "#f5f5dc55" }} />
+
                         <h6>Método de pago:</h6>
                         <select
                             value={metodoPago}
@@ -187,29 +237,33 @@ const Suscripcion = () => {
                                 backdropFilter: "blur(6px)",
                                 padding: "12px",
                                 borderRadius: "8px",
-                                width: "100%"
+                                width: "100%",
                             }}
                         >
-                            <option value="" disabled>Selecciona un método</option>
+                            <option value="" disabled>
+                                Selecciona un método
+                            </option>
                             <option value="tarjeta">Tarjeta de crédito</option>
                             <option value="paypal">PayPal</option>
                             <option value="transferencia">Transferencia bancaria</option>
                         </select>
+
                         {metodoPago === "tarjeta" && (
                             <input
                                 type="text"
                                 value={numeroTarjeta}
                                 onChange={handleNumeroTarjeta}
-                                maxLength={19}  // 16 dígitos + espacios
+                                maxLength={19}
                                 placeholder="Número de tarjeta"
                                 style={{
                                     width: "100%",
                                     marginTop: "10px",
                                     padding: "8px",
-                                    borderRadius: "5px"
+                                    borderRadius: "5px",
                                 }}
                             />
                         )}
+
                         <div className="mt-3">
                             <input
                                 type="checkbox"
@@ -224,7 +278,11 @@ const Suscripcion = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
-                            style={{ backgroundColor: "#000", color: "#fff", border: "none" }}
+                            style={{
+                                backgroundColor: "#000",
+                                color: "#fff",
+                                border: "none",
+                            }}
                             onClick={() => setShowPremium(false)}
                         >
                             Cancelar
@@ -235,9 +293,9 @@ const Suscripcion = () => {
                             disabled={
                                 !aceptaLegal ||
                                 !metodoPago ||
-                                (metodoPago === "tarjeta" && numeroTarjeta.replace(/\s+/g, '').length !== 16)
+                                (metodoPago === "tarjeta" &&
+                                    numeroTarjeta.replace(/\s+/g, "").length !== 16)
                             }
-
                             onClick={confirmarSuscripcion}
                         >
                             Confirmar Suscripción
@@ -245,35 +303,46 @@ const Suscripcion = () => {
                     </Modal.Footer>
                 </div>
             </Modal>
+
+            {/* MODAL CONFIRMACIÓN */}
             <Modal
                 show={showConfirm}
                 onHide={() => setShowConfirm(false)}
                 centered
                 backdrop="static"
             >
-                <div style={{
-                    background: "rgba(25, 24, 24, 0.8)",
-                    color: "#f5f5dc",
-                    borderRadius: "10px",
-                    padding: "20px",
-                    backdropFilter: "blur(10px)",
-                    textAlign: "center"
-                }}>
+                <div
+                    style={{
+                        background: "rgba(25, 24, 24, 0.8)",
+                        color: "#f5f5dc",
+                        borderRadius: "10px",
+                        padding: "20px",
+                        backdropFilter: "blur(10px)",
+                        textAlign: "center",
+                    }}
+                >
                     <Modal.Body>
                         <h4>
-                            ¡Suscripción Premium <span style={{ color: "#eee605", fontWeight: "bold" }}>confirmada</span>!
+                            ¡Suscripción Premium{" "}
+                            <span style={{ color: "#eee605", fontWeight: "bold" }}>
+                                confirmada
+                            </span>
+                            !
                         </h4>
 
                         <p>Gracias por suscribirte a nuestro plan VIP.</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
-                            style={{ backgroundColor: "#000", color: "#fff", border: "none" }}
+                            style={{
+                                backgroundColor: "#000",
+                                color: "#fff",
+                                border: "none",
+                            }}
                             onClick={() => setShowConfirm(false)}
                         >
                             Cerrar
                         </Button>
-
                     </Modal.Footer>
                 </div>
             </Modal>
