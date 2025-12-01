@@ -3,7 +3,7 @@ import React from 'react'
 import Ofertas from "../Productos/Ofertas/Ofertas";
 import Producto from '../Productos/Productos';
 import Galeria from './galeria/galeria';
-import Portada from './portada/Portada';
+import Portada from './inicio/portada';
 
 const Home = () => {
   return (

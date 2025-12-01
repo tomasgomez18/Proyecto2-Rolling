@@ -5,7 +5,6 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: {
-        // Navegación
         login: "Login",
         register: "Register",
         profile: "Profile",
@@ -22,7 +21,6 @@ i18n.use(initReactI18next).init({
     },
     es: {
       translation: {
-        // Navegación
         login: "Iniciar sesión",
         register: "Registrarse",
         profile: "Perfil",
