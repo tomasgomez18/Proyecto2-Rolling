@@ -207,11 +207,12 @@ const Suscripcion = () => {
 
                     <Modal.Footer>
                         <Button
-                            variant="secondary"
+                            style={{ backgroundColor: "#000", color: "#fff", border: "none" }}
                             onClick={() => setShowPremium(false)}
                         >
                             Cancelar
                         </Button>
+
 
                         <Button
                             variant="warning"
