@@ -118,8 +118,14 @@ const Suscripcion = () => {
             <div className="form-container">
                 <form ref={form} onSubmit={sendEmail} className="subscription-form">
                     <h2 className="suscribete">
-                        Suscríbete a Rolling Motors 🛞
+                        Suscríbete a Rolling Motors
+                        <CircleDashed
+                            size={24}
+                            strokeWidth={2}
+                            style={{ marginLeft: "8px", color: "#eee605" }}
+                        />
                     </h2>
+
 
 
                     <input type="text" name="user_name" placeholder="Nombre" />
