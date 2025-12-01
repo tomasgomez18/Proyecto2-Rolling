@@ -4,11 +4,6 @@ import emailjs from "@emailjs/browser";
 import { Toaster } from "react-hot-toast";
 import { Modal, Button } from "react-bootstrap";
 
-const [suscripciones, setSuscripciones] = useState([]);
-
-setSuscripciones([...suscripciones, "Premium VIP"]);
-
-
 const Suscripcion = () => {
     const form = useRef();
     const [mensajeEnviado, setMensajeEnviado] = useState(false);
@@ -161,7 +156,6 @@ const Suscripcion = () => {
                             <li>⭐ Acceso a ofertas flash</li>
                             <li>⭐ Descuentos exclusivos del 20%</li>
                             <li>⭐ Envíos prioritarios</li>
-                            <li>⭐ Atención personalizada</li>
                         </ul>
 
                         <hr style={{ borderColor: "#f5f5dc55" }} />
@@ -179,7 +173,7 @@ const Suscripcion = () => {
                         >
                             <option value="">Selecciona un método</option>
                             <option value="tarjeta">Tarjeta de crédito</option>
-                            <option value="paypal">PayPal</option>
+                            <option value="paypal">Mercado Pago</option>
                             <option value="cripto">Cripto</option>
                         </select>
 

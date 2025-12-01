@@ -141,11 +141,7 @@ body {
     to { transform: scale(1); opacity: 1; }
 }
 
-/* ----------------------------- */
-/*        RESPONSIVE REAL        */
-/* ----------------------------- */
 
-/* Teléfonos pequeños */
 @media (max-width: 480px) {
     .subscription-form {
         padding: 20px;
@@ -163,7 +159,6 @@ body {
     }
 }
 
-/* Pantallas medianas (tablets) */
 @media (max-width: 768px) {
     .subscription-form {
         max-width: 350px;
@@ -171,7 +166,7 @@ body {
     }
 }
 
-/* Ajuste para prevenir overflow en móviles */
+
 @media (max-height: 600px) {
     .form-container {
         align-items: flex-start;
@@ -195,3 +190,5 @@ body {
 .btn-premium:hover {
     background: #b99716;
 }
+
+
