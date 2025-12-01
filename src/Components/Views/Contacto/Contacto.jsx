@@ -18,6 +18,23 @@ const Contacto = () => {
 
     const [errorGeneral, setErrorGeneral] = useState("");
 
+    // Filtrado en tiempo real para inputs
+    const handleNombreChange = (e) => {
+        e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+    };
+
+    const handleApellidoChange = (e) => {
+        e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
+    };
+
+    const handleTelefonoChange = (e) => {
+        e.target.value = e.target.value.replace(/\D/g, ''); // solo números
+    };
+
+    const handleEmailChange = (e) => {
+        e.target.value = e.target.value.replace(/[^a-zA-Z0-9-_@.]/g, ''); // letras, números, guion medio, guion bajo, puntos
+    };
+
     const sendEmail = (e) => {
         e.preventDefault();
 
@@ -31,22 +48,39 @@ const Contacto = () => {
         let nuevoErrores = {};
         let camposVacios = false;
 
-        if (!nombre) { nuevoErrores.nombre = "Por favor ingresa tu nombre."; camposVacios = true; }
-        else if (nombre.length < 3) nuevoErrores.nombre = "El nombre debe tener al menos 3 caracteres.";
+        // Nombre: obligatorio, 3-12 caracteres, solo letras
+        if (!nombre) { 
+            nuevoErrores.nombre = "Por favor ingresa tu nombre."; 
+            camposVacios = true; 
+        } else if (nombre.length < 3) nuevoErrores.nombre = "El nombre debe tener al menos 3 caracteres.";
         else if (nombre.length > 12) nuevoErrores.nombre = "El nombre no puede superar los 12 caracteres.";
 
-        if (!apellido) { nuevoErrores.apellido = "Por favor ingresa tu apellido."; camposVacios = true; }
-        else if (apellido.length < 3) nuevoErrores.apellido = "El apellido debe tener al menos 3 caracteres.";
+        // Apellido: obligatorio, 3-12 caracteres, solo letras
+        if (!apellido) { 
+            nuevoErrores.apellido = "Por favor ingresa tu apellido."; 
+            camposVacios = true; 
+        } else if (apellido.length < 3) nuevoErrores.apellido = "El apellido debe tener al menos 3 caracteres.";
         else if (apellido.length > 12) nuevoErrores.apellido = "El apellido no puede superar los 12 caracteres.";
 
-        if (!telefono) { nuevoErrores.telefono = "Ingresa tu número de teléfono."; camposVacios = true; }
-        else if (!/^\d+$/.test(telefono)) nuevoErrores.telefono = "El teléfono solo puede contener números.";
+        // Teléfono: obligatorio, solo números
+        if (!telefono) { 
+            nuevoErrores.telefono = "Ingresa tu número de teléfono."; 
+            camposVacios = true; 
+        } else if (!/^\d+$/.test(telefono)) nuevoErrores.telefono = "El teléfono solo puede contener números.";
 
-        if (!email) { nuevoErrores.email = "Ingresa tu correo electrónico."; camposVacios = true; }
-        else if (!/^[^\s@]+@gmail\.com$/i.test(email)) nuevoErrores.email = "Solo se permiten correos Gmail.";
+        // Email: obligatorio, letras, números, guion medio y guion bajo antes de @, puntos después
+        if (!email) { 
+            nuevoErrores.email = "Ingresa tu correo electrónico."; 
+            camposVacios = true; 
+        } else if (!/^[a-zA-Z0-9-_]+@gmail(\.[a-zA-Z]+)+$/i.test(email)) {
+            nuevoErrores.email = "El correo solo puede contener letras, números, guion medio y guion bajo antes de @gmail y puntos después";
+        }
 
-        if (!mensaje) { nuevoErrores.mensaje = "Escribe un mensaje para contactarnos."; camposVacios = true; }
-        else if (mensaje.length > 200) nuevoErrores.mensaje = "El mensaje no puede superar los 200 caracteres.";
+        // Mensaje: obligatorio, máximo 200 caracteres
+        if (!mensaje) { 
+            nuevoErrores.mensaje = "Escribe un mensaje para contactarnos."; 
+            camposVacios = true; 
+        } else if (mensaje.length > 200) nuevoErrores.mensaje = "El mensaje no puede superar los 200 caracteres.";
 
         setErrores(nuevoErrores);
 
@@ -95,24 +129,54 @@ const Contacto = () => {
                     <form ref={form} onSubmit={sendEmail} className="col-12 col-md-6 d-flex flex-column justify-content-center p-5" style={{ background: "rgba(0, 0, 0, 0.4)", backdropFilter: "blur(6px)", color: "white" }}>
                         <h5 className="titulo-glow2 pb-3 ">Datos de Contacto</h5>
 
-                        <input id="nombre" type="text" placeholder="Nombre" name="user_name"
-                         className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"/>
+                        <input 
+                            id="nombre" 
+                            type="text" 
+                            placeholder="Nombre" 
+                            name="user_name"
+                            onInput={handleNombreChange}
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"
+                        />
                         {renderError(errores.nombre)}
 
-                        <input id="apellido" type="text" placeholder="Apellido" name="last_name"
-                         className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"/>
+                        <input 
+                            id="apellido" 
+                            type="text" 
+                            placeholder="Apellido" 
+                            name="last_name"
+                            onInput={handleApellidoChange}
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"
+                        />
                         {renderError(errores.apellido)}
 
-                        <input type="tel" placeholder="Telefono" name="user_phone" inputMode="numeric" 
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"/>
+                        <input 
+                            type="tel" 
+                            placeholder="Telefono" 
+                            name="user_phone" 
+                            inputMode="numeric"
+                            onInput={handleTelefonoChange}
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"
+                        />
                         {renderError(errores.telefono)}
 
-                        <input id="email" type="email" placeholder="Email" name="user_email" 
-                        className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"/>
+                        <input 
+                            id="email" 
+                            type="email" 
+                            placeholder="Email" 
+                            name="user_email"
+                            onInput={handleEmailChange}
+                            className="form-control bg-transparent border-0 border-bottom text-white mb-1 rounded-0"
+                        />
                         {renderError(errores.email)}
 
-                        <Form.Control id="mensaje" as="textarea" rows={3} placeholder="Mensaje" name="message" 
-                        className="bg-transparent text-white border-0 border-bottom rounded-0 mb-1"/>
+                        <Form.Control 
+                            id="mensaje" 
+                            as="textarea" 
+                            rows={3} 
+                            placeholder="Mensaje" 
+                            name="message" 
+                            className="bg-transparent text-white border-0 border-bottom rounded-0 mb-1"
+                        />
                         {renderError(errores.mensaje)}
 
                         <button className="btn w-100 py-2 mt-2 boton-animado"
@@ -142,7 +206,6 @@ const Contacto = () => {
                 </div>
             </div>
 
-      
             <div className="container d-flex justify-content-center mt-4">
                 <div className="map-container-custom">
                     <div className="map-dark-overlay"></div>
