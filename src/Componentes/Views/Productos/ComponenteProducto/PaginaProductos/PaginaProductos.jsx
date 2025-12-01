@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
+import { useProductos } from '../../../../Context/ContextoProducto';
 import BuscadorProducto from './componenteBuscarProducto/BuscadorProducto';
 import ListaProductos from './Lista-Productos/ListaProductos';
 import './PaginaProductos.css';
 
 const PaginaProductos = () => {
+  const location = useLocation();
+  const { filtrarPorCategoria, obtenerCategoriasUnicas } = useProductos();
+
+  useEffect(() => {
+    const categoriaSeleccionada = location.state?.categoriaSeleccionada;
+    if (categoriaSeleccionada) {
+      filtrarPorCategoria(categoriaSeleccionada);
+    }
+  }, [location, filtrarPorCategoria]);
+
+  // Obtener todas las categorías para mostrar estadísticas
+  const categorias = obtenerCategoriasUnicas();
+
   return (
     <Container fluid className="pagina-productos mt-5 py-5">
-
       <div className="contenido-principal">
         <div className="seccion-buscador">
           <div className="encabezado-buscador">
@@ -17,6 +31,18 @@ const PaginaProductos = () => {
             <p className="descripcion-seccion">
               Filtra y encuentra la motocicleta que se adapte a tu estilo de vida
             </p>
+            
+            {/* Muestra la categoría actual si hay una seleccionada */}
+            {location.state?.categoriaSeleccionada && (
+              <div className="categoria-actual-badge">
+                <span className="badge bg-primary">
+                  Categoría: {location.state.categoriaSeleccionada}
+                </span>
+                <span className="ms-2 text-muted">
+                  ({categorias.length} categorías disponibles)
+                </span>
+              </div>
+            )}
           </div>
           <BuscadorProducto />
         </div>

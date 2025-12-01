@@ -7,14 +7,12 @@ import Login from "../../Views/Login/Login";
 const Menu = () => {
   const navigate = useNavigate();
   const ubicacion = useLocation();
-  const [modalAbierto, setModalAbierto] = useState(null); // 'login', 'registro', null
+  const [modalAbierto, setModalAbierto] = useState(null);
 
-  // Cerrar modales al cambiar de ruta
   useEffect(() => {
     setModalAbierto(null);
   }, [ubicacion.pathname]);
 
-  // También mantener compatibilidad con query parameters
   useEffect(() => {
     const parametroBusqueda = new URLSearchParams(ubicacion.search);
     const tipoModal = parametroBusqueda.get("modal");
@@ -26,7 +24,6 @@ const Menu = () => {
 
   const onClose = () => {
     setModalAbierto(null);
-    // También limpiar query parameters si existen
     if (ubicacion.search.includes("modal=")) {
       navigate(ubicacion.pathname);
     }

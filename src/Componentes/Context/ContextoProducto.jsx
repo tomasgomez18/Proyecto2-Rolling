@@ -13,41 +13,54 @@ export const useProductos = () => {
 export const ProveedorProductos = ({ children }) => {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
   const [filtros, setFiltros] = useState({
     categoria: '',
     terminoBusqueda: '',
     precioMin: '',
     precioMax: '',
     marca: '',
-    modelo: ''
+    modelo: '',
+    destacado: '',
+    stock: ''
   });
 
   // Cargar productos desde json-server
   const cargarProductos = async () => {
     try {
       setCargando(true);
+      setError(null);
       const respuesta = await fetch('http://localhost:3001/productos');
+      
+      if (!respuesta.ok) {
+        throw new Error(`Error HTTP: ${respuesta.status}`);
+      }
+      
       const datos = await respuesta.json();
       setProductos(datos);
     } catch (error) {
       console.error('Error cargando productos:', error);
+      setError('No se pudieron cargar los productos. Verifica que json-server esté ejecutándose.');
     } finally {
       setCargando(false);
     }
   };
 
+  // Cargar productos al iniciar
   useEffect(() => {
     cargarProductos();
   }, []);
 
   // Filtrar productos según los filtros activos
   const productosFiltrados = productos.filter(producto => {
-    // Filtrar por categoría
-    if (filtros.categoria && producto.categoria !== filtros.categoria) {
-      return false;
+    // 1. Filtrar por categoría
+    if (filtros.categoria && producto.categoria) {
+      if (producto.categoria.toLowerCase() !== filtros.categoria.toLowerCase()) {
+        return false;
+      }
     }
 
-    // Filtrar por término de búsqueda
+    // 2. Filtrar por término de búsqueda
     if (filtros.terminoBusqueda) {
       const termino = filtros.terminoBusqueda.toLowerCase();
       const coincideNombre = producto.nombre?.toLowerCase().includes(termino);
@@ -60,31 +73,60 @@ export const ProveedorProductos = ({ children }) => {
       }
     }
 
-    // Filtrar por precio
-    if (filtros.precioMin && producto.precio < parseInt(filtros.precioMin)) {
-      return false;
+    // 3. Filtrar por precio
+    const precioProducto = parseFloat(producto.precio) || 0;
+    if (filtros.precioMin) {
+      const precioMin = parseFloat(filtros.precioMin);
+      if (precioProducto < precioMin) {
+        return false;
+      }
     }
-    if (filtros.precioMax && producto.precio > parseInt(filtros.precioMax)) {
-      return false;
+    if (filtros.precioMax) {
+      const precioMax = parseFloat(filtros.precioMax);
+      if (precioProducto > precioMax) {
+        return false;
+      }
     }
 
-    // Filtrar por marca
-    if (filtros.marca && producto.marca !== filtros.marca) {
-      return false;
+    // 4. Filtrar por marca
+    if (filtros.marca && producto.marca) {
+      if (producto.marca.toLowerCase() !== filtros.marca.toLowerCase()) {
+        return false;
+      }
     }
 
-    // Filtrar por modelo
-    if (filtros.modelo && producto.modelo !== filtros.modelo) {
-      return false;
+    // 5. Filtrar por modelo
+    if (filtros.modelo && producto.modelo) {
+      if (producto.modelo.toLowerCase() !== filtros.modelo.toLowerCase()) {
+        return false;
+      }
+    }
+
+    // 6. Filtrar por destacado
+    if (filtros.destacado !== '') {
+      const esDestacado = producto.destacado?.toString() || 'false';
+      if (esDestacado !== filtros.destacado) {
+        return false;
+      }
+    }
+
+    // 7. Filtrar por stock
+    if (filtros.stock !== '') {
+      const tieneStock = producto.stock?.toString() || 'true';
+      if (tieneStock !== filtros.stock) {
+        return false;
+      }
     }
 
     return true;
   });
 
+  // Función para actualizar filtros
   const actualizarFiltros = (nuevosFiltros) => {
     setFiltros(prev => ({ ...prev, ...nuevosFiltros }));
   };
 
+  // Función para limpiar todos los filtros
   const limpiarFiltros = () => {
     setFiltros({
       categoria: '',
@@ -92,18 +134,241 @@ export const ProveedorProductos = ({ children }) => {
       precioMin: '',
       precioMax: '',
       marca: '',
-      modelo: ''
+      modelo: '',
+      destacado: '',
+      stock: ''
     });
   };
 
+  // Función específica para filtrar por categoría
+  const filtrarPorCategoria = (categoria) => {
+    setFiltros(prev => ({
+      ...prev,
+      categoria: categoria
+    }));
+  };
+
+  // Obtener todas las categorías únicas de los productos
+  const obtenerCategoriasUnicas = () => {
+    const categorias = productos
+      .map(p => p.categoria)
+      .filter(categoria => categoria && categoria.trim() !== '');
+    return [...new Set(categorias)];
+  };
+
+  // Obtener marcas únicas para una categoría específica
+  const obtenerMarcasPorCategoria = (categoria) => {
+    const productosCategoria = categoria 
+      ? productos.filter(p => p.categoria === categoria)
+      : productos;
+    
+    const marcas = productosCategoria
+      .map(p => p.marca)
+      .filter(marca => marca && marca.trim() !== '');
+    return [...new Set(marcas)];
+  };
+
+  // Obtener todos los productos de una categoría específica
+  const obtenerProductosPorCategoria = (categoria) => {
+    if (!categoria) return productos;
+    return productos.filter(producto => 
+      producto.categoria?.toLowerCase() === categoria.toLowerCase()
+    );
+  };
+
+  // Obtener estadísticas de productos
+  const obtenerEstadisticas = () => {
+    const productosPorCategoria = {};
+    const productosPorMarca = {};
+    
+    productos.forEach(producto => {
+      // Por categoría
+      const categoria = producto.categoria || 'Sin categoría';
+      productosPorCategoria[categoria] = (productosPorCategoria[categoria] || 0) + 1;
+      
+      // Por marca
+      const marca = producto.marca || 'Sin marca';
+      productosPorMarca[marca] = (productosPorMarca[marca] || 0) + 1;
+    });
+
+    return {
+      total: productos.length,
+      porCategoria: productosPorCategoria,
+      porMarca: productosPorMarca,
+      disponibles: productos.filter(p => p.stock).length,
+      sinStock: productos.filter(p => !p.stock).length,
+      destacados: productos.filter(p => p.destacado).length,
+      categoriasUnicas: Object.keys(productosPorCategoria).length,
+      marcasUnicas: Object.keys(productosPorMarca).length
+    };
+  };
+
+  // Obtener rango de precios
+  const obtenerRangoPrecios = () => {
+    if (productos.length === 0) return { min: 0, max: 0 };
+    
+    const precios = productos.map(p => parseFloat(p.precio) || 0);
+    return {
+      min: Math.min(...precios),
+      max: Math.max(...precios),
+      promedio: precios.reduce((a, b) => a + b, 0) / precios.length
+    };
+  };
+
+  // Buscar productos por término (para autocompletar)
+  const buscarSugerencias = (termino) => {
+    if (!termino || termino.length < 2) return [];
+    
+    return productos
+      .filter(producto => {
+        const busqueda = termino.toLowerCase();
+        return (
+          producto.nombre?.toLowerCase().includes(busqueda) ||
+          producto.marca?.toLowerCase().includes(busqueda) ||
+          producto.modelo?.toLowerCase().includes(busqueda)
+        );
+      })
+      .slice(0, 5); // Limitar a 5 sugerencias
+  };
+
+  // Agregar un nuevo producto
+  const agregarProducto = async (producto) => {
+    try {
+      const nuevoProducto = {
+        ...producto,
+        id: crypto.randomUUID(),
+        fechaCreacion: new Date().toISOString(),
+        stock: producto.stock !== undefined ? producto.stock : true,
+        destacado: producto.destacado !== undefined ? producto.destacado : false
+      };
+
+      const respuesta = await fetch('http://localhost:3001/productos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(nuevoProducto)
+      });
+
+      if (!respuesta.ok) throw new Error('Error al agregar producto');
+
+      const productoAgregado = await respuesta.json();
+      setProductos(prev => [...prev, productoAgregado]);
+      
+      return { exito: true, producto: productoAgregado };
+    } catch (error) {
+      console.error('Error agregando producto:', error);
+      return { exito: false, mensaje: error.message };
+    }
+  };
+
+  // Editar producto existente
+  const editarProducto = async (id, datosActualizados) => {
+    try {
+      const respuesta = await fetch(`http://localhost:3001/productos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...datosActualizados,
+          fechaModificacion: new Date().toISOString()
+        })
+      });
+
+      if (!respuesta.ok) throw new Error('Error al editar producto');
+
+      const productoEditado = await respuesta.json();
+      setProductos(prev => 
+        prev.map(p => p.id === id ? productoEditado : p)
+      );
+      
+      return { exito: true, producto: productoEditado };
+    } catch (error) {
+      console.error('Error editando producto:', error);
+      return { exito: false, mensaje: error.message };
+    }
+  };
+
+  // Eliminar producto
+  const eliminarProducto = async (id) => {
+    try {
+      const respuesta = await fetch(`http://localhost:3001/productos/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (!respuesta.ok) throw new Error('Error al eliminar producto');
+
+      setProductos(prev => prev.filter(p => p.id !== id));
+      return { exito: true };
+    } catch (error) {
+      console.error('Error eliminando producto:', error);
+      return { exito: false, mensaje: error.message };
+    }
+  };
+
+  // Obtener producto por ID
+  const obtenerProductoPorId = (id) => {
+    return productos.find(p => p.id === id);
+  };
+
+  // Obtener productos destacados
+  const obtenerProductosDestacados = () => {
+    return productos.filter(p => p.destacado);
+  };
+
+  // Obtener productos con stock
+  const obtenerProductosConStock = () => {
+    return productos.filter(p => p.stock);
+  };
+
+  // Obtener productos recientes
+  const obtenerProductosRecientes = (limite = 5) => {
+    return [...productos]
+      .sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion))
+      .slice(0, limite);
+  };
+
+  // Actualizar estado de stock
+  const actualizarStockProducto = async (id, tieneStock) => {
+    const producto = obtenerProductoPorId(id);
+    if (!producto) return { exito: false, mensaje: 'Producto no encontrado' };
+    
+    return await editarProducto(id, { ...producto, stock: tieneStock });
+  };
+
+  // Valor del contexto
   const valorContexto = {
+    // Datos
     productos,
     productosFiltrados,
     cargando,
+    error,
     filtros,
+    
+    // Funciones de filtrado
     actualizarFiltros,
     limpiarFiltros,
-    cargarProductos
+    filtrarPorCategoria,
+    
+    // Funciones de obtención de datos
+    obtenerCategoriasUnicas,
+    obtenerMarcasPorCategoria,
+    obtenerProductosPorCategoria,
+    obtenerEstadisticas,
+    obtenerRangoPrecios,
+    buscarSugerencias,
+    obtenerProductoPorId,
+    obtenerProductosDestacados,
+    obtenerProductosConStock,
+    obtenerProductosRecientes,
+    
+    // Funciones CRUD
+    cargarProductos,
+    agregarProducto,
+    editarProducto,
+    eliminarProducto,
+    actualizarStockProducto
   };
 
   return (
