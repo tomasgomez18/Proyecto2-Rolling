@@ -1,3 +1,4 @@
+/* ===== Reset y fondo ===== */
 html,
 body {
     margin: 0;
@@ -12,6 +13,7 @@ body {
     overflow: hidden;
 }
 
+/* ===== Contenedor del formulario ===== */
 .form-container {
     display: flex;
     justify-content: center;
@@ -20,6 +22,7 @@ body {
     width: 100%;
 }
 
+/* ===== Formulario ===== */
 .subscription-form {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
@@ -38,22 +41,68 @@ body {
     margin-bottom: 20px;
 }
 
+/* ===== Inputs ===== */
 .subscription-form input {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 234, 0, 0.907);
-    background: rgba(233, 210, 210, 0.05);
-    color: white;
+    border: 1px solid #eee605;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
     font-size: 1rem;
+    outline: none;
     transition: all 0.3s;
 }
 
 .subscription-form input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: #f5f5dcaa;
 }
 
+/* ===== Selects ===== */
+select {
+    background: rgba(0, 0, 0, 0.4) !important;
+    color: #ffffff !important;
+    border: 1px solid #eee605 !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+select option {
+    background: rgba(0, 0, 0, 0.7) !important;
+    color: #fff !important;
+}
+
+select option:checked {
+    background: rgba(0, 0, 0, 0.4) !important;
+    color: #ffffff !important;
+}
+
+select option:hover,
+select option:active {
+    background: rgba(0, 0, 0, 0.4) !important;
+    color: #ffffff !important;
+}
+
+select option[disabled] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #bbbbbb !important;
+}
+
+/* ===== Autofill navegador ===== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.7) inset !important;
+    -webkit-text-fill-color: #fff !important;
+    border: 1px solid #eee605 !important;
+}
+
+/* ===== Botones ===== */
 .subscription-form button {
     width: 100%;
     padding: 12px;
@@ -71,15 +120,61 @@ body {
     transform: scale(1.03);
 }
 
-.error,
-.errorGeneral {
-    color: #f5f5dc;
-    font-size: 0.85rem;
+/* ===== Botón Premium ===== */
+.btn-premium {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #8a7314;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-premium:hover {
+    background: #b99716;
+}
+
+/* ===== Título suscribete ===== */
+.suscribete {
+    color: #ebe0a2; 
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: default; 
+}
+
+/* ===== Errores individuales ===== */
+.error {
+    color: black;        
+    font-size: 14px;
+    margin-top: 4px;
     margin-bottom: 10px;
+    word-wrap: break-word;
+    text-align: left;
     opacity: 0;
     animation: aparecer 0.3s forwards;
 }
 
+/* ===== Error general (mensaje "completa todos los campos") ===== */
+.errorGeneral {
+    color: black;         
+    font-weight: bold;    
+    font-size: 14px;      
+    margin-top: 10px;     
+    margin-bottom: 10px;
+    text-align: left;
+    opacity: 0;
+    animation: aparecer 0.3s forwards;
+}
+
+/* ===== Animación para errores ===== */
 @keyframes aparecer {
     from {
         opacity: 0;
@@ -91,6 +186,7 @@ body {
     }
 }
 
+/* ===== Mensaje enviado ===== */
 .mensaje-enviado {
     position: fixed;
     top: 0;
@@ -141,18 +237,15 @@ body {
     to { transform: scale(1); opacity: 1; }
 }
 
-
+/* ===== Responsividad ===== */
 @media (max-width: 480px) {
     .subscription-form {
         padding: 20px;
         max-width: 90%;
     }
 
-    .subscription-form input {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-
+    .subscription-form input,
+    select,
     .subscription-form button {
         padding: 10px;
         font-size: 0.9rem;
@@ -166,7 +259,6 @@ body {
     }
 }
 
-
 @media (max-height: 600px) {
     .form-container {
         align-items: flex-start;
@@ -174,115 +266,3 @@ body {
         height: auto;
     }
 }
-.btn-premium {
-    width: 100%;
-    padding: 12px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 8px;
-    background: #8a7314;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-premium:hover {
-    background: #b99716;
-}
-.suscribete {
-    color: #ebe0a2; 
-    font-weight: bold;
-    font-size: 1rem;
-    text-align: center;
-    margin-bottom: 25px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: default; 
-}
-.subscription-form input {
-    background: rgba(0,0,0,0.7);        
-    color: #fff;
-    border: 1px solid #eee605;        
-    padding: 12px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-}
-.subscription-form input::placeholder {
-    color: #f5f5dcaa;
-}
-
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px rgba(0,0,0,0.7) inset !important;
-    -webkit-text-fill-color: #fff !important;
-    border: 1px solid #eee605 !important;
-}
-
-
-input::-webkit-autocomplete-list {
-    background: rgba(0,0,0,0.7) !important;   
-    backdrop-filter: blur(10px) !important;   
-    border: 1px solid #eee605;
-}
-
-
-input::-webkit-autocomplete-item:hover {
-    background: rgba(58, 58, 56, 0.15) !important;
-}
-
-select option {
-    background: rgba(0,0,0,0.7) !important;   
-    backdrop-filter: blur(10px) !important;  
-    color: #fff !important;
-}
-select option:hover {
-    background: rgba(238,230,5,0.15) !important;  
-}
-select:focus option:checked {
-    background: rgba(238,230,5,0.15) !important;
-}
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0.7) inset !important;
-    -webkit-text-fill-color: #fff !important;
-    border: 1px solid #eee605 !important;
-}
-
-select {
-    background: rgba(0, 0, 0, 0.4) !important;
-    color: #ffffff !important;
-    border: 1px solid #eee605 !important;
-    backdrop-filter: blur(6px) !important;
-    -webkit-appearance: none;
-    appearance: none;
-}
-select option {
-    background: rgba(0, 0, 0, 0.6) !important;
-    color: #ffffff !important;
-}
-select option:checked {
-    background: rgba(0, 0, 0, 0.4) !important;
-    color: #ffffff !important;
-}
-select option:hover,
-select option:active {
-    background: rgba(0, 0, 0, 0.4) !important;
-    color: #ffffff !important;
-}
-
-select option[disabled] {
-    background: rgba(255, 255, 255, 0.05) !important;
-    color: #bbbbbb !important;
-}
-.error {
-    color: #ffffff;        
-    margin-top: -10px;     
-    margin-bottom: 4px;    
-    font-size: 13px;
-    text-align: left;
-    padding-left: 1px;
-}
-
-

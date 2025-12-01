@@ -6,348 +6,315 @@ import { Modal, Button } from "react-bootstrap";
 import { CircleDashed } from "lucide-react";
 
 const Suscripcion = () => {
-    const form = useRef();
-    const [mensajeEnviado, setMensajeEnviado] = useState(false);
-    const [errores, setErrores] = useState({ nombre: "", apellido: "", email: "" });
-    const [errorGeneral, setErrorGeneral] = useState("");
-    const [showPremium, setShowPremium] = useState(false);
-    const [metodoPago, setMetodoPago] = useState("");
-    const [numeroTarjeta, setNumeroTarjeta] = useState("");
-    const [aceptaLegal, setAceptaLegal] = useState(false);
-    const [showConfirm, setShowConfirm] = useState(false);
+  const form = useRef();
+  const [mensajeEnviado, setMensajeEnviado] = useState(false);
+  const [errores, setErrores] = useState({ nombre: "", apellido: "", email: "" });
+  const [showPremium, setShowPremium] = useState(false);
+  const [metodoPago, setMetodoPago] = useState("");
+  const [numeroTarjeta, setNumeroTarjeta] = useState("");
+  const [aceptaLegal, setAceptaLegal] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [errorModal, setErrorModal] = useState("");
 
-    // VALIDACIONES EN TIEMPO REAL
-    const handleNombre = (e) => {
-        e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ]/g, "");
-    };
+  
+  const handleNombre = (e) => {
+    let value = e.target.value;
+    value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, ""); // Solo letras
+    if (value.length > 12) value = value.slice(0, 12); // Máximo 12 caracteres
+    e.target.value = value;
 
-    const handleApellido = (e) => {
-        e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ]/g, "");
-    };
+    if (value.length < 3) {
+      setErrores((prev) => ({ ...prev, nombre: "Mínimo 3 caracteres" }));
+    } else {
+      setErrores((prev) => ({ ...prev, nombre: "" }));
+    }
+  };
 
-    const handleEmail = (e) => {
-        let value = e.target.value;
-        value = value.replace(/[^a-zA-Z0-9@._-]/g, "");
-        const partes = value.split("@");
-        if (partes.length > 1) {
-            partes[1] = partes[1].replace(/[^a-zA-Z.]/g, "");
-            value = partes[0] + "@" + partes[1];
-        }
-        e.target.value = value;
-    };
+  const handleApellido = (e) => {
+    let value = e.target.value;
+    value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, ""); // Solo letras
+    if (value.length > 12) value = value.slice(0, 12); // Máximo 12 caracteres
+    e.target.value = value;
 
-    const sendEmail = (e) => {
-        e.preventDefault();
-        const formData = new FormData(form.current);
+    if (value.length < 3) {
+      setErrores((prev) => ({ ...prev, apellido: "Mínimo 3 caracteres" }));
+    } else {
+      setErrores((prev) => ({ ...prev, apellido: "" }));
+    }
+  };
 
-        const nombre = formData.get("user_name").trim();
-        const apellido = formData.get("last_name").trim();
-        const email = formData.get("user_email").trim();
+  const handleEmail = (e) => {
+    let value = e.target.value;
+    const partes = value.split("@");
+    partes[0] = partes[0].replace(/[^a-zA-Z0-9_-]/g, "");
+    if (partes.length > 1) {
+      partes[1] = partes[1]
+        .replace(/[^a-zA-Z.]/g, "")
+        .replace(/\.{2,}/g, ".")
+        .replace(/(.*)\.(.*)\./, "$1.$2");
+      value = partes[0] + "@" + partes[1];
+    } else {
+      value = partes[0];
+    }
+    e.target.value = value;
+  };
 
-        let nuevoErrores = {};
-        let camposVacios = false;
+  const sendEmail = (e) => {
+    e.preventDefault();
+    const formData = new FormData(form.current);
+    const nombre = formData.get("user_name").trim();
+    const apellido = formData.get("last_name").trim();
+    const email = formData.get("user_email").trim();
 
-        if (!nombre) {
-            nuevoErrores.nombre = "Por favor ingresa tu nombre.";
-            camposVacios = true;
-        } else if (nombre.length < 3) {
-            nuevoErrores.nombre = "El nombre debe tener al menos 3 caracteres.";
-            camposVacios = true;
-        } else if (nombre.length > 12) {
-            nuevoErrores.nombre = "El nombre no puede superar los 12 caracteres.";
-            camposVacios = true;
-        }
+    let nuevoErrores = {};
+    let camposVacios = false;
 
-        if (!apellido) {
-            nuevoErrores.apellido = "Por favor ingresa tu apellido.";
-            camposVacios = true;
-        } else if (apellido.length < 3) {
-            nuevoErrores.apellido = "El apellido debe tener al menos 3 caracteres.";
-            camposVacios = true;
-        } else if (apellido.length > 12) {
-            nuevoErrores.apellido = "El apellido no puede superar los 12 caracteres.";
-            camposVacios = true;
-        }
+    if (!nombre) {
+      nuevoErrores.nombre = "Por favor ingresa tu nombre.";
+      camposVacios = true;
+    } else if (nombre.length < 3) {
+      nuevoErrores.nombre = "El nombre debe tener al menos 3 caracteres.";
+      camposVacios = true;
+    }
 
-        const emailRegex = /^[a-zA-Z0-9_-]+@gmail(\.[a-zA-Z]+)+$/;
-        if (!email) {
-            nuevoErrores.email = "Por favor ingresa tu correo Gmail.";
-            camposVacios = true;
-        } else if (!emailRegex.test(email)) {
-            nuevoErrores.email = "Debe ser un correo Gmail válido.";
-            camposVacios = true;
-        }
+    if (!apellido) {
+      nuevoErrores.apellido = "Por favor ingresa tu apellido.";
+      camposVacios = true;
+    } else if (apellido.length < 3) {
+      nuevoErrores.apellido = "El apellido debe tener al menos 3 caracteres.";
+      camposVacios = true;
+    }
 
-        setErrores(nuevoErrores);
+    const emailRegex = /^[a-zA-Z0-9_-]+@gmail\.[a-zA-Z]+$/;
+    if (!email) {
+      nuevoErrores.email = "Por favor ingresa tu correo Gmail.";
+      camposVacios = true;
+    } else if (!emailRegex.test(email)) {
+      nuevoErrores.email = "Debe ser un correo Gmail válido.";
+      camposVacios = true;
+    }
 
-        if (camposVacios) {
-            setErrorGeneral("Por favor completa todos los campos correctamente.");
-            return;
-        } else {
-            setErrorGeneral("");
-        }
+    setErrores(nuevoErrores);
+    if (camposVacios) return;
 
-        emailjs.sendForm(
-            "service_2huncds",
-            "template_wt8nir8",
-            form.current,
-            { publicKey: "4NhIAIqJh5mY2AI9S" }
-        )
-            .then(() => {
-                setMensajeEnviado(true);
-                form.current.reset();
-                setErrores({ nombre: "", apellido: "", email: "" });
-            })
-            .catch((err) => console.error(err));
-    };
+    emailjs
+      .sendForm("service_2huncds", "template_wt8nir8", form.current, { publicKey: "4NhIAIqJh5mY2AI9S" })
+      .then(() => {
+        setMensajeEnviado(true);
+        form.current.reset();
+        setErrores({ nombre: "", apellido: "", email: "" });
+      })
+      .catch((err) => console.error(err));
+  };
 
-    const renderError = (mensaje) =>
-        mensaje ? <div className="error animar-error">{mensaje}</div> : null;
+  const renderError = (mensaje) => (mensaje ? <div className="error animar-error">{mensaje}</div> : null);
 
-    const confirmarSuscripcion = () => {
-        setShowPremium(false);
-        setShowConfirm(true);
-        setMetodoPago("");
-        setNumeroTarjeta("");
-        setAceptaLegal(false);
-    };
+  const handleNumeroTarjeta = (e) => {
+    let value = e.target.value;
+    value = value.replace(/\s+/g, "").replace(/\D/g, "").slice(0, 16);
+    value = value.replace(/(.{4})/g, "$1 ").trim();
+    setNumeroTarjeta(value);
+  };
 
-    const handleNumeroTarjeta = (e) => {
-        let value = e.target.value;
-        value = value.replace(/\s+/g, "");
-        value = value.replace(/\D/g, "");
-        value = value.slice(0, 16);
-        value = value.replace(/(.{4})/g, "$1 ").trim();
-        setNumeroTarjeta(value);
-    };
+  const confirmarSuscripcion = () => {
+    if (!metodoPago || (metodoPago === "tarjeta" && numeroTarjeta.replace(/\s+/g, "").length !== 16) || !aceptaLegal) {
+      setErrorModal("Por favor completa todos los campos correctamente.");
+      return;
+    }
 
-    return (
-        <>
-            <Toaster position="top-right" />
+    setShowPremium(false);
+    setShowConfirm(true);
+    setMetodoPago("");
+    setNumeroTarjeta("");
+    setAceptaLegal(false);
+    setErrorModal("");
+  };
 
-            <div className="form-container">
-                <form ref={form} onSubmit={sendEmail} className="subscription-form">
-                    <h2 className="suscribete" style={{ color: "white", display: "flex", alignItems: "center" }}>
-                        Suscríbete a Rolling Motors
-                        <CircleDashed
-                            size={24}
-                            strokeWidth={2}
-                            style={{ marginLeft: "8px", color: "black" }}
-                        />
-                    </h2>
+  return (
+    <>
+      <Toaster position="top-right" />
 
-                    <input
-                        type="text"
-                        name="user_name"
-                        placeholder="Nombre"
-                        onInput={handleNombre}
-                    />
-                    {renderError(errores.nombre)}
+      <div className="form-container">
+        <form ref={form} onSubmit={sendEmail} className="subscription-form">
+          <h2 className="suscribete" style={{ color: "white", display: "flex", alignItems: "center" }}>
+            Suscríbete a Rolling Motors
+            <CircleDashed size={24} strokeWidth={2} style={{ marginLeft: "8px", color: "black" }} />
+          </h2>
 
-                    <input
-                        type="text"
-                        name="last_name"
-                        placeholder="Apellido"
-                        onInput={handleApellido}
-                    />
-                    {renderError(errores.apellido)}
+          <input type="text" name="user_name" placeholder="Nombre" onInput={handleNombre} />
+          {renderError(errores.nombre)}
 
-                    <input
-                        type="email"
-                        name="user_email"
-                        placeholder="Gmail"
-                        onInput={handleEmail}
-                    />
-                    {renderError(errores.email)}
+          <input type="text" name="last_name" placeholder="Apellido" onInput={handleApellido} />
+          {renderError(errores.apellido)}
 
-                    {errorGeneral && <div className="errorGeneral animar-error">{errorGeneral}</div>}
+          <input type="email" name="user_email" placeholder="Gmail" onInput={handleEmail} />
+          {renderError(errores.email)}
 
-                    {/* 🔥 EL ÚNICO CAMBIO → Se eliminó el botón “Suscribirme” */}
+          {/* MENSAJE GENERAL ARRIBA DEL BOTON PREMIUM */}
+          {errorModal && <div className="errorGeneral">{errorModal}</div>}
 
-                    <button
-                        type="button"
-                        className="btn-premium"
-                        onClick={() => setShowPremium(true)}
-                    >
-                        Suscripción Premium
-                    </button>
+          {/* BOTÓN PREMIUM */}
+          <button type="button" className="btn-premium" onClick={() => setShowPremium(true)}>
+            Suscripción Premium
+          </button>
 
-                    {mensajeEnviado && (
-                        <div className="mensaje-enviado animar-mensaje">
-                            <div
-                                className="mensaje-contenedor"
-                                style={{
-                                    background: "rgba(0,0,0,0.7)",
-                                    backdropFilter: "blur(10px)",
-                                    borderRadius: "10px",
-                                    padding: "20px",
-                                    color: "#f5f5dc",
-                                    textAlign: "center",
-                                }}
-                            >
-                                <h3>✔ Mensaje enviado</h3>
-                                <p>Gracias por suscribirte, te contactaremos pronto.</p>
-                                <button onClick={() => setMensajeEnviado(false)}>Cerrar</button>
-                            </div>
-                        </div>
-                    )}
-                </form>
+          {/* MENSAJE ENVIADO */}
+          {mensajeEnviado && (
+            <div className="mensaje-enviado animar-mensaje">
+              <div
+                className="mensaje-contenedor"
+                style={{
+                  background: "rgba(0,0,0,0.7)",
+                  backdropFilter: "blur(10px)",
+                  borderRadius: "10px",
+                  padding: "20px",
+                  color: "#f5f5dc",
+                  textAlign: "center",
+                }}
+              >
+                <h3>✔ Mensaje enviado</h3>
+                <p>Gracias por suscribirte, te contactaremos pronto.</p>
+                <button onClick={() => setMensajeEnviado(false)}>Cerrar</button>
+              </div>
             </div>
+          )}
+        </form>
+      </div>
 
-            {/* MODAL PREMIUM */}
-            <Modal
-                show={showPremium}
-                onHide={() => setShowPremium(false)}
-                centered
-                backdrop="static"
+      {/* MODAL PREMIUM */}
+      <Modal show={showPremium} onHide={() => setShowPremium(false)} centered backdrop="static">
+        <div
+          style={{
+            background: "rgba(0,0,0,0.7)",
+            color: "#f5f5dc",
+            borderRadius: "10px",
+            padding: "20px",
+            backdropFilter: "blur(10px)",
+          }}
+        >
+          <Modal.Header closeButton closeVariant="white">
+            <Modal.Title style={{ color: "black", fontWeight: "bold" }}>
+              Suscripción Premium <span style={{ color: "#eee605" }}>VIP 🛞</span>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h5 style={{ color: "black", fontWeight: "bold" }}>Beneficios Exclusivos:</h5>
+            <ul>
+              <li>⭐ Acceso a ofertas flash</li>
+              <li>⭐ Descuentos exclusivos del 20%</li>
+              <li>⭐ Envíos prioritarios</li>
+            </ul>
+            <hr style={{ borderColor: "#f5f5dc55" }} />
+
+            {/* MENSAJE GENERAL SOBRE LOS BOTONES */}
+            {errorModal && <div className="errorGeneral">{errorModal}</div>}
+
+            <h6>Método de pago:</h6>
+            <select
+              value={metodoPago}
+              onChange={(e) => setMetodoPago(e.target.value)}
+              style={{
+                background: "rgba(0, 0, 0, 0.4)",
+                color: "#ffffff",
+                border: "1px solid #eee605",
+                backdropFilter: "blur(6px)",
+                padding: "12px",
+                borderRadius: "8px",
+                width: "100%",
+              }}
             >
-                <div
-                    style={{
-                        background: "rgba(0,0,0,0.7)",
-                        color: "#f5f5dc",
-                        borderRadius: "10px",
-                        padding: "20px",
-                        backdropFilter: "blur(10px)",
-                    }}
-                >
-                    <Modal.Header closeButton closeVariant="white">
-                        <Modal.Title style={{ color: "black", fontWeight: "bold" }}>
-                            Suscripción Premium <span style={{ color: "#eee605" }}>VIP 🛞</span>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <h5 style={{ color: "black", fontWeight: "bold" }}>
-                            Beneficios Exclusivos:
-                        </h5>
-                        <ul>
-                            <li>⭐ Acceso a ofertas flash</li>
-                            <li>⭐ Descuentos exclusivos del 20%</li>
-                            <li>⭐ Envíos prioritarios</li>
-                        </ul>
-                        <hr style={{ borderColor: "#f5f5dc55" }} />
+              <option value="" disabled>
+                Selecciona un método
+              </option>
+              <option value="tarjeta">Tarjeta de crédito</option>
+              <option value="paypal">PayPal</option>
+              <option value="transferencia">Transferencia bancaria</option>
+            </select>
 
-                        <h6>Método de pago:</h6>
-                        <select
-                            value={metodoPago}
-                            onChange={(e) => setMetodoPago(e.target.value)}
-                            style={{
-                                background: "rgba(0, 0, 0, 0.4)",
-                                color: "#ffffff",
-                                border: "1px solid #eee605",
-                                backdropFilter: "blur(6px)",
-                                padding: "12px",
-                                borderRadius: "8px",
-                                width: "100%",
-                            }}
-                        >
-                            <option value="" disabled>
-                                Selecciona un método
-                            </option>
-                            <option value="tarjeta">Tarjeta de crédito</option>
-                            <option value="paypal">PayPal</option>
-                            <option value="transferencia">Transferencia bancaria</option>
-                        </select>
+            {metodoPago === "tarjeta" && (
+              <input
+                type="text"
+                value={numeroTarjeta}
+                onChange={handleNumeroTarjeta}
+                maxLength={19}
+                placeholder="Número de tarjeta"
+                style={{
+                  width: "100%",
+                  marginTop: "10px",
+                  padding: "8px",
+                  borderRadius: "5px",
+                }}
+              />
+            )}
 
-                        {metodoPago === "tarjeta" && (
-                            <input
-                                type="text"
-                                value={numeroTarjeta}
-                                onChange={handleNumeroTarjeta}
-                                maxLength={19}
-                                placeholder="Número de tarjeta"
-                                style={{
-                                    width: "100%",
-                                    marginTop: "10px",
-                                    padding: "8px",
-                                    borderRadius: "5px",
-                                }}
-                            />
-                        )}
-
-                        <div className="mt-3">
-                            <input
-                                type="checkbox"
-                                id="legales"
-                                checked={aceptaLegal}
-                                onChange={(e) => setAceptaLegal(e.target.checked)}
-                            />
-                            <label htmlFor="legales" style={{ marginLeft: "8px" }}>
-                                Acepto los términos y condiciones
-                            </label>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            style={{
-                                backgroundColor: "#000",
-                                color: "#fff",
-                                border: "none",
-                            }}
-                            onClick={() => setShowPremium(false)}
-                        >
-                            Cancelar
-                        </Button>
-                        <Button
-                            variant="warning"
-                            style={{ color: "black", fontWeight: "bold" }}
-                            disabled={
-                                !aceptaLegal ||
-                                !metodoPago ||
-                                (metodoPago === "tarjeta" &&
-                                    numeroTarjeta.replace(/\s+/g, "").length !== 16)
-                            }
-                            onClick={confirmarSuscripcion}
-                        >
-                            Confirmar Suscripción
-                        </Button>
-                    </Modal.Footer>
-                </div>
-            </Modal>
-
-            {/* MODAL CONFIRMACIÓN */}
-            <Modal
-                show={showConfirm}
-                onHide={() => setShowConfirm(false)}
-                centered
-                backdrop="static"
+            <div className="mt-3">
+              <input
+                type="checkbox"
+                id="legales"
+                checked={aceptaLegal}
+                onChange={(e) => setAceptaLegal(e.target.checked)}
+              />
+              <label htmlFor="legales" style={{ marginLeft: "8px" }}>
+                Acepto los términos y condiciones
+              </label>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                border: "none",
+              }}
+              onClick={() => setShowPremium(false)}
             >
-                <div
-                    style={{
-                        background: "rgba(25, 24, 24, 0.8)",
-                        color: "#f5f5dc",
-                        borderRadius: "10px",
-                        padding: "20px",
-                        backdropFilter: "blur(10px)",
-                        textAlign: "center",
-                    }}
-                >
-                    <Modal.Body>
-                        <h4>
-                            ¡Suscripción Premium{" "}
-                            <span style={{ color: "#eee605", fontWeight: "bold" }}>
-                                confirmada
-                            </span>
-                            !
-                        </h4>
+              Cancelar
+            </Button>
+            <Button
+              variant="warning"
+              style={{ color: "black", fontWeight: "bold" }}
+              onClick={confirmarSuscripcion}
+            >
+              Confirmar Suscripción
+            </Button>
+          </Modal.Footer>
+        </div>
+      </Modal>
 
-                        <p>Gracias por suscribirte a nuestro plan VIP.</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            style={{
-                                backgroundColor: "#000",
-                                color: "#fff",
-                                border: "none",
-                            }}
-                            onClick={() => setShowConfirm(false)}
-                        >
-                            Cerrar
-                        </Button>
-                    </Modal.Footer>
-                </div>
-            </Modal>
-        </>
-    );
+      {/* MODAL CONFIRMACIÓN */}
+      <Modal show={showConfirm} onHide={() => setShowConfirm(false)} centered backdrop="static">
+        <div
+          style={{
+            background: "rgba(25, 24, 24, 0.8)",
+            color: "#f5f5dc",
+            borderRadius: "10px",
+            padding: "20px",
+            backdropFilter: "blur(10px)",
+            textAlign: "center",
+          }}
+        >
+          <Modal.Body>
+            <h4>
+              ¡Suscripción Premium <span style={{ color: "#eee605", fontWeight: "bold" }}>confirmada</span>!
+            </h4>
+            <p>Gracias por suscribirte a nuestro plan VIP.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                border: "none",
+              }}
+              onClick={() => setShowConfirm(false)}
+            >
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </div>
+      </Modal>
+    </>
+  );
 };
 
 export default Suscripcion;
