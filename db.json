@@ -126,6 +126,7 @@
       "password": "PatriciaV357*",
       "role": "usuario"
     },
+<<<<<<< HEAD
     {
       "id": "2",
       "nombreDeUsuario": "juan_perez2",
@@ -136,17 +137,37 @@
     }
   ],
   "productos": [
+=======
+>>>>>>> 58ac0ed76778027dd956a4380689d4a8b0dce4b6
     {
-      "id": "1",
-      "nombre": "Laptop Gaming Pro",
-      "descripcion": "Laptop para gaming de alta gama con RTX 4080",
-      "precio": 2499.99,
-      "categoria": "Tecnología",
-      "stock": 15,
-      "imagen": "https://ejemplo.com/laptop.jpg",
-      "fechaCreacion": "2024-01-15T10:30:00Z"
+      "id": "09d90f49-a67f-4f8a-9744-b39db125a661",
+      "nombreDeUsuario": "matiasLaz",
+      "email": "matiasnicolaslazarte@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "2001-01-20",
+      "password": "MatLaz1@",
+      "role": "usuario"
+    },
+    {
+      "id": "61eec9ec-8ec5-4b9c-b71d-65d24de0554b",
+      "nombreDeUsuario": "TomasGomez18",
+      "email": "TomasGomez@gmail.com",
+      "pais": "Bolivia",
+      "fechaNacimiento": "2002-06-30",
+      "password": "TomasGomez18@",
+      "role": "usuario"
+    },
+    {
+      "id": "3f0cf84e-21a0-4bd2-988a-1a1b14791dd4",
+      "nombreDeUsuario": "Juan18",
+      "email": "juan18@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "1988-02-05",
+      "password": "JuanVergara@1",
+      "role": "usuario"
     }
   ],
+  "productos": [],
   "usuariosSuspendidos": [
     {
       "id": "100",

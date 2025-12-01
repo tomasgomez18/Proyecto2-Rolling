@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Menu from "./Componentes/Shared/Menu/Menu";
@@ -19,14 +20,17 @@ function App() {
     })
   }, []);
 
+function App() {
   return (
     <>
+
       <UserProvider>
         <BrowserRouter>
           <Menu />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contacto" element={<Contacto/> } />
+            <Route path="/ofertas" element={<Ofertas />} />
             <Route 
               path="/admin" 
               element={
@@ -38,6 +42,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </UserProvider>
+
     </>
   );
 }

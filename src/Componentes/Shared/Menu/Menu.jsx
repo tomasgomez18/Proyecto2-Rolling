@@ -21,6 +21,7 @@ const Menu = () => {
     navigate("/?modal=registro");
   };
 
+
   return (
     <>
       <NavBarPrincipal
@@ -41,3 +42,4 @@ const Menu = () => {
 };
 
 export default Menu;
+

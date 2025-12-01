@@ -235,6 +235,13 @@ export const UserProvider = ({ children }) => {
       setUsuarios(actualizados);
       localStorage.setItem("usuarios", JSON.stringify(actualizados));
 
+      // Actualizar usuario actual si es el mismo
+      if (usuarioActual && usuarioActual.id === id) {
+        const usuarioActualizado = { ...usuarioActual, ...nuevosDatos };
+        setUsuarioActual(usuarioActualizado);
+        localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioActualizado));
+      }
+
       toast.success("Usuario actualizado en la base de datos", {
         duration: 3000,
       });
@@ -296,6 +303,7 @@ export const UserProvider = ({ children }) => {
         usuariosSuspendidos,
         productos,
         usuarioActual,
+        setUsuarioActual,
         cargando,
         esAdministrador,
         login,

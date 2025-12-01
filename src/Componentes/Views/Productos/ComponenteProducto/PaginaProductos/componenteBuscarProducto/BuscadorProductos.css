@@ -1,0 +1,150 @@
+
+:root {
+  --color-crema: #f8f4e9;
+  --color-dorado: #d4af37;
+  --color-oscuro: #1a1a1a;
+  --color-rojo: #8b0000;
+  --color-metal: #8a8a8a;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Oswald:wght@300;400;600&display=swap');
+
+.buscador-royal-enfield {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.titulo-buscador {
+  color: var(--color-oscuro);
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Oswald', sans-serif;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.card-buscador {
+  border: 1px solid var(--color-dorado);
+  border-radius: 8px;
+  background-color: var(--color-crema);
+  box-shadow: 0 2px 8px rgba(26, 26, 26, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-buscador::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-rojo), var(--color-dorado));
+}
+
+.cuerpo-buscador {
+  padding: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.etiqueta-form {
+  color: var(--color-oscuro);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-royal,
+.select-royal {
+  border: 1px solid var(--color-metal);
+  border-radius: 4px;
+  background-color: white;
+  color: var(--color-oscuro);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  height: calc(1.5em + 0.75rem + 2px);
+  transition: all 0.3s ease;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.input-royal:focus,
+.select-royal:focus {
+  border-color: var(--color-dorado);
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+  background-color: white;
+  transform: translateY(-1px);
+}
+
+.boton-aplicar {
+  background: linear-gradient(135deg, var(--color-rojo), #a52a2a);
+  border: 1px solid var(--color-dorado);
+  color: var(--color-crema);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  font-family: 'Oswald', sans-serif;
+}
+
+.boton-aplicar:hover {
+  background: linear-gradient(135deg, #a52a2a, var(--color-rojo));
+  border-color: var(--color-dorado);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(139, 0, 0, 0.3);
+}
+
+.boton-limpiar {
+  border: 1px solid var(--color-metal);
+  color: var(--color-oscuro);
+  background-color: transparent;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  font-family: 'Oswald', sans-serif;
+}
+
+.boton-limpiar:hover {
+  background-color: var(--color-oscuro);
+  border-color: var(--color-oscuro);
+  color: var(--color-crema);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(26, 26, 26, 0.3);
+}
+
+
+.card-buscador::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.05), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+@media (max-width: 768px) {
+  .buscador-royal-enfield {
+    margin: 1rem 0;
+  }
+  
+  .titulo-buscador {
+    font-size: 1.5rem;
+  }
+  
+  .cuerpo-buscador {
+    padding: 1rem;
+  }
+}

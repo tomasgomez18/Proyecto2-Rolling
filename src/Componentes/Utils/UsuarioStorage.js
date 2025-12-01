@@ -1,4 +1,3 @@
-
 const URL_API = import.meta.env.VITE_URL_API;
 
 export const UserStorage = {
@@ -145,13 +144,15 @@ export const UserStorage = {
             throw new Error(`Error API: ${respuesta.status}`);
           }
 
-          this.UltimoLogin(usuarioCompleto);
+          await this.UltimoLogin(usuarioCompleto);
 
           return {
             registrado: true,
             mensaje: "Usuario registrado con éxito en ambos sistemas",
+            usuario: usuarioCompleto,
           };
         } catch (error) {
+  
           await this.UltimoLogin(usuarioCompleto);
           return {
             registrado: true,
@@ -159,6 +160,7 @@ export const UserStorage = {
               "usuario registrado con éxito, pero falló backup. Por favor contacte a soporte",
             necesitaSoporte: true,
             rutaSoporte: "/contacto",
+            usuario: usuarioCompleto, 
           };
         }
       }

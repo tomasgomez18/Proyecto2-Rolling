@@ -37,7 +37,6 @@ const AdminPanel = () => {
     );
   }
 
-
   const FormularioProducto = () => {
     const [datosFormulario, setDatosFormulario] = useState({
       nombre: "",
@@ -50,6 +49,7 @@ const AdminPanel = () => {
       e.preventDefault();
       agregarProducto(datosFormulario);
       setMostrarFormProducto(false);
+      setDatosFormulario({ nombre: "", precio: "", descripcion: "", categoria: "" });
     };
 
     return (
@@ -195,7 +195,7 @@ const AdminPanel = () => {
     <div className="panel-administracion">
       <header className="encabezado-administracion">
         <h1>Panel de Administración</h1>
-        <nav>
+        <nav className="navegacion-administracion">
           <button
             className={vistaActiva === "usuarios" ? "btn-activo" : ""}
             onClick={() => setVistaActiva("usuarios")}
@@ -221,106 +221,153 @@ const AdminPanel = () => {
             className={vistaActiva === "mapa" ? "btn-activo" : ""}
             onClick={() => setVistaActiva("mapa")}
           >
-            🌍 Mapa de usuarios
+            🌍 Mapa
           </button>
         </nav>
 
-        <button className="boton-sincronizar" onClick={manejarSincronizacion}>
-          🔄 Sincronizar
-        </button>
+        <div className="controles-encabezado">
+          <button className="boton-sincronizar" onClick={manejarSincronizacion}>
+            🔄 Sincronizar
+          </button>
+        </div>
       </header>
 
       {vistaActiva === "usuarios" && (
         <div className="contenedor-tabla">
-          <table className="tabla-administracion">
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Email</th>
-                <th>País</th>
-                <th>Fecha Nac</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usuarios.map((u) => (
-                <tr key={u.id}>
-                  <td>{u.nombreDeUsuario}</td>
-                  <td>{u.email}</td>
-                  <td>{u.pais}</td>
-                  <td>{new Date(u.fechaNacimiento).toLocaleDateString()}</td>
-                  <td>
-                    <button onClick={() => setUsuarioEditando(u)}>
-                      Editar
-                    </button>
-                    <button onClick={() => suspenderUsuario(u.id)}>
-                      Suspender
-                    </button>
-                  </td>
+          <h2>Usuarios Activos</h2>
+          <div className="tabla-responsive">
+            <table className="tabla-administracion">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Email</th>
+                  <th>País</th>
+                  <th>Fecha Nac</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {usuarios.map((u) => (
+                  <tr key={u.id}>
+                    <td data-label="Usuario">{u.nombreDeUsuario}</td>
+                    <td data-label="Email">{u.email}</td>
+                    <td data-label="País">{u.pais}</td>
+                    <td data-label="Fecha Nac">{new Date(u.fechaNacimiento).toLocaleDateString()}</td>
+                    <td data-label="Acciones">
+                      <div className="acciones">
+                        <button 
+                          className="boton-editar"
+                          onClick={() => setUsuarioEditando(u)}
+                        >
+                          Editar
+                        </button>
+                        <button 
+                          className="boton-suspender"
+                          onClick={() => suspenderUsuario(u.id)}
+                        >
+                          Suspender
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {usuarios.length === 0 && (
+              <div className="sin-datos">
+                No hay usuarios activos
+              </div>
+            )}
+          </div>
         </div>
       )}
 
       {vistaActiva === "suspendidos" && (
         <div className="contenedor-tabla">
-          <table className="tabla-administracion">
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Email</th>
-                <th>Fecha Suspensión</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usuariosSuspendidos.map((u) => (
-                <tr key={u.id}>
-                  <td>{u.nombreDeUsuario}</td>
-                  <td>{u.email}</td>
-                  <td>{new Date(u.fechaSuspension).toLocaleDateString()}</td>
-                  <td>
-                    <button onClick={() => reactivarUsuario(u.id)}>
-                      Reactivar
-                    </button>
-                    <button onClick={() => eliminarUsuarioSuspendido(u.id)}>
-                      Eliminar
-                    </button>
-                  </td>
+          <h2>Usuarios Suspendidos</h2>
+          <div className="tabla-responsive">
+            <table className="tabla-administracion">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Email</th>
+                  <th>Fecha Suspensión</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {usuariosSuspendidos.map((u) => (
+                  <tr key={u.id}>
+                    <td data-label="Usuario">{u.nombreDeUsuario}</td>
+                    <td data-label="Email">{u.email}</td>
+                    <td data-label="Fecha Suspensión">{new Date(u.fechaSuspension).toLocaleDateString()}</td>
+                    <td data-label="Acciones">
+                      <div className="acciones">
+                        <button 
+                          className="boton-reactivar"
+                          onClick={() => reactivarUsuario(u.id)}
+                        >
+                          Reactivar
+                        </button>
+                        <button 
+                          className="boton-eliminar"
+                          onClick={() => eliminarUsuarioSuspendido(u.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {usuariosSuspendidos.length === 0 && (
+              <div className="sin-datos">
+                No hay usuarios suspendidos
+              </div>
+            )}
+          </div>
         </div>
       )}
 
       {vistaActiva === "productos" && (
-        <div>
-          <button onClick={() => setMostrarFormProducto(true)}>
-            + Agregar Producto
-          </button>
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Categoría</th>
-                <th>Fecha</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productos.map((p) => (
-                <tr key={p.id}>
-                  <td>{p.nombre}</td>
-                  <td>${p.precio}</td>
-                  <td>{p.categoria}</td>
-                  <td>{new Date(p.fechaCreacion).toLocaleDateString()}</td>
+        <div className="contenedor-tabla">
+          <div className="encabezado-productos">
+            <h2>Productos</h2>
+            <button 
+              className="boton-agregar"
+              onClick={() => setMostrarFormProducto(true)}
+            >
+              + Agregar Producto
+            </button>
+          </div>
+          <div className="tabla-responsive">
+            <table className="tabla-administracion">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Categoría</th>
+                  <th>Fecha</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {productos.map((p) => (
+                  <tr key={p.id}>
+                    <td data-label="Nombre">{p.nombre}</td>
+                    <td data-label="Precio">${p.precio}</td>
+                    <td data-label="Categoría">{p.categoria}</td>
+                    <td data-label="Fecha">{new Date(p.fechaCreacion).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {productos.length === 0 && (
+              <div className="sin-datos">
+                No hay productos registrados
+              </div>
+            )}
+          </div>
         </div>
       )}
 

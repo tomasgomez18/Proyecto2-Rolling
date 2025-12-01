@@ -10,7 +10,7 @@ import {
   FaSignOutAlt 
 } from "react-icons/fa";
 import { useUser } from "../../../Context/ContextoUsuario";
-import MenuUsuario from "../../menuUsuario/MenuUsuario";
+import MenuUsuario from "./menuUsuario/MenuUsuario";
 import { useTranslation } from 'react-i18next';
 import "./NavBarPrincipal_FIX.css";
 
@@ -55,7 +55,6 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
 
         <Navbar.Collapse className="d-none d-md-flex">
           <Nav className="ms-auto align-items-center gap-3">
-            {/* Selector de idioma - Desktop */}
             <Dropdown align="end">
               <Dropdown.Toggle 
                 variant="dark" 
