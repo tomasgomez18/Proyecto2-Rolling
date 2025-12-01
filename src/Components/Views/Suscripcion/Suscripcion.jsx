@@ -4,11 +4,18 @@ import emailjs from "@emailjs/browser";
 import { Toaster } from "react-hot-toast";
 import { Modal, Button } from "react-bootstrap";
 
+
+
+
+
+
 const Suscripcion = () => {
     const form = useRef();
     const [mensajeEnviado, setMensajeEnviado] = useState(false);
     const [errores, setErrores] = useState({ nombre: "", apellido: "", email: "" });
     const [errorGeneral, setErrorGeneral] = useState("");
+
+
 
 
     const [showPremium, setShowPremium] = useState(false);
@@ -90,6 +97,25 @@ const Suscripcion = () => {
         setMetodoPago("");
         setNumeroTarjeta("");
         setAceptaLegal(false);
+    };
+
+
+    const handleNumeroTarjeta = (e) => {
+        let value = e.target.value;
+
+        // Quitar espacios
+        value = value.replace(/\s+/g, '');
+
+        // Permitir solo números
+        value = value.replace(/\D/g, '');
+
+        // Limitar a 16 dígitos
+        value = value.slice(0, 16);
+
+        // Agregar espacios cada 4 dígitos
+        value = value.replace(/(.{4})/g, '$1 ').trim();
+
+        setNumeroTarjeta(value);
     };
 
     return (
@@ -180,9 +206,10 @@ const Suscripcion = () => {
                         {metodoPago === "tarjeta" && (
                             <input
                                 type="text"
-                                placeholder="Número de tarjeta (16 dígitos)"
                                 value={numeroTarjeta}
-                                onChange={(e) => setNumeroTarjeta(e.target.value)}
+                                onChange={handleNumeroTarjeta}
+                                maxLength={19}  // 16 dígitos + espacios
+                                placeholder="Número de tarjeta"
                                 style={{
                                     width: "100%",
                                     marginTop: "10px",
@@ -191,6 +218,7 @@ const Suscripcion = () => {
                                 }}
                             />
                         )}
+
 
                         <div className="mt-3">
                             <input
@@ -218,8 +246,11 @@ const Suscripcion = () => {
                             variant="warning"
                             style={{ color: "black", fontWeight: "bold" }}
                             disabled={
-                                !aceptaLegal || !metodoPago || (metodoPago === "tarjeta" && numeroTarjeta.length !== 16)
+                                !aceptaLegal ||
+                                !metodoPago ||
+                                (metodoPago === "tarjeta" && numeroTarjeta.replace(/\s+/g, '').length !== 16)
                             }
+
                             onClick={confirmarSuscripcion}
                         >
                             Confirmar Suscripción
