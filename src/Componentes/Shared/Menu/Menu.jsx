@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NavBarPrincipal } from "./NavBarPrincipal/NavBarPrincipal_FIX";
 import { Registro } from "../../Views/Registro/Registro";
@@ -6,21 +7,38 @@ import Login from "../../Views/Login/Login";
 const Menu = () => {
   const navigate = useNavigate();
   const ubicacion = useLocation();
-  const parametroBusqueda = new URLSearchParams(ubicacion.search);
-  const tipoModal = parametroBusqueda.get("modal");
+  const [modalAbierto, setModalAbierto] = useState(null); // 'login', 'registro', null
+
+  // Cerrar modales al cambiar de ruta
+  useEffect(() => {
+    setModalAbierto(null);
+  }, [ubicacion.pathname]);
+
+  // También mantener compatibilidad con query parameters
+  useEffect(() => {
+    const parametroBusqueda = new URLSearchParams(ubicacion.search);
+    const tipoModal = parametroBusqueda.get("modal");
+    
+    if (tipoModal === "login" || tipoModal === "registro") {
+      setModalAbierto(tipoModal);
+    }
+  }, [ubicacion.search]);
 
   const onClose = () => {
-    navigate(ubicacion.pathname);
+    setModalAbierto(null);
+    // También limpiar query parameters si existen
+    if (ubicacion.search.includes("modal=")) {
+      navigate(ubicacion.pathname);
+    }
   };
 
   const abrirLogin = () => {
-    navigate("/?modal=login");
+    setModalAbierto("login");
   };
 
   const abrirRegistro = () => {
-    navigate("/?modal=registro");
+    setModalAbierto("registro");
   };
-
 
   return (
     <>
@@ -28,13 +46,13 @@ const Menu = () => {
         onAbrirRegistro={abrirRegistro}
         onAbrirLogin={abrirLogin}
       />
-      {tipoModal === "login" && (
+      {modalAbierto === "login" && (
         <Login
           onClose={onClose}
           onAbrirRegistro={abrirRegistro}
         />
       )}
-      {tipoModal === "registro" && (
+      {modalAbierto === "registro" && (
         <Registro onClose={onClose} />
       )}
     </>
@@ -42,4 +60,3 @@ const Menu = () => {
 };
 
 export default Menu;
-

@@ -9,7 +9,6 @@ const PaginaProductos = () => {
   const location = useLocation();
   const { actualizarFiltros, filtros } = useProductos();
 
-  // Obtener la categoría desde la navegación y aplicarla como filtro
   useEffect(() => {
     if (location.state?.categoriaSeleccionada) {
       actualizarFiltros({ 
