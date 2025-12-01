@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useProductos } from '../Context/ContextoProducto';
-import BuscadorProducto from './BuscadorProducto';
-import ListaProductos from './ListaProductos';
+import { useProductos } from '../../../../Context/ContextoProducto';
+import BuscadorProducto from './componenteBuscarProducto/BuscadorProducto';
+import ListaProductos from './Lista-Productos/ListaProductos';
 import './PaginaProductos.css';
 
 const PaginaProductos = () => {

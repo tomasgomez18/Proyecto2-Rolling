@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Menu from "./Componentes/Shared/Menu/Menu";
 import  Home  from "./Componentes/Views/Home/Home";
 import Ofertas from './Componentes/Views/Productos/Ofertas/Ofertas';
+import PaginaProductos from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/PaginaProductos";
 import Contacto from "./Componentes/Views/Contacto/Contacto";
 import AdminPanel from "./Componentes/Admin/AdminPanel";
 import RutaProtegida from "./Componentes/Utils/RutaProtegida"; 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/contacto" element={<Contacto/> } />
             <Route path="/ofertas" element={<Ofertas />} />
+            <Route path="/productos" element={<PaginaProductos/>} />
             <Route 
               path="/admin" 
               element={
