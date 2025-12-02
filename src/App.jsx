@@ -1,5 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
-import Nosotros from './Components/Views/Nosotros/Nosotros'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Pagina404 from './Components/Views/Pagina404/Pagina404'
 import './App.css'
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
     <menu></menu>
     <main>
       <Routes>
-        <Route path='/Nosotros' element={<Nosotros/>}/>
+        <Route path='/404' element={<Pagina404/> }/>
       </Routes>
     </main>
     </BrowserRouter>
