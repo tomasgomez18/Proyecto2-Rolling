@@ -5,6 +5,7 @@ import Home from "./Componentes/Views/Home/Home";
 import Ofertas from "./Componentes/Views/Productos/Ofertas/Ofertas";
 import PaginaProductos from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/PaginaProductos";
 import Contacto from "./Componentes/Views/Contacto/Contacto";
+import Nosotros from './Components/Views/Nosotros/Nosotros'
 import AdminPanel from "./Componentes/Admin/AdminPanel";
 import RutaProtegida from "./Componentes/Utils/RutaProtegida";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/ofertas" element={<Ofertas />} />
+              <Route path='/Nosotros' element={<Nosotros/>}/>
               <Route path="/productos" element={<PaginaProductos />} />
               <Route path="/productos-todos" element={<Productos />} />
               <Route path="/detalleProducto" element={<DetalleProducto />} />
