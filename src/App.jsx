@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Cambié a react-router-dom
 import Menu from "./Componentes/Shared/Menu/Menu";
 import Home from "./Componentes/Views/Home/Home";
 import Ofertas from "./Componentes/Views/Productos/Ofertas/Ofertas";
@@ -12,8 +12,10 @@ import "./App.css";
 import { UserStorage } from "./Componentes/Utils/UsuarioStorage";
 import { UserProvider } from "./Componentes/Context/ContextoUsuario";
 import { ProveedorProductos } from "./Componentes/Context/ContextoProducto";
-import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/Detalle-Producto/DetalleProducto"
+import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/Detalle-Producto/DetalleProducto";
 import Productos from "./Componentes/Views/Productos/Productos";
+import Carrito from "./Componentes/Views/Productos/ComponenteCarrito/Carrito";
+import { CarritoProvider } from "./Componentes/Context/ContextoCarrito";
 
 function App() {
   useEffect(() => {
@@ -25,7 +27,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <CarritoProvider> {/* ← SOLO UN CarritoProvider aquí */}
       <ProveedorProductos>
         <UserProvider>
           <BrowserRouter>
@@ -37,20 +39,13 @@ function App() {
               <Route path="/productos" element={<PaginaProductos />} />
               <Route path="/productos-todos" element={<Productos />} />
               <Route path="/detalle-producto" element={<DetalleProducto />} />
-
-              <Route
-                path="/admin"
-                element={
-                  <RutaProtegida>
-                    <AdminPanel />
-                  </RutaProtegida>
-                }
-              />
+              <Route path="/carrito" element={<Carrito />} />
+              <Route path="/admin" element={<RutaProtegida><AdminPanel /></RutaProtegida>}/>
             </Routes>
           </BrowserRouter>
         </UserProvider>
       </ProveedorProductos>
-    </>
+    </CarritoProvider>
   );
 }
 

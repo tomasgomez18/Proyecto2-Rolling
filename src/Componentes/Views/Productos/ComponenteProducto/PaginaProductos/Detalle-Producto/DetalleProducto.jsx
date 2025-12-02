@@ -1,14 +1,17 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useCarrito } from '../../../../../Context/ContextoCarrito'; // Ajusta según tu estructura
 import './DetalleProducto.css';
 
 const DetalleProducto = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { agregarAlCarrito } = useCarrito();
   
   // Obtener los datos del producto desde el estado de navegación
   const productoData = location.state?.producto || {
     // Datos por defecto en caso de que se acceda directamente a la URL
-    id: null,
+    id: null, // Asegúrate que aquí haya un id
     marca: "Royal Enfield",
     modelo: "Classic 350",
     año: 2020,
@@ -19,6 +22,48 @@ const DetalleProducto = () => {
     descripcion: "Moto en excelente estado, mantenimiento al día. Perfecta para ciudad y rutas cortas.",
     destacado: false,
     stock: true
+  };
+
+  const handleComprarAhora = () => {
+    if (!productoData.stock) {
+      alert('Este producto no está disponible');
+      return;
+    }
+
+    // Crear producto con ID garantizado
+    const productoConId = {
+      ...productoData,
+      id: productoData.id || Date.now().toString() // Si no tiene id, usa timestamp
+    };
+
+    console.log('🎯 DetalleProducto - Producto a agregar (COMPRAR AHORA):', productoConId);
+    
+    // Agregar al carrito - CORREGIDO: eliminar "const" antes de la función
+    agregarAlCarrito(productoConId, 1);
+    
+    // Redirigir al carrito
+    navigate('/carrito');
+  };
+
+  const handleAgregarAlCarrito = () => {
+    if (!productoData.stock) {
+      alert('Este producto no está disponible');
+      return;
+    }
+
+    // Crear producto con ID garantizado
+    const productoConId = {
+      ...productoData,
+      id: productoData.id || Date.now().toString()
+    };
+
+    console.log('🎯 DetalleProducto - Producto a agregar (AGREGAR AL CARRITO):', productoConId);
+    
+    // Agregar al carrito
+    agregarAlCarrito(productoConId, 1);
+    
+    // Mostrar confirmación
+    alert(`${productoData.marca} ${productoData.modelo} agregado al carrito`);
   };
 
   return (
@@ -84,12 +129,14 @@ const DetalleProducto = () => {
             <button 
               className={`btn-primario ${!productoData.stock ? 'btn-deshabilitado' : ''}`}
               disabled={!productoData.stock}
+              onClick={handleComprarAhora}
             >
               COMPRAR AHORA
             </button>
             <button 
               className={`btn-secundario ${!productoData.stock ? 'btn-deshabilitado' : ''}`}
               disabled={!productoData.stock}
+              onClick={handleAgregarAlCarrito} 
             >
               AGREGAR AL CARRITO
             </button>
