@@ -1,115 +1,177 @@
-.buscador-royal-enfield {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* :root {
+  --color-crema: #f8f4e9;
+  --color-dorado: #d4af37;
+  --color-oscuro: #1a1a1a;
+  --color-rojo: #8b0000;
+  --color-metal: #8a8a8a;
+  --color-gris-claro: #f5f5f5;
+  --color-borde: #e0e0e0;
+} */
+
+/* Estilos personalizados para React Hot Toast con la paleta Royal */
+.toast-container-royal {
+  z-index: 999999;
 }
 
-.titulo-buscador {
-  color: var(--color-oscuro);
-  font-weight: 700;
-  font-size: 2rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 2rem !important;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+.royal-toast {
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  min-width: 300px;
 }
 
-.card-buscador {
+/* Animaciones personalizadas con la estética Royal */
+.royal-toast-enter {
+  animation: royalSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.royal-toast-exit {
+  animation: royalSlideOut 0.3s ease-in;
+}
+
+@keyframes royalSlideIn {
+  from {
+    transform: translateX(120%) rotate(5deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) rotate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes royalSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%) rotate(-5deg);
+    opacity: 0;
+  }
+}
+
+/* Estilos específicos para los botones usando la paleta */
+.boton-aplicar {
+  background: linear-gradient(135deg, var(--color-dorado), #b8941f) !important;
   border: 2px solid var(--color-dorado) !important;
-  border-radius: 12px !important;
-  background: linear-gradient(145deg, #ffffff 0%, var(--color-crema) 100%);
-  box-shadow: 0 6px 20px rgba(200, 155, 43, 0.2) !important;
+  color: var(--color-oscuro) !important;
+  font-weight: 600 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.boton-aplicar:hover {
+  background: linear-gradient(135deg, #c19b2a, #a07c1a) !important;
+  border-color: #c19b2a !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4) !important;
+}
+
+.boton-aplicar:active {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 8px rgba(212, 175, 55, 0.4) !important;
+}
+
+.boton-aplicar::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 5px !important;
+  height: 5px !important;
+  background: rgba(248, 244, 233, 0.6) !important;
+  opacity: 0 !important;
+  border-radius: 50% !important;
+  transform: scale(1, 1) translate(-50%) !important;
+  transform-origin: 50% 50% !important;
+}
+
+.boton-aplicar:focus:not(:active)::after {
+  animation: royalRipple 1s ease-out !important;
+}
+
+@keyframes royalRipple {
+  0% {
+    transform: scale(0, 0) !important;
+    opacity: 0.6 !important;
+  }
+  100% {
+    transform: scale(40, 40) !important;
+    opacity: 0 !important;
+  }
+}
+
+.boton-limpiar {
+  border: 2px solid var(--color-dorado) !important;
+  color: var(--color-oscuro) !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.boton-limpiar:hover {
+  background: var(--color-crema) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2) !important;
+  color: var(--color-oscuro) !important;
+}
+
+/* Estilos para los inputs con error usando la paleta */
+.input-royal.is-invalid {
+  border-color: var(--color-rojo) !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%238b0000' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%238b0000' stroke='none'/%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right calc(0.375em + 0.1875rem) center !important;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+}
+
+.input-royal.is-invalid:focus {
+  border-color: var(--color-rojo) !important;
+  box-shadow: 0 0 0 0.25rem rgba(139, 0, 0, 0.25) !important;
+}
+
+/* Estilos para el formulario */
+.card-buscador {
+  background: var(--color-crema) !important;
+  border: 1px solid var(--color-dorado) !important;
 }
 
 .cuerpo-buscador {
-  padding: 2rem !important;
+  background: linear-gradient(135deg, var(--color-crema), #f0ecdd) !important;
+}
+
+.titulo-buscador {
+  color: var(--color-oscuro) !important;
+  font-weight: 700 !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
 .etiqueta-form {
   color: var(--color-oscuro) !important;
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-weight: 600 !important;
 }
 
-.input-royal {
-  border: 2px solid var(--color-metal) !important;
-  border-radius: 8px !important;
-  padding: 0.75rem 1rem !important;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: white !important;
-}
-
-.input-royal:focus {
-  border-color: var(--color-dorado) !important;
-  box-shadow: 0 0 0 0.2rem rgba(200, 155, 43, 0.25) !important;
-  background: var(--color-crema) !important;
-}
-
+.input-royal,
 .select-royal {
-  border: 2px solid var(--color-metal) !important;
-  border-radius: 8px !important;
-  padding: 0.75rem 1rem !important;
-  font-size: 1rem;
-  background: white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23c89b2b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 0.75rem center/16px 12px !important;
-  transition: all 0.3s ease;
+  background: var(--color-gris-claro) !important;
+  border: 1px solid var(--color-borde) !important;
+  color: var(--color-oscuro) !important;
+  transition: all 0.3s ease !important;
 }
 
+.input-royal:focus,
 .select-royal:focus {
+  background: white !important;
   border-color: var(--color-dorado) !important;
-  box-shadow: 0 0 0 0.2rem rgba(200, 155, 43, 0.25) !important;
-  background-color: var(--color-crema) !important;
-}
-
-.boton-aplicar {
-  background: linear-gradient(135deg, var(--color-dorado) 0%, var(--color-bronce) 100%) !important;
-  border: 2px solid var(--color-dorado) !important;
+  box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
   color: var(--color-oscuro) !important;
-  font-weight: 700;
-  padding: 0.75rem 2rem !important;
-  border-radius: 8px !important;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(200, 155, 43, 0.3) !important;
-}
-
-.boton-aplicar:hover {
-  background: linear-gradient(135deg, var(--color-bronce) 0%, var(--color-dorado) 100%) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(200, 155, 43, 0.4) !important;
-  color: var(--color-oscuro) !important;
-}
-
-.boton-limpiar {
-  border: 2px solid var(--color-metal) !important;
-  color: var(--color-metal) !important;
-  font-weight: 600;
-  padding: 0.75rem 2rem !important;
-  border-radius: 8px !important;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  background: transparent !important;
-}
-
-.boton-limpiar:hover {
-  border-color: var(--color-rojo) !important;
-  color: var(--color-rojo) !important;
-  background: rgba(107, 0, 0, 0.1) !important;
-  transform: translateY(-2px);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .cuerpo-buscador {
-    padding: 1.5rem !important;
-  }
-  
-  .boton-aplicar,
-  .boton-limpiar {
-    width: 100% !important;
-    margin-bottom: 0.5rem;
-  }
 }
