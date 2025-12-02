@@ -7,58 +7,190 @@ import { useUser } from "../../Context/ContextoUsuario";
 
 const Login = ({ onClose, onAbrirRegistro }) => {
   const navigate = useNavigate();
-  const { login, usuarioActual, esAdministrador } = useUser();
+  const { login } = useUser();
 
   const onSubmit = async (data) => {
     try {
+      console.log("📤 Datos de login:", data);
       const resultado = await login(data);
 
       if (resultado.login) {
         toast.success("Login exitoso ✔");
         onClose();
 
-        setTimeout(() => {
-          if (resultado.usuario.role === "admin") {
-            toast(
+        // Si es admin, mostrar el toast especial después de un momento
+        if (resultado.usuario.role === "admin") {
+          setTimeout(() => {
+            toast.custom(
               (t) => (
-                <div className="text-white">
-                  <p className="mb-2">¿Quieres ir al panel de administrador?</p>
-                  <div className="d-flex gap-2">
+                <div 
+                  className="toast-admin-royal-enfield"
+                  style={{
+                    background: 'linear-gradient(135deg, #111111 0%, #1a1a1a 100%)',
+                    color: '#e8e1c4',
+                    padding: '1.5rem',
+                    borderRadius: '8px',
+                    border: '2px solid #c89b2b',
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.5)',
+                    fontFamily: "'Montserrat', sans-serif",
+                    maxWidth: '450px',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    zIndex: 9999
+                  }}
+                >
+                  {/* Barra superior dorada */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    right: '0',
+                    height: '4px',
+                    background: 'linear-gradient(90deg, #c89b2b, #8c6a2f)',
+                  }}></div>
+                  
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '1rem'
+                  }}>
+                    {/* Icono de admin */}
+                    <div style={{
+                      background: '#c89b2b',
+                      color: '#111111',
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: '12px',
+                      fontWeight: 'bold',
+                      fontSize: '1.2rem'
+                    }}>
+                      ⚙️
+                    </div>
+                    
+                    <div>
+                      <h4 style={{
+                        margin: '0',
+                        color: '#c89b2b',
+                        fontSize: '1.3rem',
+                        fontWeight: '700',
+                        fontFamily: "'Cinzel', serif"
+                      }}>
+                        Panel de Administrador
+                      </h4>
+                      <p style={{
+                        margin: '5px 0 0 0',
+                        fontSize: '0.95rem',
+                        opacity: '0.9'
+                      }}>
+                        Acceso detectado como administrador
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <p style={{
+                    marginBottom: '1.5rem',
+                    fontSize: '1rem',
+                    lineHeight: '1.5',
+                    color: '#e8e1c4'
+                  }}>
+                    ¿Deseas ir al panel de administrador para gestionar usuarios y productos?
+                  </p>
+                  
+                  <div style={{
+                    display: 'flex',
+                    gap: '12px',
+                    justifyContent: 'flex-end'
+                  }}>
                     <button
-                      className="btn btn-success btn-sm"
                       onClick={() => {
                         toast.dismiss(t.id);
-                        navigate("/admin");
+                      }}
+                      style={{
+                        background: 'transparent',
+                        color: '#e8e1c4',
+                        border: '1px solid #5f5f5f',
+                        padding: '0.6rem 1.5rem',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        fontSize: '0.9rem',
+                        transition: 'all 0.3s ease',
+                        fontFamily: "'Montserrat', sans-serif"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.background = 'rgba(95, 95, 95, 0.2)';
+                        e.target.style.borderColor = '#e8e1c4';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = 'transparent';
+                        e.target.style.borderColor = '#5f5f5f';
                       }}
                     >
-                      Sí
+                      No, gracias
                     </button>
+                    
                     <button
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => toast.dismiss(t.id)}
+                      onClick={() => {
+                        toast.dismiss(t.id);
+                        // Redirigir al panel de admin
+                        navigate("/admin");
+                      }}
+                      style={{
+                        background: 'linear-gradient(135deg, #c89b2b 0%, #8c6a2f 100%)',
+                        color: '#111111',
+                        border: 'none',
+                        padding: '0.6rem 1.8rem',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontWeight: '700',
+                        fontSize: '0.9rem',
+                        transition: 'all 0.3s ease',
+                        fontFamily: "'Montserrat', sans-serif",
+                        letterSpacing: '0.5px'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 4px 15px rgba(200, 155, 43, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     >
-                      No
+                      Ir al Panel
                     </button>
+                  </div>
+                  
+                  {/* Tiempo restante */}
+                  <div style={{
+                    marginTop: '1rem',
+                    fontSize: '0.8rem',
+                    color: '#5f5f5f',
+                    textAlign: 'right',
+                    fontStyle: 'italic'
+                  }}>
+                    Este mensaje se cerrará en 10 segundos
                   </div>
                 </div>
               ),
               {
-                duration: 6000,
-                position: "top-center",
-                style: {
-                  background: "#222",
-                },
+                duration: 10000,
+                position: 'top-center',
+                id: 'admin-toast',
               }
             );
-          }
-        }, 300);
-
+          }, 800); // Esperar 800ms para que se cierre el modal primero
+        }
       } else {
         toast.error(resultado.mensaje || "Credenciales incorrectas");
       }
     } catch (error) {
-      console.error("Error en login:", error);
-      toast.error("Error inesperado en el login");
+      console.error("💥 Error en login:", error);
+      toast.error("Error inesperado");
     }
   };
 

@@ -20,17 +20,10 @@ const FormRegistro = ({ onSubmit, onClose }) => {
   });
 
   const procesarEnvio = (data) => {
-    console.log("Datos válidos:", data);
+    console.log("📤 Datos válidos del formulario:", data);
     
-    const datosParaEnviar = {
-      nombreDeUsuario: data.nombreDeUsuario,
-      email: data.email,
-      pais: data.pais,
-      fechaNacimiento: data.fechaNacimiento,
-      password: data.contrasena,
-    };
-    
-    onSubmit?.(datosParaEnviar);
+    // Pasar los datos tal cual al onSubmit
+    onSubmit?.(data);
   };
 
   return (
@@ -171,19 +164,6 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 </Button>
               </Col>
             </Row>
-
-            {Object.keys(errors).length > 0 && (
-              <div className="mt-3 p-3 bg-dark rounded">
-                <h6 className="text-warning">Errores de validación:</h6>
-                <ul className="text-white small">
-                  {Object.entries(errors).map(([field, error]) => (
-                    <li key={field}>
-                      <strong>{field}:</strong> {error.message}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </Form>
         </Col>
       </Row>
