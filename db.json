@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "usuarios": [
     {
       "id": "1",
@@ -184,8 +183,6 @@
       "fechaSuspension": "2024-01-20T15:45:00Z"
     }
   ],
-=======
->>>>>>> 70b561f445530647fb3b6a7bb0eb0a04ca65d8c8
   "productos": [
     {
       "id": "1",
@@ -363,46 +360,5 @@
       "stock": true,
       "fechaCreacion": "2025-12-01T05:37:56.857Z"
     }
-  ],
-  "usuarios": [
-    {
-      "id": "1",
-      "nombre": "Admin",
-      "apellido": "Sistema",
-      "email": "admin@rollingmotors.com",
-      "nombreDeUsuario": "admin",
-      "contraseña": "admin123",
-      "role": "admin",
-      "fechaCreacion": "2024-01-01T00:00:00Z"
-    },
-    {
-      "id": "2",
-      "nombre": "Juan",
-      "apellido": "Pérez",
-      "email": "juan@email.com",
-      "nombreDeUsuario": "juanperez",
-      "contraseña": "cliente123",
-      "role": "cliente",
-      "fechaCreacion": "2024-01-02T10:30:00Z"
-    },
-    {
-      "id": "7627cc96-a46b-4d36-af0d-b22b408525df",
-      "nombreDeUsuario": "tomas",
-      "email": "tomas@gmail.com",
-      "pais": "Argentina",
-      "fechaNacimiento": "2001-08-22",
-      "password": "Tomas123!",
-      "role": "usuario"
-    },
-    {
-      "id": "3cad498e-44f9-455e-bdec-f4ac26eabbeb",
-      "nombreDeUsuario": "juan_lucas",
-      "email": "juuan@gmail.com",
-      "pais": "Argentina",
-      "fechaNacimiento": "2003-12-12",
-      "password": "Tomas123%",
-      "role": "usuario"
-    }
-  ],
-  "usuariosSuspendidos": []
+  ]
 }
