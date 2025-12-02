@@ -26,6 +26,7 @@ function App() {
     });
   }, []);
 
+function App() {
   return (
     <>
       <ProveedorProductos>
@@ -41,6 +42,7 @@ function App() {
               <Route path="/productos-todos" element={<Productos />} />
               <Route path="/detalleProducto" element={<DetalleProducto />} />
               <Route path='/404' element={<Pagina404/> }/>
+              <Route path="/contacto" element={<Contacto />} />
 
               <Route
                 path="/admin"
