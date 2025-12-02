@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Menu from "./Componentes/Shared/Menu/Menu";
 import Home from "./Componentes/Views/Home/Home";
+import Pagina404 from './Components/Views/Pagina404/Pagina404'
 import Ofertas from "./Componentes/Views/Productos/Ofertas/Ofertas";
 import PaginaProductos from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/PaginaProductos";
 import Contacto from "./Componentes/Views/Contacto/Contacto";
@@ -39,6 +40,7 @@ function App() {
               <Route path="/productos" element={<PaginaProductos />} />
               <Route path="/productos-todos" element={<Productos />} />
               <Route path="/detalleProducto" element={<DetalleProducto />} />
+              <Route path='/404' element={<Pagina404/> }/>
 
               <Route
                 path="/admin"
