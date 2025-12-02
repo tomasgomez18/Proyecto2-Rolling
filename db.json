@@ -197,6 +197,24 @@
       "contraseña": "cliente123",
       "role": "cliente",
       "fechaCreacion": "2024-01-02T10:30:00Z"
+    },
+    {
+      "id": "7627cc96-a46b-4d36-af0d-b22b408525df",
+      "nombreDeUsuario": "tomas",
+      "email": "tomas@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "2001-08-22",
+      "password": "Tomas123!",
+      "role": "usuario"
+    },
+    {
+      "id": "3cad498e-44f9-455e-bdec-f4ac26eabbeb",
+      "nombreDeUsuario": "juan_lucas",
+      "email": "juuan@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "2003-12-12",
+      "password": "Tomas123%",
+      "role": "usuario"
     }
   ],
   "usuariosSuspendidos": []
