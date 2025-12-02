@@ -160,6 +160,15 @@
       "fechaNacimiento": "1988-02-05",
       "password": "JuanVergara@1",
       "role": "usuario"
+    },
+    {
+      "id": "55c08db8-4fbd-4796-98b0-a6582061aabc",
+      "nombreDeUsuario": "TomasChico15",
+      "email": "tomasChico@gmail.com",
+      "pais": "Bolivia",
+      "fechaNacimiento": "1956-01-20",
+      "password": "Tomas1@Lopes",
+      "role": "usuario"
     }
   ],
   "usuariosSuspendidos": [
