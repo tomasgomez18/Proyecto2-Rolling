@@ -28,7 +28,7 @@ const Contacto = () => {
     };
 
     const handleTelefonoChange = (e) => {
-        e.target.value = e.target.value.replace(/\D/g, ''); // solo números
+        e.target.value = e.target.value.replace(/\D/g, ''); 
     };
 
     const handleEmailChange = (e) => {
