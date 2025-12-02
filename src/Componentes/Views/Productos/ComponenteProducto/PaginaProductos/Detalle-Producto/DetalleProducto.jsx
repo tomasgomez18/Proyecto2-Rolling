@@ -1,111 +1,95 @@
 import React from 'react';
 import './DetalleProducto.css';
 
-const DetalleProducto = ({
-  marca = "Royal Enfield",
-  modelo = "Classic 350",
-  año = 2020,
-  precio = "450.000",
-  imagen = "https://images.pexels.com/photos/5192876/pexels-photo-5192876.jpeg",
-  kilometros = "12.000",
-  ubicacion = "Buenos Aires, AR",
-  descripcion = "Esta motocicleta Royal Enfield Classic 350 es un verdadero ícono del motociclismo clásico. Conserva todo el carácter y la esencia de las motos británicas originales, combinado con la confiabilidad moderna.",
-  descripcionCompleta = "La Royal Enfield Classic 350 2020 se presenta en excelente estado de conservación. Cuenta con mantenimiento al día en taller oficial, todos sus servicios realizados en tiempo y forma. La moto conserva su color original rojo y negro con detalles cromados impecables. Incluye documentación completa al día y está lista para transferir. Único dueño, siempre guardada en garage. Perfecta para coleccionistas y amantes de las motos clásicas.",
-  caracteristicas = [
-    "Motor monocilíndrico 346cc",
-    "Arranque eléctrico y a patada",
-    "Frenos a disco delantero y tambor trasero",
-    "Suspensión telescópica delantera",
-    "Asiento individual clásico",
-    "Escape cromado original",
-    "Cuadro de doble cuna",
-    "Llantas de rayos"
-  ],
-  stock = true
-}) => {
+const DetalleProducto = ({ producto }) => {
+  // Datos por defecto - reemplazalos con tus props reales
+  const datos = producto || {
+    marca: "Royal Enfield",
+    modelo: "Classic 350",
+    año: 2020,
+    precio: "450.000",
+    imagen: "https://images.pexels.com/photos/5192876/pexels-photo-5192876.jpeg",
+    kilometros: "12.000",
+    ubicacion: "Buenos Aires, AR",
+    stock: true
+  };
+
   return (
-    <div className="detalle-producto-container">
-      <div className="detalle-producto">
+    <div className="detalle-producto">
+      {/* Header con gradiente */}
+      <div className="detalle-header">
+        <span className="detalle-marca">{datos.marca}</span>
+        <h1 className="detalle-modelo">{datos.modelo}</h1>
+        <div className="detalle-año">{datos.año}</div>
+      </div>
 
-        <div className="barra-superior-detalle"></div>
-        
-        <div className="contenido-detalle">
-
-          <div className="contenedor-imagen-detalle">
+      <div className="detalle-contenido">
+        {/* Columna izquierda - Imagen */}
+        <div className="detalle-columna-imagen">
+          <div className="imagen-contenedor">
             <img 
-              src={imagen} 
-              alt={`${marca} ${modelo}`}
-              className="imagen-principal"
+              src={datos.imagen} 
+              alt={`${datos.marca} ${datos.modelo}`}
+              className="imagen-producto"
             />
-            <div className="etiqueta-año-detalle">{año}</div>
+            <div className="imagen-overlay">
+              <span className="stock-badge">
+                {datos.stock ? 'DISPONIBLE' : 'AGOTADO'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Columna derecha - Información */}
+        <div className="detalle-columna-info">
+          {/* Precio destacado */}
+          <div className="precio-destacado">
+            <span className="precio-label">PRECIO</span>
+            <div className="precio-valor">${datos.precio}</div>
           </div>
 
-
-          <div className="informacion-producto">
-
-            <div className="encabezado-detalle">
-              <div className="marca-modelo-detalle">
-                <span className="marca-detalle">{marca}</span>
-                <h1 className="modelo-detalle">{modelo}</h1>
-              </div>
-              <div className="precio-detalle">${precio}</div>
-            </div>
-
-            <div className="especificaciones-principales">
-              <div className="especificacion-item">
-                <span className="especificacion-label">Kilómetros:</span>
-                <span className="especificacion-valor">{kilometros} km</span>
-              </div>
-              <div className="especificacion-item">
-                <span className="especificacion-label">Ubicación:</span>
-                <span className="especificacion-valor">{ubicacion}</span>
-              </div>
-              <div className="especificacion-item">
-                <span className="especificacion-label">Estado:</span>
-                <span className="especificacion-valor stock-disponible">
-                  {stock ? 'Disponible' : 'Agotado'}
-                </span>
+          {/* Especificaciones */}
+          <div className="especificaciones">
+            <div className="especificacion">
+              <i className="especificacion-icono">📍</i>
+              <div>
+                <span className="especificacion-label">Ubicación</span>
+                <span className="especificacion-valor">{datos.ubicacion}</span>
               </div>
             </div>
-
-
-            <div className="descripcion-corta">
-              <p>{descripcion}</p>
-            </div>
-
-
-            <div className="descripcion-completa">
-              <h3>Descripción Detallada</h3>
-              <p>{descripcionCompleta}</p>
-            </div>
-
-
-            <div className="caracteristicas-lista">
-              <h3>Características Principales</h3>
-              <div className="lista-caracteristicas">
-                {caracteristicas.map((caracteristica, index) => (
-                  <div key={index} className="caracteristica-item">
-                    <span className="icono-caracteristica">✓</span>
-                    {caracteristica}
-                  </div>
-                ))}
+            <div className="especificacion">
+              <i className="especificacion-icono">🛣️</i>
+              <div>
+                <span className="especificacion-label">Kilómetros</span>
+                <span className="especificacion-valor">{datos.kilometros} km</span>
               </div>
             </div>
+          </div>
 
-            <div className="contenedor-botones-detalle">
-              <button 
-                className={`boton-comprar-detalle ${!stock ? 'boton-deshabilitado' : ''}`}
-                disabled={!stock}
-              >
-                {stock ? 'Comprar Ahora' : 'Agotado'}
-              </button>
-              <button 
-                className={`boton-carrito-detalle ${!stock ? 'boton-deshabilitado' : ''}`}
-                disabled={!stock}
-              >
-                {stock ? 'Agregar al Carrito' : 'No Disponible'}
-              </button>
-            </div>
+          {/* Botones de acción */}
+          <div className="detalle-botones">
+            <button 
+              className={`btn-primario ${!datos.stock ? 'btn-deshabilitado' : ''}`}
+              disabled={!datos.stock}
+            >
+              COMPRAR AHORA
+            </button>
+            <button 
+              className={`btn-secundario ${!datos.stock ? 'btn-deshabilitado' : ''}`}
+              disabled={!datos.stock}
+            >
+              AGREGAR AL CARRITO
+            </button>
+          </div>
+
+          {/* Info adicional */}
+          <div className="info-adicional">
+            <p className="info-texto">
+              {datos.stock 
+                ? 'Producto disponible para entrega inmediata'
+                : 'Producto agotado - Próximo stock disponible pronto'
+              }
+            </p>
           </div>
         </div>
       </div>

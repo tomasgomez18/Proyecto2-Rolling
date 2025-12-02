@@ -1,11 +1,16 @@
 import React from 'react';
-import { Row, Col, Spinner, Alert } from 'react-bootstrap';
+import { Row, Col, Spinner, Alert, Badge } from 'react-bootstrap';
 import { useProductos } from '../../../../../Context/ContextoProducto';
 import CardProducto from '../card-Producto/CardProducto';
 import './ListaProducto.css';
 
 const ListaProductos = () => {
   const { productosFiltrados, cargando, filtros } = useProductos();
+
+  // Calcular estadísticas de la categoría actual
+  const productosEnCategoria = productosFiltrados.filter(p => 
+    !filtros.categoria || p.categoria === filtros.categoria
+  );
 
   if (cargando) {
     return (
@@ -19,7 +24,12 @@ const ListaProductos = () => {
   if (productosFiltrados.length === 0) {
     return (
       <Alert variant="info" className="alerta-sin-productos">
-        <Alert.Heading>No se encontraron productos</Alert.Heading>
+        <Alert.Heading>
+          {filtros.categoria 
+            ? `No hay productos en la categoría "${filtros.categoria}"`
+            : 'No se encontraron productos'
+          }
+        </Alert.Heading>
         <p>
           {filtros.terminoBusqueda 
             ? `No hay resultados para "${filtros.terminoBusqueda}"`
@@ -31,7 +41,26 @@ const ListaProductos = () => {
   }
 
   return (
-    <div className="contenedor-lista-productos mt-5 ">
+    <div className="contenedor-lista-productos mt-5">
+      {/* Información de la categoría */}
+      {filtros.categoria && (
+        <div className="informacion-categoria mb-4">
+          <div className="d-flex align-items-center justify-content-between">
+            <div>
+              <h4 className="mb-2">
+                <Badge bg="primary" className="me-2">
+                  {filtros.categoria}
+                </Badge>
+                {productosFiltrados.length} producto{productosFiltrados.length !== 1 ? 's' : ''}
+              </h4>
+            </div>
+            <small className="text-muted">
+              Mostrando productos de la categoría seleccionada
+            </small>
+          </div>
+        </div>
+      )}
+
       <Row className="g-4">
         {productosFiltrados.map(producto => (
           <Col key={producto.id} xs={12} sm={6} lg={4} xl={3}>

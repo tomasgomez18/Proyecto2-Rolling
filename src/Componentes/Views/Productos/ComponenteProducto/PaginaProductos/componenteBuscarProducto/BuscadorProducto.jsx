@@ -1,23 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Card, Button, InputGroup } from 'react-bootstrap';
 import { useProductos } from '../../../../../Context/ContextoProducto';
 import './BuscadorProductos.css';
 
 const BuscadorProducto = () => {
-  const { productos, filtros, actualizarFiltros, limpiarFiltros } = useProductos();
+  const { productos, filtros, actualizarFiltros, limpiarFiltros, obtenerCategoriasUnicas } = useProductos();
   
-  // Usar los filtros globales directamente como estado local inicial
   const [filtrosLocales, setFiltrosLocales] = useState({
     terminoBusqueda: filtros.terminoBusqueda,
+    categoria: filtros.categoria,           // <- AÑADE ESTO
     precioMin: filtros.precioMin,
     precioMax: filtros.precioMax,
     marca: filtros.marca,
     modelo: filtros.modelo
   });
 
-  // Obtener marcas y modelos únicos para los selects
+  // Obtener categorías, marcas y modelos únicos
+  const categoriasUnicas = obtenerCategoriasUnicas();
   const marcasUnicas = [...new Set(productos.map(p => p.marca))];
   const modelosUnicos = [...new Set(productos.map(p => p.modelo))];
+
+  // Sincronizar filtros locales con globales cuando cambien
+  useEffect(() => {
+    setFiltrosLocales({
+      terminoBusqueda: filtros.terminoBusqueda,
+      categoria: filtros.categoria,
+      precioMin: filtros.precioMin,
+      precioMax: filtros.precioMax,
+      marca: filtros.marca,
+      modelo: filtros.modelo
+    });
+  }, [filtros]);
 
   const manejarCambioFiltro = (campo, valor) => {
     setFiltrosLocales(prev => ({
@@ -28,13 +41,13 @@ const BuscadorProducto = () => {
 
   const manejarAplicarFiltros = (e) => {
     e.preventDefault();
-    // Solo actualizar los filtros globales cuando se presiona "Aplicar filtros"
     actualizarFiltros(filtrosLocales);
   };
 
   const manejarLimpiarFiltros = () => {
     const filtrosVacios = {
       terminoBusqueda: '',
+      categoria: '',
       precioMin: '',
       precioMax: '',
       marca: '',
@@ -44,11 +57,15 @@ const BuscadorProducto = () => {
     limpiarFiltros();
   };
 
-  // Manejar búsqueda en tiempo real para el término de búsqueda
   const manejarBusquedaEnTiempoReal = (termino) => {
     setFiltrosLocales(prev => ({ ...prev, terminoBusqueda: termino }));
-    // Actualizar solo el término de búsqueda en tiempo real
     actualizarFiltros({ terminoBusqueda: termino });
+  };
+
+  // Filtro de categoría en tiempo real
+  const manejarCambioCategoria = (categoria) => {
+    setFiltrosLocales(prev => ({ ...prev, categoria }));
+    actualizarFiltros({ categoria });
   };
 
   return (
@@ -60,6 +77,7 @@ const BuscadorProducto = () => {
             <Card.Body className="cuerpo-buscador">
               <Form onSubmit={manejarAplicarFiltros}>
                 <Row>
+                  {/* Búsqueda general */}
                   <Col md={6} className="mb-2">
                     <Form.Group>
                       <Form.Label className="etiqueta-form">Buscar producto</Form.Label>
@@ -74,6 +92,27 @@ const BuscadorProducto = () => {
                       </InputGroup>
                     </Form.Group>
                   </Col>
+
+                  {/* Filtro de categoría */}
+                  <Col md={6} className="mb-2">
+                    <Form.Group>
+                      <Form.Label className="etiqueta-form">Categoría</Form.Label>
+                      <Form.Select 
+                        className="select-royal"
+                        value={filtrosLocales.categoria}
+                        onChange={(e) => manejarCambioCategoria(e.target.value)}
+                      >
+                        <option value="">Todas las categorías</option>
+                        {categoriasUnicas.map(categoria => (
+                          <option key={categoria} value={categoria}>
+                            {categoria}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+
+                  {/* Rango de precio */}
                   <Col md={6} className="mb-2">
                     <Form.Label className="etiqueta-form">Rango de precio</Form.Label>
                     <Row>
@@ -97,6 +136,8 @@ const BuscadorProducto = () => {
                       </Col>
                     </Row>
                   </Col>
+
+                  {/* Marca */}
                   <Col md={6} className="mb-2">
                     <Form.Group>
                       <Form.Label className="etiqueta-form">Marca</Form.Label>
@@ -113,6 +154,7 @@ const BuscadorProducto = () => {
                     </Form.Group>
                   </Col>
 
+                  {/* Modelo */}
                   <Col md={6} className="mb-2">
                     <Form.Group>
                       <Form.Label className="etiqueta-form">Modelo</Form.Label>
@@ -129,6 +171,8 @@ const BuscadorProducto = () => {
                     </Form.Group>
                   </Col>
                 </Row>
+                
+                {/* Botones */}
                 <Row>
                   <Col className="text-end mt-2">
                     <Button 
