@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './CardProducto.css'; 
 
 const CardProducto = ({ 
+  id,
   marca = "",
   modelo = "", 
   año = "",
@@ -17,8 +18,22 @@ const CardProducto = ({
   const navigate = useNavigate(); 
 
   const handleComprarClick = () => {
-   
-    navigate('/detalle-producto');
+    // Crear objeto con todos los datos del producto
+    const productoData = {
+      id,
+      marca,
+      modelo,
+      año,
+      precio,
+      imagen,
+      kilometros,
+      ubicacion,
+      descripcion,
+      destacado,
+      stock
+    };
+    
+    navigate('/detalle-producto', { state: { producto: productoData } });
   };
 
   return (
