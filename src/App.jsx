@@ -40,10 +40,9 @@ function App() {
               <Route path='/Nosotros' element={<Nosotros/>}/>
               <Route path="/productos" element={<PaginaProductos />} />
               <Route path="/productos-todos" element={<Productos />} />
-              <Route path="/detalleProducto" element={<DetalleProducto />} />
+              <Route path="/detalle-producto" element={<DetalleProducto />} />
               <Route path='/404' element={<Pagina404/> }/>
               <Route path="/contacto" element={<Contacto />} />
-
               <Route
                 path="/admin"
                 element={
