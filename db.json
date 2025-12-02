@@ -6,7 +6,7 @@
       "email": "admin@ejemplo.com",
       "pais": "Argentina",
       "fechaNacimiento": "1985-06-15",
-      "password": "Admin123!",
+      "contrasena": "Admin123!",
       "role": "admin"
     },
     {
@@ -15,6 +15,8 @@
       "email": "juan.perez@email.com",
       "pais": "México",
       "fechaNacimiento": "1990-03-22",
+      "contrasena": "",
+      "role": "usuario",
       "fechaSuspension": "2025-11-29T06:42:07.736Z"
     },
     {
@@ -23,7 +25,7 @@
       "email": "maria.garcia@correo.com",
       "pais": "España",
       "fechaNacimiento": "1995-11-08",
-      "password": "MariaG456#",
+      "contrasena": "MariaG456#",
       "role": "usuario"
     },
     {
@@ -32,7 +34,7 @@
       "email": "carlos.lopez@mail.com",
       "pais": "Colombia",
       "fechaNacimiento": "1988-07-30",
-      "password": "CarlosL789$",
+      "contrasena": "CarlosL789$",
       "role": "usuario"
     },
     {
@@ -41,7 +43,7 @@
       "email": "ana.martinez@hotmail.com",
       "pais": "Chile",
       "fechaNacimiento": "1992-12-14",
-      "password": "AnaM321%",
+      "contrasena": "AnaM321%",
       "role": "usuario"
     },
     {
@@ -50,7 +52,7 @@
       "email": "pedro.rodriguez@gmail.com",
       "pais": "Perú",
       "fechaNacimiento": "1987-04-18",
-      "password": "PedroR654&",
+      "contrasena": "PedroR654&",
       "role": "usuario"
     },
     {
@@ -59,7 +61,7 @@
       "email": "lucia.sanchez@outlook.com",
       "pais": "Uruguay",
       "fechaNacimiento": "1993-09-25",
-      "password": "LuciaS987*",
+      "contrasena": "LuciaS987*",
       "role": "usuario"
     },
     {
@@ -68,7 +70,7 @@
       "email": "diego.fernandez@yahoo.com",
       "pais": "Venezuela",
       "fechaNacimiento": "1991-02-11",
-      "password": "DiegoF147+",
+      "contrasena": "DiegoF147+",
       "role": "usuario"
     },
     {
@@ -77,7 +79,7 @@
       "email": "sofia.gonzalez@proton.com",
       "pais": "Estados Unidos",
       "fechaNacimiento": "1994-08-07",
-      "password": "SofiaG258!",
+      "contrasena": "SofiaG258!",
       "role": "usuario"
     },
     {
@@ -86,7 +88,7 @@
       "email": "miguel.hernandez@icloud.com",
       "pais": "Costa Rica",
       "fechaNacimiento": "1989-05-19",
-      "password": "MiguelH369@",
+      "contrasena": "MiguelH369@",
       "role": "usuario"
     },
     {
@@ -95,7 +97,7 @@
       "email": "elena.morales@live.com",
       "pais": "Panamá",
       "fechaNacimiento": "1996-01-28",
-      "password": "ElenaM741#",
+      "contrasena": "ElenaM741#",
       "role": "usuario"
     },
     {
@@ -104,7 +106,7 @@
       "email": "raul.castro@domain.com",
       "pais": "Cuba",
       "fechaNacimiento": "1986-10-03",
-      "password": "RaulC852$",
+      "contrasena": "RaulC852$",
       "role": "usuario"
     },
     {
@@ -113,7 +115,7 @@
       "email": "isabel.ruiz@server.com",
       "pais": "Ecuador",
       "fechaNacimiento": "1997-07-12",
-      "password": "IsabelR963%",
+      "contrasena": "IsabelR963%",
       "role": "usuario"
     },
     {
@@ -122,7 +124,7 @@
       "email": "oscar.diaz@network.com",
       "pais": "Guatemala",
       "fechaNacimiento": "1990-11-05",
-      "password": "OscarD159&",
+      "contrasena": "OscarD159&",
       "role": "usuario"
     },
     {
@@ -131,7 +133,7 @@
       "email": "patricia.vega@web.com",
       "pais": "República Dominicana",
       "fechaNacimiento": "1984-03-17",
-      "password": "PatriciaV357*",
+      "contrasena": "PatriciaV357*",
       "role": "usuario"
     },
     {
@@ -140,7 +142,7 @@
       "email": "matiasnicolaslazarte@gmail.com",
       "pais": "Argentina",
       "fechaNacimiento": "2001-01-20",
-      "password": "MatLaz1@",
+      "contrasena": "MatLaz1@",
       "role": "usuario"
     },
     {
@@ -149,7 +151,7 @@
       "email": "TomasGomez@gmail.com",
       "pais": "Bolivia",
       "fechaNacimiento": "2002-06-30",
-      "password": "TomasGomez18@",
+      "contrasena": "TomasGomez18@",
       "role": "usuario"
     },
     {
@@ -158,7 +160,7 @@
       "email": "juan18@gmail.com",
       "pais": "Argentina",
       "fechaNacimiento": "1988-02-05",
-      "password": "JuanVergara@1",
+      "contrasena": "JuanVergara@1",
       "role": "usuario"
     },
     {
@@ -167,7 +169,16 @@
       "email": "tomasChico@gmail.com",
       "pais": "Bolivia",
       "fechaNacimiento": "1956-01-20",
-      "password": "Tomas1@Lopes",
+      "contrasena": "Tomas1@Lopes",
+      "role": "usuario"
+    },
+    {
+      "id": "9f1cffad-a6ef-4c50-ba27-d6aa93275c04",
+      "nombreDeUsuario": "Josep25",
+      "email": "josep3422121@gmail.com",
+      "pais": "Brasil",
+      "fechaNacimiento": "2006-11-30",
+      "contrasena": "Josep1@s",
       "role": "usuario"
     }
   ],
@@ -178,7 +189,7 @@
       "email": "suspendido@ejemplo.com",
       "pais": "Argentina",
       "fechaNacimiento": "1990-01-01",
-      "password": "Temp123!",
+      "contrasena": "Temp123!",
       "role": "usuario",
       "fechaSuspension": "2024-01-20T15:45:00Z"
     }

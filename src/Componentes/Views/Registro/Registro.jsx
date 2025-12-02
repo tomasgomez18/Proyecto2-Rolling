@@ -8,25 +8,21 @@ import "./Registro.css";
 
 export const Registro = ({ onClose }) => {
   const navigate = useNavigate();
-  const { setUsuarioActual, usuarioActual } = useUser(); 
+  const { setUsuarioActual } = useUser();
 
   const onSubmit = async (data) => {
     try {
-      console.log(" Datos recibidos para registro:", data);
+      console.log("📝 Datos del formulario de registro:", data);
+      
       const resultado = await UserStorage.VerificarRegistrarUsuario(data);
-      console.log(" Resultado del registro:", resultado);
+      console.log("✅ Resultado del registro:", resultado);
 
       if (resultado.registrado) {
         toast.success("¡Registro exitoso! Bienvenido a Rolling Motors");
-
-        console.log(" Usuario recibido en resultado:", resultado.usuario);
         
         if (resultado.usuario) {
-          console.log(" Intentando setear usuario actual...");
+          console.log("👤 Usuario establecido como actual:", resultado.usuario);
           setUsuarioActual(resultado.usuario);
-          const ultimoUsuario = localStorage.getItem("ultimoUsuario");
-        } else {
-          console.log(" No se recibió usuario en el resultado");
         }
 
         if (resultado.necesitaSoporte) {
@@ -55,14 +51,14 @@ export const Registro = ({ onClose }) => {
           }, 1500);
         }
       } else {
+        console.error("❌ Error en registro:", resultado.mensaje);
         toast.error(resultado.mensaje || "No se pudo registrar el usuario");
       }
     } catch (error) {
-      console.error("💥 Error en registro:", error);
-      toast.error("Error inesperado al registrar usuario");
+      console.error("💥 Error completo en registro:", error);
+      toast.error("Error inesperado: " + error.message);
     }
   };
-
 
   return (
     <Modal
@@ -84,4 +80,3 @@ export const Registro = ({ onClose }) => {
     </Modal>
   );
 };
-
