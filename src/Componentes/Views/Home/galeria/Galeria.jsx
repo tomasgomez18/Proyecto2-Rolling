@@ -3,15 +3,15 @@ import "./Galeria.css";
 
 const imagenes = [
   {
-    url: "Public/Galeria/RollingMotors.png",
+    url: "Galeria/RollingMotors.png",
     texto: "DISEÑADO PARA TODOS LOS CAMINOS — DISEÑADO PARA TODOS LOS VIAJES.",
   },
   {
-    url: "Public/Galeria/RE-HNTR-350-2-1024x682.jpeg",
+    url: "Galeria/RE-HNTR-350-2-1024x682.jpeg",
     texto: "CADA CAMINO TIENE UNA HISTORIA. VÍVELA CON ROYAL ENFIELD.",
   },
   {
-    url: "Public/Galeria/Royal_Enfield_1177.jpg",
+    url: "Galeria/Royal_Enfield_1177.jpg",
     texto:
       "SI EL COMPO TE PARECE ABURRIDO, DETENTE. BAJATE DE LA MOTOCICLETA...",
   },
