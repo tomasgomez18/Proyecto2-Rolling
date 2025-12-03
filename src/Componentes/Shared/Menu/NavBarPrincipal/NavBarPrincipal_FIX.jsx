@@ -47,7 +47,7 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
       <Container>
         <Navbar.Brand as={Link} to="/" className="marca-royal">
           <img 
-            src="/Public/png-transparent-enfield-cycle-co-ltd-motorcycle-royal-enfield-interceptor-royal-enfield-of-milwaukee-motorcycle-text-trademark-logo.png" 
+            src="Public\logo_convertido.png" 
             alt="Rolling Motors" 
             height="40" 
           />

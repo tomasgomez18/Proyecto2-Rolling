@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // Cambié a react-router-dom
 import Menu from "./Componentes/Shared/Menu/Menu";
 import Home from "./Componentes/Views/Home/Home";
+import Pagina404 from './Componentes/Views/Pagina404/Pagina404'
 import Ofertas from "./Componentes/Views/Productos/Ofertas/Ofertas";
 import PaginaProductos from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/PaginaProductos";
 import Contacto from "./Componentes/Views/Contacto/Contacto";
@@ -25,7 +26,6 @@ function App() {
       }
     });
   }, []);
-
   return (
     <CarritoProvider> {/* ← SOLO UN CarritoProvider aquí */}
       <ProveedorProductos>
@@ -40,7 +40,15 @@ function App() {
               <Route path="/productos-todos" element={<Productos />} />
               <Route path="/detalle-producto" element={<DetalleProducto />} />
               <Route path="/carrito" element={<Carrito />} />
-              <Route path="/admin" element={<RutaProtegida><AdminPanel /></RutaProtegida>}/>
+              <Route path='/404' element={<Pagina404/> }/>
+              <Route
+                path="/admin"
+                element={
+                  <RutaProtegida>
+                    <AdminPanel />
+                  </RutaProtegida>
+                }
+              />
             </Routes>
           </BrowserRouter>
         </UserProvider>
