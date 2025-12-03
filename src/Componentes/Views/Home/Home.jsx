@@ -1,8 +1,5 @@
-
-import React from 'react'
-import Ofertas from "../Productos/Ofertas/Ofertas";
 import Producto from '../Productos/Productos';
-import Galeria from './galeria/galeria';
+import Galeria from './galeria/Galeria';
 import Portada from './inicio/portada';
 
 const Home = () => {
