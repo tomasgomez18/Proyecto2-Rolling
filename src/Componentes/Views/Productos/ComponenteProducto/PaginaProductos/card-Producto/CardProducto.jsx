@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import './CardProducto.css'; 
+import { useCarrito } from '../../../../../Context/ContextoCarrito'; // Ajusta según tu estructura
+import './CardProducto.css';
 
 const CardProducto = ({ 
+  id,
   marca = "",
   modelo = "", 
   año = "",
@@ -15,6 +17,89 @@ const CardProducto = ({
   stock = true
 }) => {
   const navigate = useNavigate(); 
+  const { agregarAlCarrito } = useCarrito();
+  
+  const handleComprarClick = (e) => {
+    if (e) e.stopPropagation();
+    
+    // Crear objeto con todos los datos del producto
+    const productoData = {
+      id: id || Date.now().toString(),
+      marca,
+      modelo,
+      año,
+      precio,
+      imagen,
+      kilometros,
+      ubicacion,
+      descripcion,
+      destacado,
+      stock
+    };
+    
+    // Navegar a la página de detalle con el estado del producto
+    navigate('/detalle-producto', { state: { producto: productoData } });
+  };
+
+const handleAgregarCarrito = (e) => {
+  e.stopPropagation();
+  
+  if (!stock) {
+    alert('Este producto no está disponible');
+    return;
+  }
+
+  // Crear objeto del producto con ID garantizado
+  const productoData = {
+    id: id || `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    marca,
+    modelo,
+    año,
+    precio,
+    imagen,
+    kilometros,
+    ubicacion,
+    descripcion,
+    destacado,
+    stock
+  };
+
+  console.log('🎯 CardProducto - Producto a agregar:', productoData);
+  
+  // Agregar al carrito
+  agregarAlCarrito(productoData, 1);
+  
+  // Mostrar confirmación
+  alert(`${marca} ${modelo} agregado al carrito`);
+};
+
+  const handleCardClick = (e) => {
+    // Solo navegar si no se hizo clic en un botón
+    if (!e.target.closest('button')) {
+      const productoData = {
+        id: id || Date.now().toString(),
+        marca,
+        modelo,
+        año,
+        precio,
+        imagen,
+        kilometros,
+        ubicacion,
+        descripcion,
+        destacado,
+        stock
+      };
+      
+      navigate('/detalle-producto', { state: { producto: productoData } });
+    }
+  };
+
+  return (
+    <div 
+      className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`} 
+      style={{maxWidth: '320px', margin: '10px', cursor: 'pointer'}}
+      onClick={handleCardClick}
+    >
 
 
   const truncarTexto = (texto, maxLength = 75) => {
@@ -122,6 +207,7 @@ const CardProducto = ({
           </button>
           <button 
             className={`boton-carrito ${!stock ? 'boton-deshabilitado' : ''}`} 
+            onClick={handleAgregarCarrito}
             disabled={!stock}
           >
             <span className="texto-boton">
