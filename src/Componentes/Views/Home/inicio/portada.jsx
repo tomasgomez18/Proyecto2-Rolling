@@ -6,7 +6,7 @@ const Portada = () => {
       <div className="portada-imagen-wrapper">
         <img
           className="portada-imagen"
-          src="Public\Portada\Royal-Enfield-Classic-500-Pegasus-Edition-1.jpg"
+          src="Portada\Royal-Enfield-Classic-500-Pegasus-Edition-1.jpg"
           alt="Royal Enfield Moto"
         />
       </div>
@@ -17,9 +17,9 @@ const Portada = () => {
       </h2>
 
       <p className="portada-descripcion">
-        Al subirse a una moto de Rolling Motors, diseñado para
-        reemplazar a la competencia, con un motor imparable, tanto que el acelerador a fondo te empuja
-        hacia atrás con fuerza.
+        Al subirse a una moto de Rolling Motors, diseñado para reemplazar a la
+        competencia, con un motor imparable, tanto que el acelerador a fondo te
+        empuja hacia atrás con fuerza.
       </p>
     </div>
   );
