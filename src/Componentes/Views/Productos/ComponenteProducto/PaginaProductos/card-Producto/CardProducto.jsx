@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import { useCarrito } from '../../../../../Context/ContextoCarrito'; // Ajusta según tu estructura
+import { useCarrito } from '../../../../../Context/ContextoCarrito';
 import './CardProducto.css';
 
 const CardProducto = ({ 
@@ -16,13 +16,13 @@ const CardProducto = ({
   destacado = false, 
   stock = true
 }) => {
+
   const navigate = useNavigate(); 
   const { agregarAlCarrito } = useCarrito();
-  
+
   const handleComprarClick = (e) => {
     if (e) e.stopPropagation();
-    
-    // Crear objeto con todos los datos del producto
+
     const productoData = {
       id: id || Date.now().toString(),
       marca,
@@ -36,45 +36,40 @@ const CardProducto = ({
       destacado,
       stock
     };
-    
-    // Navegar a la página de detalle con el estado del producto
+
     navigate('/detalle-producto', { state: { producto: productoData } });
   };
 
-const handleAgregarCarrito = (e) => {
-  e.stopPropagation();
-  
-  if (!stock) {
-    alert('Este producto no está disponible');
-    return;
-  }
+  const handleAgregarCarrito = (e) => {
+    e.stopPropagation();
 
-  // Crear objeto del producto con ID garantizado
-  const productoData = {
-    id: id || `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-    marca,
-    modelo,
-    año,
-    precio,
-    imagen,
-    kilometros,
-    ubicacion,
-    descripcion,
-    destacado,
-    stock
+    if (!stock) {
+      alert('Este producto no está disponible');
+      return;
+    }
+
+    const productoData = {
+      id: id || `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      marca,
+      modelo,
+      año,
+      precio,
+      imagen,
+      kilometros,
+      ubicacion,
+      descripcion,
+      destacado,
+      stock
+    };
+
+    console.log('🎯 CardProducto - Producto a agregar:', productoData);
+
+    agregarAlCarrito(productoData, 1);
+
+    alert(`${marca} ${modelo} agregado al carrito`);
   };
 
-  console.log('🎯 CardProducto - Producto a agregar:', productoData);
-  
-  // Agregar al carrito
-  agregarAlCarrito(productoData, 1);
-  
-  // Mostrar confirmación
-  alert(`${marca} ${modelo} agregado al carrito`);
-};
-
   const handleCardClick = (e) => {
-    // Solo navegar si no se hizo clic en un botón
     if (!e.target.closest('button')) {
       const productoData = {
         id: id || Date.now().toString(),
@@ -89,18 +84,10 @@ const handleAgregarCarrito = (e) => {
         destacado,
         stock
       };
-      
+
       navigate('/detalle-producto', { state: { producto: productoData } });
     }
   };
-
-  return (
-    <div 
-      className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`} 
-      style={{maxWidth: '320px', margin: '10px', cursor: 'pointer'}}
-      onClick={handleCardClick}
-    >
-
 
   const truncarTexto = (texto, maxLength = 75) => {
     if (!texto || texto.length <= maxLength) return texto;
@@ -119,19 +106,18 @@ const handleAgregarCarrito = (e) => {
     return isNaN(numero) ? "0 km" : numero.toLocaleString('es-ES') + ' km';
   };
 
-
   const acortarUbicacion = (ubicacionStr) => {
     if (!ubicacionStr) return "";
     if (ubicacionStr.length <= 20) return ubicacionStr;
     return ubicacionStr.substring(0, 20) + '...';
   };
 
-  const handleComprarClick = () => {
-    navigate('/detalle-producto');
-  };
-
   return (
-    <div className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`}>
+    <div 
+      className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`} 
+      style={{maxWidth: '320px', margin: '10px', cursor: 'pointer'}}
+      onClick={handleCardClick}
+    >
       <div className="barra-superior-color" />
 
       <div className="contenedor-imagen-moto">
@@ -141,13 +127,12 @@ const handleAgregarCarrito = (e) => {
           alt={`${marca} ${modelo}`} 
           loading="lazy"
         />
+
         <span className="etiqueta-año">{año}</span>
-        
 
         {destacado && (
           <span className="etiqueta-destacado">Destacado</span>
         )}
-        
 
         {!stock && (
           <span className="etiqueta-agotado">Agotado</span>
@@ -160,7 +145,6 @@ const handleAgregarCarrito = (e) => {
           <h3 className="nombre-modelo">{modelo}</h3>
         </div>
 
-
         <div className="especificaciones-columnas">
 
           <div className="columna-especificacion">
@@ -172,8 +156,7 @@ const handleAgregarCarrito = (e) => {
               </div>
             </div>
           </div>
-          
-     
+
           <div className="columna-especificacion">
             <div className="icono-especificacion">🛣️</div>
             <div className="contenido-especificacion">
@@ -205,6 +188,7 @@ const handleAgregarCarrito = (e) => {
               {stock ? 'Comprar' : 'Agotada'}
             </span>
           </button>
+
           <button 
             className={`boton-carrito ${!stock ? 'boton-deshabilitado' : ''}`} 
             onClick={handleAgregarCarrito}
