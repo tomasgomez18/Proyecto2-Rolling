@@ -1,67 +1,113 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button, ListGroup, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useCarrito } from '../../../Context/ContextoCarrito';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Carrito.css';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  ListGroup,
+  Form,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useCarrito } from "../../../Context/ContextoCarrito";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./Carrito.css";
 
 const Carrito = () => {
   const navigate = useNavigate();
-  const { 
-    itemsCarrito, 
-    eliminarDelCarrito, 
+  const {
+    itemsCarrito,
+    eliminarDelCarrito,
     actualizarCantidad,
     vaciarCarrito,
     calcularSubtotal,
-    calcularTotalProductos
+    calcularTotalProductos,
   } = useCarrito();
 
-  // DEBUG: Ver qué hay en el carrito
-  console.log('🔍 Carrito.jsx - Estado actual del carrito:', itemsCarrito);
-  console.log('🔍 Carrito.jsx - Total productos:', calcularTotalProductos());
-  console.log('🔍 Carrito.jsx - Subtotal:', calcularSubtotal());
+  // -----------------------------------------------------
+  // ESTADOS PARA EL DESCUENTO
+  // -----------------------------------------------------
+  const [codigo, setCodigo] = useState("");
+  const [descuentoAplicado, setDescuentoAplicado] = useState(null); // porcentaje
+  const [totalConDescuento, setTotalConDescuento] = useState(null); // valor final con descuento
 
-  const envio = itemsCarrito.length > 0 ? 50000 : 0;
+  // -----------------------------------------------------
+  // CALCULOS BASE
+  // -----------------------------------------------------
+  const envio = itemsCarrito.length > 0 ? 1500 : 0;
   const descuentos = 0;
   const total = calcularSubtotal() + envio - descuentos;
+
+  // -----------------------------------------------------
+  // RE-CALCULAR DESCUENTO CUANDO CAMBIA EL TOTAL
+  // -----------------------------------------------------
+  useEffect(() => {
+    if (descuentoAplicado) {
+      const nuevoTotal = total - total * (descuentoAplicado / 100);
+      setTotalConDescuento(nuevoTotal);
+    }
+  }, [total, descuentoAplicado]);
 
   const handleCantidadChange = (productoId, nuevaCantidad) => {
     actualizarCantidad(productoId, parseInt(nuevaCantidad) || 1);
   };
 
   const handleVaciarCarrito = () => {
-    if (window.confirm('¿Estás seguro de que quieres vaciar el carrito?')) {
+    if (window.confirm("¿Estás seguro de que quieres vaciar el carrito?")) {
+      setDescuentoAplicado(null);
+      setTotalConDescuento(null);
+      setCodigo("");
       vaciarCarrito();
     }
   };
 
-  const handleSeguirComprando = () => {
-    navigate('/');
-  };
+  const handleSeguirComprando = () => navigate("/");
 
   const handleProcederPago = () => {
     if (itemsCarrito.length === 0) {
-      alert('El carrito está vacío');
+      alert("El carrito está vacío");
       return;
     }
-    alert('Redirigiendo al proceso de pago...');
+    alert("Redirigiendo al proceso de pago...");
   };
 
+  // -----------------------------------------------------
+  // APLICAR DESCUENTO ALEATORIO
+  // -----------------------------------------------------
+  const handleAplicarCodigo = () => {
+    if (!codigo.trim()) {
+      alert("Ingresa un código de descuento");
+      return;
+    }
+
+    const porcentajes = [10, 20, 30, 40, 50];
+    const porcentaje =
+      porcentajes[Math.floor(Math.random() * porcentajes.length)];
+
+    const nuevoTotal = total - total * (porcentaje / 100);
+
+    setDescuentoAplicado(porcentaje);
+    setTotalConDescuento(nuevoTotal);
+  };
+
+  // -----------------------------------------------------
+  // SI EL CARRITO ESTÁ VACÍO
+  // -----------------------------------------------------
   if (itemsCarrito.length === 0) {
     return (
       <Container className="carrito-container py-5">
         <h1 className="text-center mb-4 titulo-carrito">
           <i className="bi bi-cart3 me-2"></i>Tu Carrito de Motos
         </h1>
+
         <Card className="text-center shadow-sm border-0">
           <Card.Body className="py-5">
             <i className="bi bi-cart-x display-1 text-metal mb-3"></i>
             <h4 className="mb-3">Tu carrito está vacío</h4>
-            <p className="text-metal mb-4">
-              No has agregado ningún producto al carrito.
-            </p>
-            <Button 
-              variant="oscuro" 
+            <p className="text-metal mb-4">No has agregado ningún producto.</p>
+
+            <Button
+              variant="oscuro"
               onClick={handleSeguirComprando}
               className="btn-proceder"
             >
@@ -73,81 +119,88 @@ const Carrito = () => {
     );
   }
 
+  // -----------------------------------------------------
+  // CARRITO COMPLETO
+  // -----------------------------------------------------
   return (
     <Container className="carrito-container py-5">
       <h1 className="text-center mb-4 titulo-carrito">
-        <i className="bi bi-cart3 me-2"></i>Tu Carrito de Motos ({calcularTotalProductos()})
+        <i className="bi bi-cart3 me-2"></i>Tu Carrito de Motos (
+        {calcularTotalProductos()})
       </h1>
-      
+
       <Row>
         {/* Columna de productos */}
         <Col lg={8} className="mb-4">
           <Card className="shadow-sm border-0 mb-3">
             <Card.Header className="bg-oscuro text-crema py-3">
               <h5 className="mb-0">
-                <i className="bi bi-bicycle me-2"></i>Productos en el carrito ({itemsCarrito.length})
+                <i className="bi bi-bicycle me-2"></i>Productos en el carrito (
+                {itemsCarrito.length})
               </h5>
             </Card.Header>
+
             <ListGroup variant="flush">
               {itemsCarrito.map((item) => (
                 <ListGroup.Item key={item.id} className="py-4 px-3">
                   <Row className="align-items-center">
                     <Col xs={3} md={2}>
-                      <div className="imagen-producto-carrito">
-                        <img 
-                          src={item.imagen} 
-                          alt={item.nombre}
-                          className="img-fluid rounded"
-                        />
-                      </div>
+                      <img
+                        src={item.imagen}
+                        alt={item.nombre}
+                        className="img-fluid rounded"
+                      />
                     </Col>
-                    
+
                     <Col xs={9} md={5}>
                       <h6 className="mb-1 nombre-producto">{item.nombre}</h6>
-                      <div className="precio-producto">
-                        <span className="text-dorado fw-bold">
-                          ${item.precio.toLocaleString()}
-                        </span>
-                      </div>
+                      <span className="text-dorado fw-bold">
+                        ${item.precio.toLocaleString()}
+                      </span>
                     </Col>
-                    
+
                     <Col xs={6} md={3}>
                       <div className="d-flex align-items-center">
-                        <Button 
-                          variant="outline-secondary" 
+                        <Button
+                          variant="outline-secondary"
                           size="sm"
-                          className="boton-cantidad"
-                          onClick={() => handleCantidadChange(item.id, item.cantidad - 1)}
+                          onClick={() =>
+                            handleCantidadChange(item.id, item.cantidad - 1)
+                          }
                         >
                           <i className="bi bi-dash"></i>
                         </Button>
-                        
-                        <Form.Control 
-                          type="number" 
+
+                        <Form.Control
+                          type="number"
                           value={item.cantidad}
                           min="1"
-                          className="mx-2 text-center input-cantidad"
-                          onChange={(e) => handleCantidadChange(item.id, e.target.value)}
+                          className="mx-2 text-center"
+                          onChange={(e) =>
+                            handleCantidadChange(item.id, e.target.value)
+                          }
                         />
-                        
-                        <Button 
-                          variant="outline-secondary" 
+
+                        <Button
+                          variant="outline-secondary"
                           size="sm"
-                          className="boton-cantidad"
-                          onClick={() => handleCantidadChange(item.id, item.cantidad + 1)}
+                          onClick={() =>
+                            handleCantidadChange(item.id, item.cantidad + 1)
+                          }
                         >
                           <i className="bi bi-plus"></i>
                         </Button>
                       </div>
                     </Col>
-                    
+
                     <Col xs={6} md={2} className="text-end">
-                      <div className="fw-bold subtotal-producto">
+                      <div className="fw-bold">
                         ${(item.precio * item.cantidad).toLocaleString()}
                       </div>
-                      <Button 
-                        variant="link" 
-                        className="text-rojo p-0 mt-1 btn-eliminar"
+
+                      <Button
+                        variant="link"
+                        className="text-rojo p-0 mt-1"
                         onClick={() => eliminarDelCarrito(item.id)}
                       >
                         <i className="bi bi-trash me-1"></i>Eliminar
@@ -158,17 +211,18 @@ const Carrito = () => {
               ))}
             </ListGroup>
           </Card>
-          
+
           <div className="d-flex justify-content-between mt-3">
-            <Button variant="outline-oscuro" className="btn-continuar" onClick={handleSeguirComprando}>
+            <Button variant="outline-oscuro" onClick={handleSeguirComprando}>
               <i className="bi bi-arrow-left me-2"></i>Seguir Comprando
             </Button>
-            <Button variant="outline-rojo" className="btn-vaciar" onClick={handleVaciarCarrito}>
+
+            <Button variant="outline-rojo" onClick={handleVaciarCarrito}>
               <i className="bi bi-trash me-2"></i>Vaciar Carrito
             </Button>
           </div>
         </Col>
-        
+
         {/* Columna del resumen */}
         <Col lg={4}>
           <Card className="shadow-sm border-0 sticky-top resumen-card">
@@ -177,57 +231,83 @@ const Carrito = () => {
                 <i className="bi bi-receipt me-2"></i>Resumen del Pedido
               </h5>
             </Card.Header>
-            
+
             <Card.Body>
               <ListGroup variant="flush" className="mb-3">
                 <ListGroup.Item className="d-flex justify-content-between py-2">
                   <span>Subtotal ({calcularTotalProductos()} items)</span>
                   <span>${calcularSubtotal().toLocaleString()}</span>
                 </ListGroup.Item>
-                
+
                 <ListGroup.Item className="d-flex justify-content-between py-2">
                   <span>Envío</span>
                   <span>${envio.toLocaleString()}</span>
                 </ListGroup.Item>
-                
-                {descuentos > 0 && (
-                  <ListGroup.Item className="d-flex justify-content-between py-2 text-rojo">
-                    <span>Descuentos</span>
-                    <span>-${descuentos.toLocaleString()}</span>
-                  </ListGroup.Item>
-                )}
-                
-                <ListGroup.Item className="d-flex justify-content-between py-3 total-item">
-                  <strong className="fs-5">Total</strong>
-                  <strong className="fs-5 text-dorado">${total.toLocaleString()}</strong>
+
+                {/* TOTAL + DESCUENTO */}
+                <ListGroup.Item className="py-3 total-item">
+                  <div className="d-flex justify-content-between">
+                    <strong className="fs-5">Total</strong>
+
+                    {!descuentoAplicado ? (
+                      <strong className="fs-5 text-dorado">
+                        ${total.toLocaleString()}
+                      </strong>
+                    ) : (
+                      <div className="text-end">
+                        <div
+                          style={{
+                            textDecoration: "line-through",
+                            color: "#888",
+                          }}
+                        >
+                          ${total.toLocaleString()}
+                        </div>
+
+                        <div className="fs-5 text-dorado fw-bold">
+                          ${totalConDescuento.toLocaleString()}
+                        </div>
+
+                        <small className="text-success">
+                          Descuento aplicado: {descuentoAplicado}%
+                        </small>
+                      </div>
+                    )}
+                  </div>
                 </ListGroup.Item>
               </ListGroup>
-              
+
+              {/* CÓDIGO DE DESCUENTO */}
               <div className="mb-3">
                 <Form.Label className="mb-2">
-                  <i className="bi bi-ticket-perforated me-2"></i>Código de descuento
+                  <i className="bi bi-ticket-perforated me-2"></i>Código de
+                  descuento
                 </Form.Label>
+
                 <div className="d-flex">
-                  <Form.Control 
-                    type="text" 
+                  <Form.Control
+                    type="text"
                     placeholder="Ingresa tu código"
                     className="me-2"
+                    value={codigo}
+                    onChange={(e) => setCodigo(e.target.value)}
                   />
-                  <Button variant="dorado" className="btn-aplicar">
+
+                  <Button variant="dorado" onClick={handleAplicarCodigo}>
                     Aplicar
                   </Button>
                 </div>
               </div>
-              
-              <Button 
-                variant="oscuro" 
-                size="lg" 
-                className="w-100 mb-3 btn-proceder"
+
+              <Button
+                variant="oscuro"
+                size="lg"
+                className="w-100 mb-3"
                 onClick={handleProcederPago}
               >
                 <i className="bi bi-lock-fill me-2"></i>Proceder al Pago
               </Button>
-              
+
               <div className="text-center mt-3">
                 <small className="text-metal">
                   <i className="bi bi-shield-check me-1"></i>
@@ -236,12 +316,13 @@ const Carrito = () => {
               </div>
             </Card.Body>
           </Card>
-          
+
           {/* Métodos de pago */}
           <Card className="shadow-sm border-0 mt-3">
             <Card.Body>
               <h6 className="mb-3">
-                <i className="bi bi-credit-card me-2"></i>Métodos de pago aceptados
+                <i className="bi bi-credit-card me-2"></i>Métodos de pago
+                aceptados
               </h6>
               <div className="d-flex justify-content-around">
                 <i className="bi bi-credit-card fs-4 text-metal"></i>
