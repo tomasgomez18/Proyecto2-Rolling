@@ -3,16 +3,17 @@ import "./Galeria.css";
 
 const imagenes = [
   {
-    url: "https://images.pexels.com/photos/17625723/pexels-photo-17625723.jpeg",
-    texto: "IF THE COUNTRYSIDE SEEMS BORING, STOP. GET OFF YOUR BIKE...",
+    url: "Public/Galeria/RollingMotors.png",
+    texto: "DISEÑADO PARA TODOS LOS CAMINOS — DISEÑADO PARA TODOS LOS VIAJES.",
   },
   {
-    url: "https://images.pexels.com/photos/17624064/pexels-photo-17624064.jpeg",
-    texto: "EVERY ROAD HAS A STORY. LIVE IT WITH ROYAL ENFIELD.",
+    url: "Public/Galeria/RE-HNTR-350-2-1024x682.jpeg",
+    texto: "CADA CAMINO TIENE UNA HISTORIA. VÍVELA CON ROYAL ENFIELD.",
   },
   {
-    url: "https://images.pexels.com/photos/15440694/pexels-photo-15440694.jpeg",
-    texto: "BUILT FOR ALL ROADS — BUILT FOR ALL JOURNEYS.",
+    url: "Public/Galeria/Royal_Enfield_1177.jpg",
+    texto:
+      "SI EL COMPO TE PARECE ABURRIDO, DETENTE. BAJATE DE LA MOTOCICLETA...",
   },
 ];
 
@@ -32,10 +33,9 @@ const Galeria = () => {
 
   return (
     <div className="galeria-container mt-5 py-5">
-      <h2 className="galeria-titulo">BUILT FOR ALL ROADS</h2>
+      <h2 className="galeria-titulo">TANTO EN LA GUERRA COMO EN LA CALLE</h2>
 
       <div className="galeria-wrapper">
-
         <div className="galeria-lateral izquierda">
           <img src={imagenes[indexPrev].url} alt="previa" />
         </div>
@@ -57,7 +57,6 @@ const Galeria = () => {
         <div className="galeria-lateral derecha">
           <img src={imagenes[indexNext].url} alt="siguiente" />
         </div>
-
       </div>
     </div>
   );

@@ -47,7 +47,7 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
       <Container>
         <Navbar.Brand as={Link} to="/" className="marca-royal">
           <img 
-            src="Public\logo_convertido.png" 
+            src="Public\Logo\logo_convertido.png" 
             alt="Rolling Motors" 
             height="40" 
           />
@@ -160,8 +160,6 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
                   <Dropdown.Item className="item-desplegable" onClick={onAbrirLogin}>
                     <FaUser className="me-2" /> {t('login')}
                   </Dropdown.Item>
-                  
-                  {/* Selector de idioma - Móvil */}
                   <Dropdown.Item className="item-desplegable dropdown-submenu">
                     <FaGlobe className="me-2" /> {t('changeLanguage')}
                     <div className="mt-2">

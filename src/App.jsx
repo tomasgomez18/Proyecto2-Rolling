@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom"; // Cambié a react-router-dom
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Menu from "./Componentes/Shared/Menu/Menu";
 import Home from "./Componentes/Views/Home/Home";
 import Pagina404 from './Componentes/Views/Pagina404/Pagina404'
@@ -17,7 +17,6 @@ import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/Pa
 import Productos from "./Componentes/Views/Productos/Productos";
 import Carrito from "./Componentes/Views/Productos/ComponenteCarrito/Carrito";
 import { CarritoProvider } from "./Componentes/Context/ContextoCarrito";
-
 function App() {
   useEffect(() => {
     UserStorage.Backup().then((resultado) => {
@@ -27,7 +26,7 @@ function App() {
     });
   }, []);
   return (
-    <CarritoProvider> {/* ← SOLO UN CarritoProvider aquí */}
+    <CarritoProvider>
       <ProveedorProductos>
         <UserProvider>
           <BrowserRouter>

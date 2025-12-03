@@ -10,16 +10,6 @@
       "role": "admin"
     },
     {
-      "id": "2",
-      "nombreDeUsuario": "juan_perez2",
-      "email": "juan.perez@email.com",
-      "pais": "México",
-      "fechaNacimiento": "1990-03-22",
-      "contrasena": "",
-      "role": "usuario",
-      "fechaSuspension": "2025-11-29T06:42:07.736Z"
-    },
-    {
       "id": "3",
       "nombreDeUsuario": "maria_garcia",
       "email": "maria.garcia@correo.com",
@@ -180,9 +170,7 @@
       "fechaNacimiento": "2006-11-30",
       "contrasena": "Josep1@s",
       "role": "usuario"
-    }
-  ],
-  "usuariosSuspendidos": [
+    },
     {
       "id": "100",
       "nombreDeUsuario": "usuario_suspendido",
@@ -192,8 +180,19 @@
       "contrasena": "Temp123!",
       "role": "usuario",
       "fechaSuspension": "2024-01-20T15:45:00Z"
+    },
+    {
+      "id": "2",
+      "nombreDeUsuario": "juan_perez2",
+      "email": "juan.perez@email.com",
+      "pais": "México",
+      "fechaNacimiento": "1990-03-22",
+      "contrasena": "",
+      "role": "usuario",
+      "fechaSuspension": "2025-12-03T04:52:04.048Z"
     }
   ],
+  "usuariosSuspendidos": [],
   "productos": [
     {
       "id": "1",
