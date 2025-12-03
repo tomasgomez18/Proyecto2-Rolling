@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import './CardProducto.css'; 
+import { useCarrito } from '../../../../../Context/ContextoCarrito';
+import './CardProducto.css';
 
 const CardProducto = ({ 
+  id,
   marca = "",
   modelo = "", 
   año = "",
@@ -14,8 +16,77 @@ const CardProducto = ({
   destacado = false, 
   stock = true
 }) => {
-  const navigate = useNavigate(); 
 
+  const navigate = useNavigate(); 
+  const { agregarAlCarrito } = useCarrito();
+
+  const handleComprarClick = (e) => {
+    if (e) e.stopPropagation();
+
+    const productoData = {
+      id: id || Date.now().toString(),
+      marca,
+      modelo,
+      año,
+      precio,
+      imagen,
+      kilometros,
+      ubicacion,
+      descripcion,
+      destacado,
+      stock
+    };
+
+    navigate('/detalle-producto', { state: { producto: productoData } });
+  };
+
+  const handleAgregarCarrito = (e) => {
+    e.stopPropagation();
+
+    if (!stock) {
+      alert('Este producto no está disponible');
+      return;
+    }
+
+    const productoData = {
+      id: id || `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      marca,
+      modelo,
+      año,
+      precio,
+      imagen,
+      kilometros,
+      ubicacion,
+      descripcion,
+      destacado,
+      stock
+    };
+
+
+    agregarAlCarrito(productoData, 1);
+
+    alert(`${marca} ${modelo} agregado al carrito`);
+  };
+
+  const handleCardClick = (e) => {
+    if (!e.target.closest('button')) {
+      const productoData = {
+        id: id || Date.now().toString(),
+        marca,
+        modelo,
+        año,
+        precio,
+        imagen,
+        kilometros,
+        ubicacion,
+        descripcion,
+        destacado,
+        stock
+      };
+
+      navigate('/detalle-producto', { state: { producto: productoData } });
+    }
+  };
 
   const truncarTexto = (texto, maxLength = 75) => {
     if (!texto || texto.length <= maxLength) return texto;
@@ -34,19 +105,18 @@ const CardProducto = ({
     return isNaN(numero) ? "0 km" : numero.toLocaleString('es-ES') + ' km';
   };
 
-
   const acortarUbicacion = (ubicacionStr) => {
     if (!ubicacionStr) return "";
     if (ubicacionStr.length <= 20) return ubicacionStr;
     return ubicacionStr.substring(0, 20) + '...';
   };
 
-  const handleComprarClick = () => {
-    navigate('/detalle-producto');
-  };
-
   return (
-    <div className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`}>
+    <div 
+      className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''}`} 
+      style={{maxWidth: '320px', margin: '10px', cursor: 'pointer'}}
+      onClick={handleCardClick}
+    >
       <div className="barra-superior-color" />
 
       <div className="contenedor-imagen-moto">
@@ -56,13 +126,12 @@ const CardProducto = ({
           alt={`${marca} ${modelo}`} 
           loading="lazy"
         />
+
         <span className="etiqueta-año">{año}</span>
-        
 
         {destacado && (
           <span className="etiqueta-destacado">Destacado</span>
         )}
-        
 
         {!stock && (
           <span className="etiqueta-agotado">Agotado</span>
@@ -75,7 +144,6 @@ const CardProducto = ({
           <h3 className="nombre-modelo">{modelo}</h3>
         </div>
 
-
         <div className="especificaciones-columnas">
 
           <div className="columna-especificacion">
@@ -87,8 +155,7 @@ const CardProducto = ({
               </div>
             </div>
           </div>
-          
-     
+
           <div className="columna-especificacion">
             <div className="icono-especificacion">🛣️</div>
             <div className="contenido-especificacion">
@@ -120,8 +187,10 @@ const CardProducto = ({
               {stock ? 'Comprar' : 'Agotada'}
             </span>
           </button>
+
           <button 
             className={`boton-carrito ${!stock ? 'boton-deshabilitado' : ''}`} 
+            onClick={handleAgregarCarrito}
             disabled={!stock}
           >
             <span className="texto-boton">

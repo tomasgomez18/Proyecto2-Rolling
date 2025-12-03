@@ -18,7 +18,6 @@ const Contacto = () => {
 
     const [errorGeneral, setErrorGeneral] = useState("");
 
-    // Filtrado en tiempo real para inputs
     const handleNombreChange = (e) => {
         e.target.value = e.target.value.replace(/[^a-zA-Z]/g, '');
     };
@@ -32,7 +31,7 @@ const Contacto = () => {
     };
 
     const handleEmailChange = (e) => {
-        e.target.value = e.target.value.replace(/[^a-zA-Z0-9-_@.]/g, ''); // letras, números, guion medio, guion bajo, puntos
+        e.target.value = e.target.value.replace(/[^a-zA-Z0-9-_@.]/g, '');
     };
 
     const sendEmail = (e) => {
@@ -48,27 +47,23 @@ const Contacto = () => {
         let nuevoErrores = {};
         let camposVacios = false;
 
-        // Nombre: obligatorio, 3-12 caracteres, solo letras
         if (!nombre) { 
             nuevoErrores.nombre = "Por favor ingresa tu nombre."; 
             camposVacios = true; 
         } else if (nombre.length < 3) nuevoErrores.nombre = "El nombre debe tener al menos 3 caracteres.";
         else if (nombre.length > 12) nuevoErrores.nombre = "El nombre no puede superar los 12 caracteres.";
 
-        // Apellido: obligatorio, 3-12 caracteres, solo letras
         if (!apellido) { 
             nuevoErrores.apellido = "Por favor ingresa tu apellido."; 
             camposVacios = true; 
         } else if (apellido.length < 3) nuevoErrores.apellido = "El apellido debe tener al menos 3 caracteres.";
         else if (apellido.length > 12) nuevoErrores.apellido = "El apellido no puede superar los 12 caracteres.";
 
-        // Teléfono: obligatorio, solo números
         if (!telefono) { 
             nuevoErrores.telefono = "Ingresa tu número de teléfono."; 
             camposVacios = true; 
         } else if (!/^\d+$/.test(telefono)) nuevoErrores.telefono = "El teléfono solo puede contener números.";
 
-        // Email: obligatorio, letras, números, guion medio y guion bajo antes de @, puntos después
         if (!email) { 
             nuevoErrores.email = "Ingresa tu correo electrónico."; 
             camposVacios = true; 
@@ -76,7 +71,6 @@ const Contacto = () => {
             nuevoErrores.email = "El correo solo puede contener letras, números, guion medio y guion bajo antes de @gmail y puntos después";
         }
 
-        // Mensaje: obligatorio, máximo 200 caracteres
         if (!mensaje) { 
             nuevoErrores.mensaje = "Escribe un mensaje para contactarnos."; 
             camposVacios = true; 

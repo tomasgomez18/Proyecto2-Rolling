@@ -6,8 +6,6 @@ import './ListaProducto.css';
 
 const ListaProductos = () => {
   const { productosFiltrados, cargando, filtros } = useProductos();
-
-  // Calcular estadísticas de la categoría actual
   const productosEnCategoria = productosFiltrados.filter(p => 
     !filtros.categoria || p.categoria === filtros.categoria
   );
@@ -42,7 +40,6 @@ const ListaProductos = () => {
 
   return (
     <div className="contenedor-lista-productos mt-5">
-      {/* Información de la categoría */}
       {filtros.categoria && (
         <div className="informacion-categoria mb-4">
           <div className="d-flex align-items-center justify-content-between">

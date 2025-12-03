@@ -22,7 +22,6 @@
   text-align: center;
 }
 
-/* Spinner personalizado */
 .contenedor-cargando .spinner-border {
   color: var(--color-dorado) !important;
   width: 3rem;
@@ -56,7 +55,6 @@
   font-weight: 500;
 }
 
-/* Grid improvements */
 .contenedor-lista-productos .row.g-4 {
   margin: 0 -0.5rem;
 }
@@ -66,13 +64,12 @@
   margin-bottom: 1rem;
 }
 
-/* Efectos hover en las columnas */
 .contenedor-lista-productos .col:hover {
   transform: translateY(-5px);
   transition: transform 0.3s ease;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .contenedor-lista-productos {
     padding: 1rem 0;

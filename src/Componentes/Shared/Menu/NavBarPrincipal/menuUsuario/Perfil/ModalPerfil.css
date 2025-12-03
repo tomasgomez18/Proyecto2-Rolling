@@ -300,7 +300,6 @@
   vertical-align: middle;
 }
 
-/* Responsive para badges */
 @media (max-width: 768px) {
   .badge-admin {
     font-size: 0.6rem;

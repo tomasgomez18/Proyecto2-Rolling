@@ -32,10 +32,30 @@ const AdminPanel = () => {
   const [mostrarFormProducto, setMostrarFormProducto] = useState(false);
   const [modoFormularioProducto, setModoFormularioProducto] =
     useState("agregar");
+    
+  const estadisticas = obtenerEstadisticas();
+
+  const manejarSincronizacion = useCallback(async () => {
+    const resultado = await sincronizarConAPI();
+    alert(resultado.mensaje);
+  }, [sincronizarConAPI]);
+
+  useEffect(() => {
+    if (vistaActiva === "productos") {
+      cargarProductos();
+    }
+  }, [vistaActiva, cargarProductos]);
+
+  const manejarEditarProducto = useCallback((producto) => {
+    setProductoEditando(producto);
+    setModoFormularioProducto("editar");
+    setMostrarFormProducto(true);
+  }, []);
 
   const [recomendaciones, setRecomendaciones] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
-
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [notaEditando, setNotaEditando] = useState(null);
   const [pedidos, setPedidos] = useState([]);
   const [pedidoActual, setPedidoActual] = useState({
     id: null,
@@ -44,29 +64,6 @@ const AdminPanel = () => {
   });
   const [modoPedido, setModoPedido] = useState("agregar");
 
-  const estadisticas = obtenerEstadisticas();
-
-  // Memoizar el handler de sincronización
-  const manejarSincronizacion = useCallback(async () => {
-    const resultado = await sincronizarConAPI();
-    alert(resultado.mensaje);
-  }, [sincronizarConAPI]);
-
-  // Recargar productos solo cuando la vista de productos se active
-  useEffect(() => {
-    if (vistaActiva === "productos") {
-      cargarProductos();
-    }
-  }, [vistaActiva, cargarProductos]);
-
-  // Función para manejar edición de producto
-  const manejarEditarProducto = useCallback((producto) => {
-    setProductoEditando(producto);
-    setModoFormularioProducto("editar");
-    setMostrarFormProducto(true);
-  }, []);
-
-  // Función para manejar eliminación de producto
   const manejarEliminarProducto = useCallback(
     async (id) => {
       if (
@@ -613,11 +610,9 @@ const AdminPanel = () => {
           >
             🌍 Mapa
           </button>
-
           <button onClick={() => setVistaActiva("recomendaciones")}>
             💬 Recomendaciones
           </button>
-
           <button onClick={() => setVistaActiva("pedidos")}>📦 Pedidos</button>
         </nav>
 
@@ -969,31 +964,66 @@ const AdminPanel = () => {
       {vistaActiva === "recomendaciones" && (
         <div className="contenedor-tabla">
           <h2>💬 Recomendaciones de Usuarios</h2>
+          <h2>Notas</h2>
+
 
           <form
             className="form-comentario"
             onSubmit={(e) => {
               e.preventDefault();
+
               if (!nuevoComentario.trim()) return;
 
               setRecomendaciones([
                 ...recomendaciones,
                 { id: Date.now(), texto: nuevoComentario },
               ]);
+              if (!nuevoComentario.trim()) return;
+             if (modoEdicion) {
+                setRecomendaciones(
+                  recomendaciones.map((nota) =>
+                    nota.id === notaEditando.id
+                      ? { ...nota, texto: nuevoComentario }
+                      : nota
+                  )
+                );
+
+                setModoEdicion(false);
+                setNotaEditando(null);
+              } else {
+                setRecomendaciones([
+                  ...recomendaciones,
+                  { id: Date.now(), texto: nuevoComentario },
+                ]);
+              }
 
               setNuevoComentario("");
             }}
           >
             <textarea
               className="input-textarea"
-              placeholder="Escribe una recomendación..."
+              placeholder="Escribe una nota..."
               value={nuevoComentario}
               onChange={(e) => setNuevoComentario(e.target.value)}
             />
 
             <button className="boton-agregar" type="submit">
-              ➕ Añadir Recomendación
+              {modoEdicion ? "💾 Guardar Nota" : "➕ Añadir Nota"}
             </button>
+
+            {modoEdicion && (
+              <button
+                className="boton-cancelar"
+                type="button"
+                onClick={() => {
+                  setModoEdicion(false);
+                  setNotaEditando(null);
+                  setNuevoComentario("");
+                }}
+              >
+                ❌ Cancelar
+              </button>
+            )}
           </form>
 
           <div className="tabla-responsive">
@@ -1012,6 +1042,17 @@ const AdminPanel = () => {
 
                     <td data-label="Acciones">
                       <button
+                        className="boton-editar"
+                        onClick={() => {
+                          setModoEdicion(true);
+                          setNotaEditando(r);
+                          setNuevoComentario(r.texto);
+                        }}
+                      >
+                        ✏️ Editar
+                      </button>
+
+                      <button
                         className="boton-eliminar"
                         onClick={() =>
                           setRecomendaciones(
@@ -1028,7 +1069,7 @@ const AdminPanel = () => {
             </table>
 
             {recomendaciones.length === 0 && (
-              <div className="sin-datos">📭 No hay recomendaciones aún</div>
+              <div className="sin-datos">📭 No hay notas aún</div>
             )}
           </div>
         </div>
@@ -1037,12 +1078,10 @@ const AdminPanel = () => {
       {vistaActiva === "pedidos" && (
         <div className="contenedor-tabla">
           <h2>📦 Gestión de Pedidos del Administrador</h2>
-
           <form
             className="form-comentario"
             onSubmit={(e) => {
               e.preventDefault();
-
               if (modoPedido === "agregar") {
                 setPedidos([
                   ...pedidos,
@@ -1059,7 +1098,6 @@ const AdminPanel = () => {
                   )
                 );
               }
-
               setPedidoActual({ id: null, titulo: "", descripcion: "" });
               setModoPedido("agregar");
             }}
@@ -1073,7 +1111,6 @@ const AdminPanel = () => {
                 setPedidoActual({ ...pedidoActual, titulo: e.target.value })
               }
             />
-
             <textarea
               placeholder="Descripción del pedido"
               className="input-textarea"
@@ -1092,7 +1129,6 @@ const AdminPanel = () => {
                 : "✏️ Guardar cambios"}
             </button>
           </form>
-
           <div className="tabla-responsive">
             <table className="tabla-administracion">
               <thead>
@@ -1108,7 +1144,6 @@ const AdminPanel = () => {
                   <tr key={p.id}>
                     <td data-label="Titulo">{p.titulo}</td>
                     <td data-label="Descripción">{p.descripcion}</td>
-
                     <td data-label="Acciones">
                       <button
                         className="boton-editar"
@@ -1119,7 +1154,6 @@ const AdminPanel = () => {
                       >
                         ✏️ Editar
                       </button>
-
                       <button
                         className="boton-eliminar"
                         onClick={() =>
@@ -1133,9 +1167,8 @@ const AdminPanel = () => {
                 ))}
               </tbody>
             </table>
-
             {pedidos.length === 0 && (
-              <div className="sin-datos">📭 No hay pedidos creados</div>
+              <div className="sin-datos">No hay pedidos creados</div>
             )}
           </div>
         </div>

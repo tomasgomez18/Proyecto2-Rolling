@@ -26,12 +26,10 @@ const BuscadorProducto = () => {
 
   const [errores, setErrores] = useState({});
 
-  // Obtener categorías, marcas y modelos únicos
   const categoriasUnicas = obtenerCategoriasUnicas();
   const marcasUnicas = [...new Set(productos.map(p => p.marca))];
   const modelosUnicos = [...new Set(productos.map(p => p.modelo))];
 
-  // Sincronizar filtros locales con globales cuando cambien
   useEffect(() => {
     setFiltrosLocales({
       terminoBusqueda: filtros.terminoBusqueda,
@@ -43,7 +41,6 @@ const BuscadorProducto = () => {
     });
   }, [filtros]);
 
-  // Función para mostrar notificaciones con la paleta de colores personalizada
   const mostrarNotificacion = (mensaje, tipo = 'error', duracion = 4000) => {
     const opciones = {
       duration: duracion,
@@ -64,7 +61,6 @@ const BuscadorProducto = () => {
       }
     };
 
-    // Estilos específicos para cada tipo usando la paleta de colores
     const estilosPorTipo = {
       success: {
         background: 'linear-gradient(135deg, var(--color-dorado), #b8941f)',
@@ -109,19 +105,16 @@ const BuscadorProducto = () => {
 
   const manejarCambioFiltro = (campo, valor) => {
     let valorValidado = valor;
-    
-    // Aplicar validaciones específicas según el campo
+
     if (campo === 'terminoBusqueda') {
       valorValidado = validarTerminoBusqueda(valor);
       
-      // Mostrar advertencia si se eliminaron caracteres inválidos
       if (valor !== valorValidado && valor.length > valorValidado.length) {
         mostrarNotificacion('Se eliminaron caracteres especiales no permitidos', 'warning', 3000);
       }
     } else if (campo === 'precioMin' || campo === 'precioMax') {
       valorValidado = validarCampoNumerico(valor);
       
-      // Mostrar advertencia si se eliminaron caracteres no numéricos
       if (valor !== valorValidado && /\D/.test(valor)) {
         mostrarNotificacion('Solo se permiten números enteros', 'warning', 3000);
       }
@@ -134,7 +127,6 @@ const BuscadorProducto = () => {
       [campo]: valorValidado
     }));
     
-    // Limpiar error del campo cuando el usuario escribe
     if (errores[campo]) {
       setErrores(prev => ({ ...prev, [campo]: '' }));
     }
@@ -143,13 +135,13 @@ const BuscadorProducto = () => {
   const manejarAplicarFiltros = (e) => {
     e.preventDefault();
     
-    // Validar todos los filtros
+
     const nuevosErrores = validarTodosLosFiltros(filtrosLocales);
     
     if (Object.keys(nuevosErrores).length > 0) {
       setErrores(nuevosErrores);
       
-      // Mostrar todos los errores en una notificación
+  
       const mensajesError = Object.values(nuevosErrores).filter((msg, index, self) => 
         self.indexOf(msg) === index
       );
@@ -164,12 +156,11 @@ const BuscadorProducto = () => {
       return;
     }
     
-    // Limpiar y aplicar filtros
     const filtrosLimpios = limpiarTodosLosFiltros(filtrosLocales);
     actualizarFiltros(filtrosLimpios);
-    setErrores({}); // Limpiar errores después de éxito
+    setErrores({}); 
     
-    // Construir mensaje de éxito con resumen
+  
     const filtrosAplicados = [];
     if (filtrosLimpios.terminoBusqueda) {
       filtrosAplicados.push(`"${filtrosLimpios.terminoBusqueda}"`);
@@ -209,7 +200,7 @@ const BuscadorProducto = () => {
     setErrores({});
     limpiarFiltros();
     
-    // Mostrar mensaje de confirmación
+
     mostrarNotificacion('Todos los filtros han sido restablecidos', 'info');
   };
 
@@ -217,14 +208,12 @@ const BuscadorProducto = () => {
     const terminoLimpio = validarTerminoBusqueda(termino);
     setFiltrosLocales(prev => ({ ...prev, terminoBusqueda: terminoLimpio }));
     
-    // Solo aplicar búsqueda en tiempo real si tiene al menos 3 caracteres o está vacío
     if (terminoLimpio.length >= 3 || terminoLimpio === '') {
       actualizarFiltros({ 
         terminoBusqueda: terminoLimpio,
         categoria: filtrosLocales.categoria
       });
     } else if (terminoLimpio.length > 0 && terminoLimpio.length < 3) {
-      // Mostrar feedback para búsqueda corta (con debounce)
       const timeoutId = setTimeout(() => {
         mostrarNotificacion('Ingresa al menos 3 caracteres para buscar', 'info', 2000);
       }, 800);
@@ -233,7 +222,6 @@ const BuscadorProducto = () => {
     }
   };
 
-  // Filtro de categoría en tiempo real
   const manejarCambioCategoria = (categoria) => {
     setFiltrosLocales(prev => ({ ...prev, categoria }));
     actualizarFiltros({ 
@@ -241,7 +229,6 @@ const BuscadorProducto = () => {
       terminoBusqueda: filtrosLocales.terminoBusqueda
     });
     
-    // Mostrar feedback solo si se selecciona una categoría específica
     if (categoria) {
       mostrarNotificacion(`Categoría seleccionada: ${categoria}`, 'info');
     }
@@ -249,7 +236,6 @@ const BuscadorProducto = () => {
 
   return (
     <>
-      {/* Contenedor de Toasts con estilos personalizados */}
       <Toaster
         position="top-right"
         reverseOrder={false}
@@ -285,7 +271,6 @@ const BuscadorProducto = () => {
               <Card.Body className="cuerpo-buscador">
                 <Form onSubmit={manejarAplicarFiltros} noValidate>
                   <Row>
-                    {/* Búsqueda general */}
                     <Col md={6} className="mb-2">
                       <Form.Group>
                         <Form.Label className="etiqueta-form">
@@ -319,7 +304,6 @@ const BuscadorProducto = () => {
                       </Form.Group>
                     </Col>
 
-                    {/* Filtro de categoría */}
                     <Col md={6} className="mb-2">
                       <Form.Group>
                         <Form.Label className="etiqueta-form">Categoría</Form.Label>
@@ -338,7 +322,6 @@ const BuscadorProducto = () => {
                       </Form.Group>
                     </Col>
 
-                    {/* Rango de precio */}
                     <Col md={6} className="mb-2">
                       <Form.Label className="etiqueta-form">
                         Rango de precio
@@ -395,7 +378,6 @@ const BuscadorProducto = () => {
                       </Form.Text>
                     </Col>
 
-                    {/* Marca */}
                     <Col md={6} className="mb-2">
                       <Form.Group>
                         <Form.Label className="etiqueta-form">Marca</Form.Label>
@@ -412,7 +394,6 @@ const BuscadorProducto = () => {
                       </Form.Group>
                     </Col>
 
-                    {/* Modelo */}
                     <Col md={6} className="mb-2">
                       <Form.Group>
                         <Form.Label className="etiqueta-form">Modelo</Form.Label>
@@ -430,7 +411,6 @@ const BuscadorProducto = () => {
                     </Col>
                   </Row>
                   
-                  {/* Botones */}
                   <Row>
                     <Col className="text-end mt-2">
                       <Button 

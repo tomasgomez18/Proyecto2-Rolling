@@ -5,23 +5,19 @@ import FormRegistro from "./FormRegistro/FormRegistro";
 import { UserStorage } from "../../Utils/UsuarioStorage";
 import { useUser } from "../../Context/ContextoUsuario";
 import "./Registro.css";
-
 export const Registro = ({ onClose }) => {
   const navigate = useNavigate();
   const { setUsuarioActual } = useUser();
 
   const onSubmit = async (data) => {
     try {
-      console.log("📝 Datos del formulario de registro:", data);
       
       const resultado = await UserStorage.VerificarRegistrarUsuario(data);
-      console.log("✅ Resultado del registro:", resultado);
 
       if (resultado.registrado) {
         toast.success("¡Registro exitoso! Bienvenido a Rolling Motors");
         
         if (resultado.usuario) {
-          console.log("👤 Usuario establecido como actual:", resultado.usuario);
           setUsuarioActual(resultado.usuario);
         }
 
@@ -51,11 +47,9 @@ export const Registro = ({ onClose }) => {
           }, 1500);
         }
       } else {
-        console.error("❌ Error en registro:", resultado.mensaje);
         toast.error(resultado.mensaje || "No se pudo registrar el usuario");
       }
     } catch (error) {
-      console.error("💥 Error completo en registro:", error);
       toast.error("Error inesperado: " + error.message);
     }
   };

@@ -14,7 +14,6 @@ export const UserProvider = ({ children }) => {
   const cargarDatos = useCallback(async () => {
     try {
       setCargando(true);
-      console.log('🔍 Cargando datos de usuarios...');
       
       const [resUsuarios, resSuspendidos] = await Promise.all([
         fetch('http://localhost:3001/usuarios'),
@@ -26,22 +25,17 @@ export const UserProvider = ({ children }) => {
       
       setUsuarios(dataUsuarios);
       setUsuariosSuspendidos(dataSuspendidos);
-
-      console.log(`✅ ${dataUsuarios.length} usuarios activos, ${dataSuspendidos.length} suspendidos`);
       
       const ultimo = JSON.parse(localStorage.getItem("ultimoUsuario") || "null");
       if (ultimo) {
         const usuarioValido = dataUsuarios.find(u => u.id === ultimo.id);
         if (usuarioValido) {
           setUsuarioActual(usuarioValido);
-          console.log('👤 Usuario restaurado de sesión:', usuarioValido.nombreDeUsuario);
         } else {
           localStorage.removeItem("ultimoUsuario");
-          console.log('⚠️ Sesión anterior inválida, limpiando...');
         }
       }
     } catch (error) {
-      console.error('❌ Error cargando datos:', error);
       toast.error('Error al cargar usuarios');
     } finally {
       setCargando(false);
@@ -54,15 +48,10 @@ export const UserProvider = ({ children }) => {
 
   const login = useCallback(async (credenciales) => {
     try {
-      console.log('🔐 Intentando login con:', {
-        credencial: credenciales.credencial,
-        contrasena: credenciales.contrasena ? '***' : 'no enviada'
-      });
       
       const response = await fetch('http://localhost:3001/usuarios');
       const usuarios = await response.json();
       
-      // Buscar usuario por email O nombre de usuario
       const usuarioEncontrado = usuarios.find(usuario => {
         const coincideCredencial = 
           usuario.email === credenciales.credencial || 
@@ -76,8 +65,6 @@ export const UserProvider = ({ children }) => {
       if (usuarioEncontrado) {
         setUsuarioActual(usuarioEncontrado);
         localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioEncontrado));
-        
-        console.log('✅ Login exitoso:', usuarioEncontrado.nombreDeUsuario);
         toast.success(`Bienvenido ${usuarioEncontrado.nombreDeUsuario}`);
         
         return { 
@@ -86,19 +73,16 @@ export const UserProvider = ({ children }) => {
           esAdmin: usuarioEncontrado.role === "admin"
         };
       } else {
-        console.log('❌ Login fallido: credenciales incorrectas');
         toast.error('Credenciales incorrectas');
         return { login: false, mensaje: 'Credenciales incorrectas' };
       }
     } catch (error) {
-      console.error('❌ Error en login:', error);
       toast.error('Error en el servidor');
       return { login: false, mensaje: 'Error del servidor' };
     }
   }, []);
 
   const logout = useCallback(() => {
-    console.log('👋 Logout usuario:', usuarioActual?.nombreDeUsuario);
     setUsuarioActual(null);
     localStorage.removeItem("ultimoUsuario");
     toast.success('Sesión cerrada');
@@ -117,7 +101,6 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      console.log('⚠️ Suspendiendo usuario:', usuario.nombreDeUsuario);
 
       await fetch(`http://localhost:3001/usuarios/${id}`, { method: 'DELETE' });
       
@@ -132,14 +115,12 @@ export const UserProvider = ({ children }) => {
         body: JSON.stringify(usuarioSuspendido)
       });
 
-      // Actualizar estados locales
       setUsuarios(prev => prev.filter(u => u.id !== id));
       setUsuariosSuspendidos(prev => [...prev, usuarioSuspendido]);
 
       toast.success(`Usuario ${usuario.nombreDeUsuario} suspendido`);
       console.log('✅ Usuario suspendido exitosamente');
     } catch (error) {
-      console.error('❌ Error al suspender usuario:', error);
       toast.error("Error al suspender usuario");
     }
   }, [usuarios]);
@@ -152,9 +133,6 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      console.log('✅ Reactivando usuario:', usuario.nombreDeUsuario);
-
-      // Mover de usuariosSuspendidos a usuarios
       await fetch(`http://localhost:3001/usuariosSuspendidos/${id}`, { 
         method: 'DELETE' 
       });
@@ -169,9 +147,7 @@ export const UserProvider = ({ children }) => {
       setUsuarios(prev => [...prev, usuario]);
 
       toast.success(`Usuario ${usuario.nombreDeUsuario} reactivado`);
-      console.log('✅ Usuario reactivado exitosamente');
     } catch (error) {
-      console.error('❌ Error al reactivar usuario:', error);
       toast.error("Error al reactivar usuario");
     }
   }, [usuariosSuspendidos]);
@@ -195,7 +171,6 @@ export const UserProvider = ({ children }) => {
     }
 
     try {
-      console.log('🗑️ Eliminando usuario suspendido:', usuario.nombreDeUsuario);
       const respuesta = await fetch(`http://localhost:3001/usuariosSuspendidos/${id}`, {
         method: 'DELETE',
       });
@@ -212,17 +187,14 @@ export const UserProvider = ({ children }) => {
           position: "top-right",
         }
       );
-      console.log('✅ Usuario eliminado exitosamente');
 
     } catch (error) {
-      console.error('❌ Error al eliminar usuario:', error);
       toast.error("Error al eliminar usuario: " + error.message);
     }
   }, [usuariosSuspendidos]);
 
   const editarUsuario = useCallback(async (id, nuevosDatos) => {
     try {
-      console.log('📝 Editando usuario ID:', id, nuevosDatos);
       const respuesta = await fetch(`http://localhost:3001/usuarios/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -233,40 +205,32 @@ export const UserProvider = ({ children }) => {
 
       const usuarioActualizado = await respuesta.json();
       
-      // Actualizar lista de usuarios
       setUsuarios(prev => 
         prev.map(u => u.id === id ? usuarioActualizado : u)
       );
 
-      // Si es el usuario actual, actualizar estado
       if (usuarioActual && usuarioActual.id === id) {
         setUsuarioActual(usuarioActualizado);
         localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioActualizado));
       }
 
       toast.success("Usuario actualizado");
-      console.log('✅ Usuario actualizado exitosamente');
     } catch (error) {
-      console.error('❌ Error al actualizar usuario:', error);
       toast.error("Error al actualizar usuario");
     }
   }, [usuarioActual]);
 
   const sincronizarConAPI = useCallback(async () => {
     try {
-      console.log('🔄 Sincronizando con API...');
       await cargarDatos();
       return { exito: true, mensaje: 'Datos sincronizados correctamente' };
     } catch (e) {
-      console.error('❌ Error en sincronización:', e);
       return { exito: false, mensaje: 'Error en sincronización: ' + e.message };
     }
   }, [cargarDatos]);
 
   const registrarUsuario = useCallback(async (datos) => {
-    try {
-      console.log('📝 Registrando usuario desde contexto:', datos);
-      
+    try {   
       const nuevoUsuario = {
         id: crypto.randomUUID(),
         nombreDeUsuario: datos.nombreDeUsuario,
@@ -276,11 +240,6 @@ export const UserProvider = ({ children }) => {
         contrasena: datos.contrasena,
         role: "usuario"
       };
-
-      console.log('👤 Nuevo usuario a crear:', {
-        ...nuevoUsuario,
-        contrasena: '***'
-      });
 
       const respuesta = await fetch('http://localhost:3001/usuarios', {
         method: 'POST',
@@ -304,7 +263,6 @@ export const UserProvider = ({ children }) => {
         mensaje: "Registro exitoso" 
       };
     } catch (error) {
-      console.error('❌ Error registrando usuario:', error);
       toast.error("Error al registrar usuario");
       return { 
         registrado: false, 
@@ -335,7 +293,6 @@ export const UserProvider = ({ children }) => {
     setUsuarioActual(usuarioActualizado);
     localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioActualizado));
     
-    // Actualizar también en la lista de usuarios
     setUsuarios(prev => 
       prev.map(u => u.id === usuarioActual.id ? usuarioActualizado : u)
     );
@@ -346,36 +303,24 @@ export const UserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        // Estado
         usuarios,
         usuariosSuspendidos,
         usuarioActual,
         cargando,
-        
-        // Propiedades calculadas
         esAdministrador: usuarioActual?.role === "admin",
         estaAutenticado: !!usuarioActual,
         
-        // Funciones de autenticación
         login,
         logout,
-        registrarUsuario,
-        
-        // Funciones de administración
+        registrarUsuario,     
         suspenderUsuario,
         reactivarUsuario,
         eliminarUsuarioSuspendido,
-        editarUsuario,
-        
-        // Funciones de búsqueda y consulta
+        editarUsuario, 
         obtenerUsuarioPorId,
         buscarUsuarios,
-        
-        // Funciones de sincronización
         sincronizarConAPI,
-        cargarDatos,
-        
-        // Setters y actualizadores
+        cargarDatos,   
         setUsuarioActual,
         actualizarUsuarioActual
       }}
