@@ -1,4 +1,4 @@
-import "./Portada.css";
+import "./portada.css";
 
 const Portada = () => {
   return (
