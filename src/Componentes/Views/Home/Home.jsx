@@ -1,6 +1,6 @@
 import Producto from '../Productos/Productos';
 import Galeria from './galeria/Galeria';
-import Portada from './inicio/portada';
+import Portada from './inicio/Portada';
 
 const Home = () => {
   return (
