@@ -53,8 +53,9 @@ const AdminPanel = () => {
   }, []);
 
   const [recomendaciones, setRecomendaciones] = useState([]);
-  const [criticas, setCriticas] = useState([]);
   const [nuevoComentario, setNuevoComentario] = useState("");
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [notaEditando, setNotaEditando] = useState(null);
   const [pedidos, setPedidos] = useState([]);
   const [pedidoActual, setPedidoActual] = useState({
     id: null,
@@ -963,32 +964,62 @@ const AdminPanel = () => {
       ,
       {vistaActiva === "recomendaciones" && (
         <div className="contenedor-tabla">
-          <h2>💬Recomendaciones de Usuarios</h2>
+          <h2>Notas</h2>
 
           <form
             className="form-comentario"
             onSubmit={(e) => {
               e.preventDefault();
+
               if (!nuevoComentario.trim()) return;
 
-              setRecomendaciones([
-                ...recomendaciones,
-                { id: Date.now(), texto: nuevoComentario },
-              ]);
+              if (modoEdicion) {
+                // 🔥 Guardar edición
+                setRecomendaciones(
+                  recomendaciones.map((nota) =>
+                    nota.id === notaEditando.id
+                      ? { ...nota, texto: nuevoComentario }
+                      : nota
+                  )
+                );
+
+                setModoEdicion(false);
+                setNotaEditando(null);
+              } else {
+                // 🔥 Agregar nueva
+                setRecomendaciones([
+                  ...recomendaciones,
+                  { id: Date.now(), texto: nuevoComentario },
+                ]);
+              }
 
               setNuevoComentario("");
             }}
           >
             <textarea
               className="input-textarea"
-              placeholder="Escribe una recomendación..."
+              placeholder="Escribe una nota..."
               value={nuevoComentario}
               onChange={(e) => setNuevoComentario(e.target.value)}
             />
 
             <button className="boton-agregar" type="submit">
-              ➕ Añadir Recomendación
+              {modoEdicion ? "💾 Guardar Nota" : "➕ Añadir Nota"}
             </button>
+
+            {modoEdicion && (
+              <button
+                className="boton-cancelar"
+                type="button"
+                onClick={() => {
+                  setModoEdicion(false);
+                  setNotaEditando(null);
+                  setNuevoComentario("");
+                }}
+              >
+                ❌ Cancelar
+              </button>
+            )}
           </form>
 
           <div className="tabla-responsive">
@@ -1007,6 +1038,17 @@ const AdminPanel = () => {
 
                     <td data-label="Acciones">
                       <button
+                        className="boton-editar"
+                        onClick={() => {
+                          setModoEdicion(true);
+                          setNotaEditando(r);
+                          setNuevoComentario(r.texto);
+                        }}
+                      >
+                        ✏️ Editar
+                      </button>
+
+                      <button
                         className="boton-eliminar"
                         onClick={() =>
                           setRecomendaciones(
@@ -1023,7 +1065,7 @@ const AdminPanel = () => {
             </table>
 
             {recomendaciones.length === 0 && (
-              <div className="sin-datos">📭 No hay recomendaciones aún</div>
+              <div className="sin-datos">📭 No hay notas aún</div>
             )}
           </div>
         </div>
@@ -1077,9 +1119,7 @@ const AdminPanel = () => {
               }
             />
             <button className="boton-agregar" type="submit">
-              {modoPedido === "agregar"
-                ? "Crear pedido"
-                : "Guardar cambios"}
+              {modoPedido === "agregar" ? "Crear pedido" : "Guardar cambios"}
             </button>
           </form>
           <div className="tabla-responsive">
@@ -1120,9 +1160,7 @@ const AdminPanel = () => {
               </tbody>
             </table>
             {pedidos.length === 0 && (
-              <div className="sin-datos">
-                No hay pedidos creados
-              </div>
+              <div className="sin-datos">No hay pedidos creados</div>
             )}
           </div>
         </div>

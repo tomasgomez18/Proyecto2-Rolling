@@ -79,12 +79,6 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
               </Dropdown.Menu>
             </Dropdown>
 
-            <Nav.Link className="enlace-navegacion position-relative">
-              <FaShoppingCart />
-              <span className="position-absolute top-0 start-100 translate-middle badge etiqueta-carrito">
-                0
-              </span>
-            </Nav.Link>
             
             {usuarioActual ? (
               <MenuUsuario />
