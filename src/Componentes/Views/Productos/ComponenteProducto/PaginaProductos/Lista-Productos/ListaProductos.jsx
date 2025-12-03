@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row, Col, Spinner, Alert, Badge } from 'react-bootstrap';
 import { useProductos } from '../../../../../Context/ContextoProducto';
 import CardProducto from '../card-Producto/CardProducto';

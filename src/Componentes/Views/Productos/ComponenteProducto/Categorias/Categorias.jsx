@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Categorias.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';

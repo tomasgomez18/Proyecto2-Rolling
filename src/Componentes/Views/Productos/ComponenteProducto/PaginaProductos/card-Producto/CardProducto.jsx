@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { useCarrito } from '../../../../../Context/ContextoCarrito';
 import './CardProducto.css';
