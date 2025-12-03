@@ -11,6 +11,7 @@ import {
   FaCrown 
 } from "react-icons/fa";
 import toast from "react-hot-toast";
+import * as servicios from "../../../../../../Servicios/serviciosGenerales";
 import "./ModalPerfil.css";
 
 const ModalPerfil = ({ mostrar, onCerrar }) => {
@@ -52,23 +53,24 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
 
     setCargando(true);
     try {
-      await editarUsuario(usuarioActual.id, {
+      const respuesta = servicios.editarUsuario(usuarioActual.id, {
         nombreDeUsuario: formData.nombreDeUsuario
       });
 
-      const usuarioActualizado = {
-        ...usuarioActual,
-        nombreDeUsuario: formData.nombreDeUsuario
-      };
-      localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioActualizado));
+      if (respuesta.exito) {
+        toast.success("Nombre de usuario actualizado correctamente");
+        setEditando(false);
 
-      toast.success("Nombre de usuario actualizado correctamente");
-      setEditando(false);
-      
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-      
+        // Actualizamos localStorage
+        localStorage.setItem("ultimoUsuario", JSON.stringify(respuesta.usuario));
+
+        // Actualizamos reload opcional para reflejar cambios
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      } else {
+        throw new Error(respuesta.mensaje || "Error al actualizar usuario");
+      }
     } catch (error) {
       toast.error("Error al actualizar el nombre de usuario");
     } finally {
@@ -76,39 +78,33 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
     }
   };
 
-  const manejarEliminarCuenta = async () => {
+  const manejarEliminarCuenta = () => {
     if (!contrasenaConfirmacion) {
       toast.error("Por favor ingresa tu contraseña para confirmar");
       return;
     }
 
-    if (contrasenaConfirmacion !== usuarioActual.password) {
+    if (contrasenaConfirmacion !== usuarioActual.contrasena) {
       toast.error("Contraseña incorrecta");
       return;
     }
 
     setCargando(true);
     try {
-      const respuesta = await fetch(`http://localhost:3001/usuarios/${usuarioActual.id}`, {
-        method: 'DELETE',
-      });
+      const respuesta = servicios.eliminarUsuario(usuarioActual.id);
 
-      if (!respuesta.ok) throw new Error('Error al eliminar cuenta');
+      if (respuesta.exito) {
+        localStorage.removeItem("ultimoUsuario");
+        toast.success("Cuenta eliminada correctamente");
 
-      const usuariosLocal = JSON.parse(localStorage.getItem("usuarios") || "[]");
-      const usuariosActualizados = usuariosLocal.filter(u => u.id !== usuarioActual.id);
-      localStorage.setItem("usuarios", JSON.stringify(usuariosActualizados));
-
-      localStorage.removeItem("ultimoUsuario");
-
-      toast.success("Cuenta eliminada correctamente");
-      
-      setTimeout(() => {
-        logout();
-        onCerrar();
-        window.location.href = "/";
-      }, 2000);
-
+        setTimeout(() => {
+          logout();
+          onCerrar();
+          window.location.href = "/";
+        }, 1000);
+      } else {
+        throw new Error(respuesta.mensaje || "Error al eliminar usuario");
+      }
     } catch (error) {
       toast.error("Error al eliminar la cuenta");
     } finally {
@@ -153,9 +149,7 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
         <Modal.Body className="modal-body-perfil">
           <div className="perfil-info">
             <div className="info-item">
-              <div className="info-icon">
-                <FaUser />
-              </div>
+              <div className="info-icon"><FaUser /></div>
               <div className="info-content">
                 <label>Nombre de Usuario</label>
                 {editando ? (
@@ -172,9 +166,7 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
             </div>
 
             <div className="info-item">
-              <div className="info-icon">
-                <FaEnvelope />
-              </div>
+              <div className="info-icon"><FaEnvelope /></div>
               <div className="info-content">
                 <label>Email</label>
                 <div className="info-value">{usuarioActual.email}</div>
@@ -182,9 +174,7 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
             </div>
 
             <div className="info-item">
-              <div className="info-icon">
-                <FaGlobeAmericas />
-              </div>
+              <div className="info-icon"><FaGlobeAmericas /></div>
               <div className="info-content">
                 <label>País</label>
                 <div className="info-value">{usuarioActual.pais}</div>
@@ -192,9 +182,7 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
             </div>
 
             <div className="info-item">
-              <div className="info-icon">
-                <FaCalendarAlt />
-              </div>
+              <div className="info-icon"><FaCalendarAlt /></div>
               <div className="info-content">
                 <label>Fecha de Nacimiento</label>
                 <div className="info-value">{formatearFecha(usuarioActual.fechaNacimiento)}</div>
@@ -202,9 +190,7 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
             </div>
 
             <div className="info-item">
-              <div className="info-icon">
-                <FaKey />
-              </div>
+              <div className="info-icon"><FaKey /></div>
               <div className="info-content">
                 <label>Rol</label>
                 <div className="info-value rol-usuario">
@@ -213,9 +199,7 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
                       <FaCrown className="me-1" />
                       Administrador
                     </span>
-                  ) : (
-                    "Usuario"
-                  )}
+                  ) : "Usuario"}
                 </div>
               </div>
             </div>

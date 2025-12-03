@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
+import * as servicios from "../../Servicios/serviciosGenerales";
 
 const UserContext = createContext();
 
@@ -11,21 +12,17 @@ export const UserProvider = ({ children }) => {
   const [usuarioActual, setUsuarioActual] = useState(null);
   const [cargando, setCargando] = useState(true);
 
-  const cargarDatos = useCallback(async () => {
+  /** ---------- CARGA DE DATOS ---------- */
+  const cargarDatos = useCallback(() => {
     try {
       setCargando(true);
-      
-      const [resUsuarios, resSuspendidos] = await Promise.all([
-        fetch('http://localhost:3001/usuarios'),
-        fetch('http://localhost:3001/usuariosSuspendidos')
-      ]);
-      
-      const dataUsuarios = await resUsuarios.json();
-      const dataSuspendidos = await resSuspendidos.json();
-      
+
+      const dataUsuarios = servicios.obtenerUsuarios();
+      const dataSuspendidos = servicios.obtenerUsuariosSuspendidos();
+
       setUsuarios(dataUsuarios);
       setUsuariosSuspendidos(dataSuspendidos);
-      
+
       const ultimo = JSON.parse(localStorage.getItem("ultimoUsuario") || "null");
       if (ultimo) {
         const usuarioValido = dataUsuarios.find(u => u.id === ultimo.id);
@@ -36,7 +33,7 @@ export const UserProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      toast.error('Error al cargar usuarios');
+      toast.error("Error al cargar usuarios desde LocalStorage");
     } finally {
       setCargando(false);
     }
@@ -46,259 +43,139 @@ export const UserProvider = ({ children }) => {
     cargarDatos();
   }, [cargarDatos]);
 
-  const login = useCallback(async (credenciales) => {
-    try {
-      
-      const response = await fetch('http://localhost:3001/usuarios');
-      const usuarios = await response.json();
-      
-      const usuarioEncontrado = usuarios.find(usuario => {
-        const coincideCredencial = 
-          usuario.email === credenciales.credencial || 
-          usuario.nombreDeUsuario === credenciales.credencial;
-        
-        const coincideContrasena = usuario.contrasena === credenciales.contrasena;
-        
-        return coincideCredencial && coincideContrasena;
-      });
+  /** ---------- LOGIN ---------- */
+  const login = useCallback((credenciales) => {
+    // Usamos directamente el servicio que ya valida correctamente
+    const resultado = servicios.loginUsuario(credenciales.credencial, credenciales.contrasena);
 
-      if (usuarioEncontrado) {
-        setUsuarioActual(usuarioEncontrado);
-        localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioEncontrado));
-        toast.success(`Bienvenido ${usuarioEncontrado.nombreDeUsuario}`);
-        
-        return { 
-          login: true, 
-          usuario: usuarioEncontrado,
-          esAdmin: usuarioEncontrado.role === "admin"
-        };
-      } else {
-        toast.error('Credenciales incorrectas');
-        return { login: false, mensaje: 'Credenciales incorrectas' };
-      }
-    } catch (error) {
-      toast.error('Error en el servidor');
-      return { login: false, mensaje: 'Error del servidor' };
+    if (resultado.exito) {
+      const usuario = resultado.usuario;
+      setUsuarioActual(usuario);
+      localStorage.setItem("ultimoUsuario", JSON.stringify(usuario));
+      toast.success(`Bienvenido ${usuario.nombreDeUsuario}`);
+
+      return {
+        login: true,
+        usuario,
+        esAdmin: usuario.role === "admin"
+      };
+    } else {
+      toast.error(resultado.mensaje || "Credenciales incorrectas");
+      return { login: false, mensaje: resultado.mensaje || "Credenciales incorrectas" };
     }
   }, []);
 
+  /** ---------- LOGOUT ---------- */
   const logout = useCallback(() => {
     setUsuarioActual(null);
     localStorage.removeItem("ultimoUsuario");
-    toast.success('Sesión cerrada');
-  }, [usuarioActual]);
+    toast.success("Sesión cerrada");
+  }, []);
 
-  const suspenderUsuario = useCallback(async (id) => {
-    try {
-      const usuario = usuarios.find((u) => u.id === id);
-      if (!usuario) {
-        toast.error('Usuario no encontrado');
-        return;
-      }
+  /** ---------- REGISTRO ---------- */
+  const registrarUsuario = useCallback((datos) => {
+    const nuevoUsuario = {
+      id: crypto.randomUUID(),
+      nombreDeUsuario: datos.nombreDeUsuario,
+      email: datos.email,
+      pais: datos.pais,
+      fechaNacimiento: datos.fechaNacimiento,
+      contrasena: datos.contrasena,
+      role: "usuario"
+    };
 
-      if (usuario.role === "admin") {
-        toast.error("El administrador no puede ser suspendido");
-        return;
-      }
+    const respuesta = servicios.agregarUsuario(nuevoUsuario);
+    if (respuesta.exito) {
+      setUsuarios(prev => [...prev, respuesta.usuario]);
+      setUsuarioActual(respuesta.usuario);
+      localStorage.setItem("ultimoUsuario", JSON.stringify(respuesta.usuario));
+      toast.success("Usuario registrado exitosamente");
+      return { registrado: true, usuario: respuesta.usuario, mensaje: "Registro exitoso" };
+    } else {
+      toast.error("Error al registrar usuario");
+      return { registrado: false, mensaje: "Error al registrar usuario" };
+    }
+  }, []);
 
+  /** ---------- SUSPENDER / REACTIVAR / ELIMINAR ---------- */
+  const suspenderUsuario = useCallback((id) => {
+    const usuario = usuarios.find(u => u.id === id);
+    if (!usuario) return toast.error("Usuario no encontrado");
+    if (usuario.role === "admin") return toast.error("El administrador no puede ser suspendido");
 
-      await fetch(`http://localhost:3001/usuarios/${id}`, { method: 'DELETE' });
-      
-      const usuarioSuspendido = { 
-        ...usuario, 
-        fechaSuspension: new Date().toISOString() 
-      };
-      
-      await fetch('http://localhost:3001/usuariosSuspendidos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(usuarioSuspendido)
-      });
-
+    const respuesta = servicios.suspenderUsuario(id);
+    if (respuesta.exito) {
       setUsuarios(prev => prev.filter(u => u.id !== id));
-      setUsuariosSuspendidos(prev => [...prev, usuarioSuspendido]);
-
+      setUsuariosSuspendidos(prev => [...prev, respuesta.usuario]);
       toast.success(`Usuario ${usuario.nombreDeUsuario} suspendido`);
-      console.log('✅ Usuario suspendido exitosamente');
-    } catch (error) {
+    } else {
       toast.error("Error al suspender usuario");
     }
   }, [usuarios]);
 
-  const reactivarUsuario = useCallback(async (id) => {
-    try {
-      const usuario = usuariosSuspendidos.find((u) => u.id === id);
-      if (!usuario) {
-        toast.error('Usuario no encontrado');
-        return;
-      }
+  const reactivarUsuario = useCallback((id) => {
+    const usuario = usuariosSuspendidos.find(u => u.id === id);
+    if (!usuario) return toast.error("Usuario no encontrado");
 
-      await fetch(`http://localhost:3001/usuariosSuspendidos/${id}`, { 
-        method: 'DELETE' 
-      });
-      
-      await fetch('http://localhost:3001/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(usuario)
-      });
-
+    const respuesta = servicios.reactivarUsuario(id);
+    if (respuesta.exito) {
       setUsuariosSuspendidos(prev => prev.filter(u => u.id !== id));
-      setUsuarios(prev => [...prev, usuario]);
-
+      setUsuarios(prev => [...prev, respuesta.usuario]);
       toast.success(`Usuario ${usuario.nombreDeUsuario} reactivado`);
-    } catch (error) {
+    } else {
       toast.error("Error al reactivar usuario");
     }
   }, [usuariosSuspendidos]);
 
-  const eliminarUsuarioSuspendido = useCallback(async (id) => {
-    const usuario = usuariosSuspendidos.find((u) => u.id === id);
+  const eliminarUsuarioSuspendido = useCallback((id) => {
+    const usuario = usuariosSuspendidos.find(u => u.id === id);
     if (!usuario) return;
 
-    if (usuario.role === "admin") {
-      toast.error("El administrador no puede ser eliminado");
-      return;
-    }
-    
-    const confirmarEliminacion = window.confirm(
-      `¿Estás seguro de que deseas eliminar permanentemente a "${usuario.nombreDeUsuario}"?\n\nEsta acción no se puede deshacer.`
-    );
+    if (usuario.role === "admin") return toast.error("El administrador no puede ser eliminado");
 
-    if (!confirmarEliminacion) {
-      toast.info("Eliminación cancelada");
-      return;
-    }
+    const confirmar = window.confirm(`¿Eliminar permanentemente a "${usuario.nombreDeUsuario}"? Esta acción no se puede deshacer.`);
+    if (!confirmar) return toast.info("Eliminación cancelada");
 
-    try {
-      const respuesta = await fetch(`http://localhost:3001/usuariosSuspendidos/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!respuesta.ok) throw new Error('Error al eliminar de la base de datos');
-
-      const nuevos = usuariosSuspendidos.filter((u) => u.id !== id);
-      setUsuariosSuspendidos(nuevos);
-
-      toast.success(
-        `Usuario ${usuario.nombreDeUsuario} eliminado permanentemente`,
-        {
-          duration: 3000,
-          position: "top-right",
-        }
-      );
-
-    } catch (error) {
-      toast.error("Error al eliminar usuario: " + error.message);
+    const respuesta = servicios.eliminarUsuarioSuspendido(id);
+    if (respuesta.exito) {
+      setUsuariosSuspendidos(prev => prev.filter(u => u.id !== id));
+      toast.success(`Usuario ${usuario.nombreDeUsuario} eliminado permanentemente`);
+    } else {
+      toast.error("Error al eliminar usuario");
     }
   }, [usuariosSuspendidos]);
 
-  const editarUsuario = useCallback(async (id, nuevosDatos) => {
-    try {
-      const respuesta = await fetch(`http://localhost:3001/usuarios/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevosDatos)
-      });
-
-      if (!respuesta.ok) throw new Error("Error al actualizar");
-
-      const usuarioActualizado = await respuesta.json();
-      
-      setUsuarios(prev => 
-        prev.map(u => u.id === id ? usuarioActualizado : u)
-      );
-
+  /** ---------- EDITAR USUARIO ---------- */
+  const editarUsuario = useCallback((id, nuevosDatos) => {
+    const respuesta = servicios.editarUsuario(id, nuevosDatos);
+    if (respuesta.exito) {
+      setUsuarios(prev => prev.map(u => u.id === id ? respuesta.usuario : u));
       if (usuarioActual && usuarioActual.id === id) {
-        setUsuarioActual(usuarioActualizado);
-        localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioActualizado));
+        setUsuarioActual(respuesta.usuario);
+        localStorage.setItem("ultimoUsuario", JSON.stringify(respuesta.usuario));
       }
-
       toast.success("Usuario actualizado");
-    } catch (error) {
+    } else {
       toast.error("Error al actualizar usuario");
     }
   }, [usuarioActual]);
 
-  const sincronizarConAPI = useCallback(async () => {
-    try {
-      await cargarDatos();
-      return { exito: true, mensaje: 'Datos sincronizados correctamente' };
-    } catch (e) {
-      return { exito: false, mensaje: 'Error en sincronización: ' + e.message };
-    }
-  }, [cargarDatos]);
-
-  const registrarUsuario = useCallback(async (datos) => {
-    try {   
-      const nuevoUsuario = {
-        id: crypto.randomUUID(),
-        nombreDeUsuario: datos.nombreDeUsuario,
-        email: datos.email,
-        pais: datos.pais,
-        fechaNacimiento: datos.fechaNacimiento,
-        contrasena: datos.contrasena,
-        role: "usuario"
-      };
-
-      const respuesta = await fetch('http://localhost:3001/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(nuevoUsuario)
-      });
-
-      if (!respuesta.ok) throw new Error('Error al guardar usuario');
-
-      const usuarioGuardado = await respuesta.json();
-      
-      setUsuarios(prev => [...prev, usuarioGuardado]);
-      
-      setUsuarioActual(usuarioGuardado);
-      localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioGuardado));
-
-      toast.success("Usuario registrado exitosamente");
-      return { 
-        registrado: true, 
-        usuario: usuarioGuardado,
-        mensaje: "Registro exitoso" 
-      };
-    } catch (error) {
-      toast.error("Error al registrar usuario");
-      return { 
-        registrado: false, 
-        mensaje: "Error al registrar usuario" 
-      };
-    }
-  }, []);
-
-  const obtenerUsuarioPorId = useCallback((id) => {
-    return usuarios.find(u => u.id === id) || null;
-  }, [usuarios]);
-
-  const buscarUsuarios = useCallback((termino) => {
-    if (!termino.trim()) return usuarios;
-    
-    const terminoLower = termino.toLowerCase();
-    return usuarios.filter(u => 
-      u.nombreDeUsuario.toLowerCase().includes(terminoLower) ||
-      u.email.toLowerCase().includes(terminoLower) ||
-      u.pais.toLowerCase().includes(terminoLower)
-    );
-  }, [usuarios]);
-
+  /** ---------- UTILES ---------- */
+  const obtenerUsuarioPorId = useCallback((id) => servicios.obtenerUsuarioPorId(id), []);
+  const buscarUsuarios = useCallback((termino) => servicios.buscarUsuarios(termino), [usuarios]);
   const actualizarUsuarioActual = useCallback((nuevosDatos) => {
     if (!usuarioActual) return;
-    
     const usuarioActualizado = { ...usuarioActual, ...nuevosDatos };
     setUsuarioActual(usuarioActualizado);
     localStorage.setItem("ultimoUsuario", JSON.stringify(usuarioActualizado));
-    
-    setUsuarios(prev => 
-      prev.map(u => u.id === usuarioActual.id ? usuarioActualizado : u)
-    );
-    
+    setUsuarios(prev => prev.map(u => u.id === usuarioActual.id ? usuarioActualizado : u));
     toast.success("Perfil actualizado");
   }, [usuarioActual]);
+
+  const sincronizarConAPI = useCallback(() => {
+    cargarDatos();
+    return { exito: true, mensaje: "Datos sincronizados correctamente" };
+  }, [cargarDatos]);
 
   return (
     <UserContext.Provider
@@ -309,18 +186,18 @@ export const UserProvider = ({ children }) => {
         cargando,
         esAdministrador: usuarioActual?.role === "admin",
         estaAutenticado: !!usuarioActual,
-        
+
         login,
         logout,
-        registrarUsuario,     
+        registrarUsuario,
         suspenderUsuario,
         reactivarUsuario,
         eliminarUsuarioSuspendido,
-        editarUsuario, 
+        editarUsuario,
         obtenerUsuarioPorId,
         buscarUsuarios,
         sincronizarConAPI,
-        cargarDatos,   
+        cargarDatos,
         setUsuarioActual,
         actualizarUsuarioActual
       }}

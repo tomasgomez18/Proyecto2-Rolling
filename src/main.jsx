@@ -1,9 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
-import './Componentes/Utils/I18next.js'
+import "./Componentes/Utils/I18next.js";
 import App from "./App.jsx";
-import "./RoyaLToast.css"; 
+import "./RoyaLToast.css";
+import { inicializarLocalStorage } from "./Componentes/Utils/inicializarLocalStorage.js"; // <- import utils
+
+// Inicializamos localStorage antes de renderizar la app
+inicializarLocalStorage();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

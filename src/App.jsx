@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Menu from "./Componentes/Shared/Menu/Menu";
 import Home from "./Componentes/Views/Home/Home";
-import Pagina404 from './Componentes/Views/Pagina404/Pagina404'
+import Pagina404 from "./Componentes/Views/Pagina404/Pagina404";
 import Ofertas from "./Componentes/Views/Productos/Ofertas/Ofertas";
 import PaginaProductos from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/PaginaProductos";
 import Contacto from "./Componentes/Views/Contacto/Contacto";
@@ -12,20 +13,22 @@ import Productos from "./Componentes/Views/Productos/Productos";
 import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/Detalle-Producto/DetalleProducto";
 import Carrito from "./Componentes/Views/Productos/componenteCarrito/Carrito";
 import Footer from "./Componentes/Shared/Footer/Footer";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { UserStorage } from "./Componentes/Utils/UsuarioStorage";
+
 import { UserProvider } from "./Componentes/Context/ContextoUsuario";
 import { ProveedorProductos } from "./Componentes/Context/ContextoProducto";
 import { CarritoProvider } from "./Componentes/Context/ContextoCarrito";
+
+import { inicializarLocalStorage } from "./Componentes/Utils/inicializarLocalStorage"; // <- import utils
+
 function App() {
+  // Inicializamos el localStorage desde db.json al iniciar la app
   useEffect(() => {
-    UserStorage.Backup().then((resultado) => {
-      if (resultado.carga) {
-        console.log("Backup ejecutado", resultado.mensaje);
-      }
-    });
+    inicializarLocalStorage();
   }, []);
+
   return (
     <CarritoProvider>
       <ProveedorProductos>
@@ -40,7 +43,7 @@ function App() {
               <Route path="/productos-todos" element={<Productos />} />
               <Route path="/detalle-producto" element={<DetalleProducto />} />
               <Route path="/carrito" element={<Carrito />} />
-              <Route path='/404' element={<Pagina404/> }/>
+              <Route path="/404" element={<Pagina404 />} />
               <Route
                 path="/admin"
                 element={
@@ -50,7 +53,7 @@ function App() {
                 }
               />
             </Routes>
-            <Footer/>
+            <Footer />
           </BrowserRouter>
         </UserProvider>
       </ProveedorProductos>
