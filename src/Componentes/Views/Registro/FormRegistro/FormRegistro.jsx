@@ -8,15 +8,17 @@ import ValidacionesForm, {
 } from "../../../Utils/ValidacionesForm";
 import "./FormRegistro.css";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const FormRegistro = ({ onSubmit, onClose }) => {
+  const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     watch,
-    trigger,
-    formState
+    trigger
   } = useForm({
     resolver: zodResolver(ValidacionesForm),
     mode: "onChange"
@@ -26,26 +28,16 @@ const FormRegistro = ({ onSubmit, onClose }) => {
   const [caracteresContrasena, setCaracteresContrasena] = useState(0);
   const [caracteresConfirmar, setCaracteresConfirmar] = useState(0);
   const [caracteresEmail, setCaracteresEmail] = useState(0);
+
   const nombreUsuario = watch("nombreDeUsuario") || "";
   const email = watch("email") || "";
   const contrasena = watch("contrasena") || "";
   const confirmarContrasena = watch("confirmarContrasena") || "";
 
-  useEffect(() => {
-    setCaracteresUsuario(nombreUsuario.length);
-  }, [nombreUsuario]);
-
-  useEffect(() => {
-    setCaracteresEmail(email.length);
-  }, [email]);
-
-  useEffect(() => {
-    setCaracteresContrasena(contrasena.length);
-  }, [contrasena]);
-
-  useEffect(() => {
-    setCaracteresConfirmar(confirmarContrasena.length);
-  }, [confirmarContrasena]);
+  useEffect(() => setCaracteresUsuario(nombreUsuario.length), [nombreUsuario]);
+  useEffect(() => setCaracteresEmail(email.length), [email]);
+  useEffect(() => setCaracteresContrasena(contrasena.length), [contrasena]);
+  useEffect(() => setCaracteresConfirmar(confirmarContrasena.length), [confirmarContrasena]);
 
   const limitarCaracteres = (e, maxLength, setCaracteres) => {
     const value = e.target.value;
@@ -59,9 +51,7 @@ const FormRegistro = ({ onSubmit, onClose }) => {
 
   const procesarEnvio = async (data) => {
     const isValid = await trigger();
-    if (isValid) {
-      onSubmit?.(data);
-    }
+    if (isValid) onSubmit?.(data);
   };
 
   return (
@@ -71,16 +61,17 @@ const FormRegistro = ({ onSubmit, onClose }) => {
           <Form onSubmit={handleSubmit(procesarEnvio)} className="contenedor-formulario p-4 p-md-5 rounded" noValidate>
             
             <div className="text-center mb-4">
-              <h4 className="texto-dorado mb-0">REGISTRO</h4>
+              <h4 className="texto-dorado mb-0">{t("form.title")}</h4>
               <p className="texto-blanco mt-2 mb-0" style={{ fontSize: '0.9rem' }}>
-                Completa todos los campos para crear tu cuenta
+                {t("form.subtitle")}
               </p>
             </div>
 
+            {/* NOMBRE DE USUARIO */}
             <Form.Group className="mb-3">
               <div className="d-flex justify-content-between align-items-center mb-2">
                 <Form.Label className="texto-dorado mb-0">
-                  NOMBRE DE USUARIO
+                  {t("form.username")}
                 </Form.Label>
                 <span className={`contador-caracteres ${caracteresUsuario === 20 ? 'maximo' : 'normal'}`}>
                   {caracteresUsuario}/20
@@ -92,23 +83,19 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 maxLength={20}
                 onInput={(e) => limitarCaracteres(e, 20, setCaracteresUsuario)}
                 isInvalid={!!errors.nombreDeUsuario}
-                placeholder="Ingrese su nombre de usuario"
+                placeholder={t("form.placeholderUsername")}
                 className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.nombreDeUsuario?.message}
               </Form.Control.Feedback>
-              <Form.Text className="texto-blanco d-block mt-1">
-                Mínimo 5 caracteres. Solo letras, números y guión bajo (_)
-              </Form.Text>
             </Form.Group>
 
+            {/* EMAIL */}
             <Form.Group className="mb-3">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <Form.Label className="texto-dorado mb-0">
-                  EMAIL
-                </Form.Label>
+                <Form.Label className="texto-dorado mb-0">{t("form.email")}</Form.Label>
                 <span className={`contador-caracteres ${caracteresEmail === 50 ? 'maximo' : 'normal'}`}>
                   {caracteresEmail}/50
                 </span>
@@ -119,7 +106,7 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 maxLength={50}
                 onInput={(e) => limitarCaracteres(e, 50, setCaracteresEmail)}
                 isInvalid={!!errors.email}
-                placeholder="ejemplo@correo.com"
+                placeholder={t("form.placeholderEmail")}
                 className="entrada-personalizada"
                 size="lg"
               />
@@ -128,9 +115,9 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-
+            {/* PAÍS */}
             <Form.Group className="mb-3">
-              <Form.Label className="texto-dorado mb-2">PAÍS DE RESIDENCIA</Form.Label>
+              <Form.Label className="texto-dorado mb-2">{t("form.country")}</Form.Label>
               <Form.Select
                 {...register("pais")}
                 isInvalid={!!errors.pais}
@@ -138,13 +125,9 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 className="entrada-personalizada"
                 size="lg"
               >
-                <option value="" disabled>
-                  Selecciona tu país
-                </option>
+                <option value="" disabled>{t("form.countrySelect")}</option>
                 {PAISES_VALIDOS.map((pais) => (
-                  <option key={pais} value={pais}>
-                    {pais}
-                  </option>
+                  <option key={pais} value={pais}>{pais}</option>
                 ))}
               </Form.Select>
               <Form.Control.Feedback type="invalid">
@@ -152,8 +135,9 @@ const FormRegistro = ({ onSubmit, onClose }) => {
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* FECHA */}
             <Form.Group className="mb-3">
-              <Form.Label className="texto-dorado mb-2">FECHA DE NACIMIENTO</Form.Label>
+              <Form.Label className="texto-dorado mb-2">{t("form.birthday")}</Form.Label>
               <Form.Control
                 type="date"
                 {...register("fechaNacimiento")}
@@ -163,19 +147,15 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 className="entrada-personalizada"
                 size="lg"
               />
-              <Form.Text className="texto-blanco d-block mt-2">
-                Debe ser entre 1945 y 2006 (18+ años)
-              </Form.Text>
               <Form.Control.Feedback type="invalid">
                 {errors.fechaNacimiento?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
+            {/* CONTRASEÑA */}
             <Form.Group className="mb-3">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <Form.Label className="texto-dorado mb-0">
-                  CONTRASEÑA
-                </Form.Label>
+                <Form.Label className="texto-dorado mb-0">{t("form.password")}</Form.Label>
                 <span className={`contador-caracteres ${caracteresContrasena === 50 ? 'maximo' : 'normal'}`}>
                   {caracteresContrasena}/50
                 </span>
@@ -186,23 +166,19 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 maxLength={50}
                 onInput={(e) => limitarCaracteres(e, 50, setCaracteresContrasena)}
                 isInvalid={!!errors.contrasena}
-                placeholder="Ingrese su contraseña"
+                placeholder={t("form.placeholderPassword")}
                 className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.contrasena?.message}
               </Form.Control.Feedback>
-              <Form.Text className="texto-blanco d-block mt-1">
-                Mínimo 8 caracteres. Debe incluir: 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial
-              </Form.Text>
             </Form.Group>
 
+            {/* CONFIRMAR CONTRASEÑA */}
             <Form.Group className="mb-4">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <Form.Label className="texto-dorado mb-0">
-                  CONFIRMAR CONTRASEÑA
-                </Form.Label>
+                <Form.Label className="texto-dorado mb-0">{t("form.confirmPassword")}</Form.Label>
                 <span className={`contador-caracteres ${caracteresConfirmar === 50 ? 'maximo' : 'normal'}`}>
                   {caracteresConfirmar}/50
                 </span>
@@ -213,20 +189,22 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                 maxLength={50}
                 onInput={(e) => limitarCaracteres(e, 50, setCaracteresConfirmar)}
                 isInvalid={!!errors.confirmarContrasena}
-                placeholder="Repita su contraseña"
+                placeholder={t("form.placeholderConfirmPassword")}
                 className="entrada-personalizada"
                 size="lg"
               />
               <Form.Control.Feedback type="invalid">
                 {errors.confirmarContrasena?.message}
               </Form.Control.Feedback>
+
               {contrasena && confirmarContrasena && contrasena !== confirmarContrasena && (
                 <Form.Text className="text-danger d-block mt-1">
-                  Las contraseñas no coinciden
+                  {t("form.passwordMismatch")}
                 </Form.Text>
               )}
             </Form.Group>
 
+            {/* BOTONES */}
             <Row className="g-3 mt-4">
               <Col xs={12} sm={6}>
                 <Button
@@ -236,9 +214,10 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                   className="w-100 py-3 boton-personalizado boton-cancelar"
                   disabled={isSubmitting}
                 >
-                  CANCELAR
+                  {t("form.cancel")}
                 </Button>
               </Col>
+
               <Col xs={12} sm={6}>
                 <Button 
                   variant="warning" 
@@ -246,10 +225,11 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                   className="w-100 py-3 boton-personalizado boton-enviar"
                   disabled={isSubmitting || !isValid}
                 >
-                  {isSubmitting ? "REGISTRANDO..." : "REGISTRARSE"}
+                  {isSubmitting ? t("form.registering") : t("form.register")}
                 </Button>
               </Col>
             </Row>
+
           </Form>
         </Col>
       </Row>

@@ -5,7 +5,6 @@ import FormRegistro from "./FormRegistro/FormRegistro";
 import { UserStorage } from "../../Utils/UsuarioStorage";
 import { useUser } from "../../Context/ContextoUsuario";
 import "./Registro.css";
-
 export const Registro = ({ onClose }) => {
   const navigate = useNavigate();
   const { setUsuarioActual } = useUser();

@@ -5,12 +5,15 @@ import { loginSchema } from "../../../Utils/ValidacionesForm";
 import "./FormLogin.css";
 import { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
+  const { t } = useTranslation();
+
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const [estaEnviando, setEstaEnviando] = useState(false);
   const [errorGeneral, setErrorGeneral] = useState(null);
-  
+
   const {
     register,
     handleSubmit,
@@ -38,16 +41,15 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
 
   const manejarClickRegistro = (e) => {
     e.preventDefault();
-    reset(); 
+    reset();
     onAbrirRegistro?.();
   };
 
   const procesarEnvio = async (data) => {
     setEstaEnviando(true);
     setErrorGeneral(null);
-    
+
     try {
-      // Validar antes de enviar
       const esValido = await trigger();
       if (esValido) {
         console.log("Datos de login válidos:", data);
@@ -56,7 +58,7 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
     } catch (error) {
       console.error("Error en login:", error);
       setErrorGeneral(
-        error.message || "Credenciales incorrectas. Por favor, verifica tus datos."
+        error.message || t("loginErrorMessage")
       );
     } finally {
       setEstaEnviando(false);
@@ -80,15 +82,16 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
     >
       <Row className="w-100 justify-content-center mx-0">
         <Col xs={12} sm={11} md={10} lg={9} xl={8} className="px-3 px-md-4">
+          
           <Form
             onSubmit={handleSubmit(procesarEnvio)}
             className="contenedor-formulario p-4 p-md-5 rounded"
             noValidate
           >
             <div className="text-center mb-4">
-              <h4 className="texto-dorado mb-0">INICIAR SESIÓN</h4>
-              <p className="texto-blanco mt-2 mb-0" style={{ fontSize: '0.9rem' }}>
-                Ingresa tus credenciales para acceder a tu cuenta
+              <h4 className="texto-dorado mb-0">{t("loginTitle")}</h4>
+              <p className="texto-blanco mt-2 mb-0" style={{ fontSize: "0.9rem" }}>
+                {t("loginSubtitle")}
               </p>
             </div>
 
@@ -99,14 +102,14 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
                   type="button" 
                   className="btn-close" 
                   onClick={() => setErrorGeneral(null)}
-                  aria-label="Cerrar"
+                  aria-label={t("close")}
                 ></button>
               </div>
             )}
 
             <Form.Group className="mb-4">
               <Form.Label className="form-label mb-2 texto-dorado">
-                NOMBRE DE USUARIO O EMAIL
+                {t("usernameOrEmail")}
               </Form.Label>
               <div className="input-group input-group-lg">
                 <span className="input-group-text bg-transparent border-end-0">
@@ -118,13 +121,14 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
                   maxLength={100}
                   onInput={(e) => limitarCaracteres(e, 100)}
                   isInvalid={!!errors.credencial}
-                  placeholder="usuario123 o ejemplo@correo.com"
+                  placeholder={t("usernameOrEmailPlaceholder")}
                   className="entrada-personalizada border-start-0"
                 />
               </div>
               <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.credencial?.message}
               </Form.Control.Feedback>
+
               <div className="d-flex justify-content-end mt-1">
                 <small className="texto-blanco">
                   {credencial?.length || 0}/100
@@ -135,30 +139,33 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
             <Form.Group className="mb-4">
               <div className="d-flex justify-content-between align-items-center mb-2">
                 <Form.Label className="form-label mb-0 texto-dorado">
-                  CONTRASEÑA
+                  {t("password")}
                 </Form.Label>
                 <small className="texto-blanco">
                   {contrasena?.length || 0}/50
                 </small>
               </div>
+
               <div className="input-group input-group-lg">
                 <span className="input-group-text bg-transparent border-end-0">
                   <FaLock className="texto-dorado" />
                 </span>
+
                 <Form.Control
                   type={mostrarContrasena ? "text" : "password"}
                   {...register("contrasena")}
                   maxLength={50}
                   onInput={(e) => limitarCaracteres(e, 50)}
                   isInvalid={!!errors.contrasena}
-                  placeholder="Ingresa tu contraseña"
+                  placeholder={t("passwordPlaceholder")}
                   className="entrada-personalizada border-start-0"
                 />
+
                 <button
                   type="button"
                   className="input-group-text bg-transparent border-start-0"
                   onClick={toggleMostrarContrasena}
-                  aria-label={mostrarContrasena ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  aria-label={mostrarContrasena ? t("hidePassword") : t("showPassword")}
                 >
                   {mostrarContrasena ? (
                     <FaEyeSlash className="texto-dorado" />
@@ -167,6 +174,7 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
                   )}
                 </button>
               </div>
+
               <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.contrasena?.message}
               </Form.Control.Feedback>
@@ -181,7 +189,7 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
                   console.log("Recuperar contraseña");
                 }}
               >
-                ¿OLVIDASTE TU CONTRASEÑA?
+                {t("forgotPassword")}
               </a>
             </div>
 
@@ -194,9 +202,10 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
                   className="w-100 py-3 boton-personalizado boton-cancelar"
                   disabled={estaEnviando}
                 >
-                  CANCELAR
+                  {t("cancel")}
                 </Button>
               </Col>
+
               <Col xs={12} sm={6}>
                 <Button
                   variant="warning"
@@ -206,37 +215,38 @@ export const FormLogin = ({ onSubmit, onClose, onAbrirRegistro }) => {
                 >
                   {estaEnviando ? (
                     <>
-                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                      INICIANDO...
+                      <span className="spinner-border spinner-border-sm me-2"></span>
+                      {t("loggingIn")}
                     </>
                   ) : (
-                    "INICIAR SESIÓN"
+                    t("login")
                   )}
                 </Button>
               </Col>
             </Row>
 
             <div className="text-center mt-4 pt-3 border-top border-secondary">
-          
               <Button
                 variant="outline-warning"
                 onClick={manejarClickRegistro}
                 className="w-100 py-2 boton-registro"
                 disabled={estaEnviando}
               >
-                CREAR NUEVA CUENTA
+                {t("createAccount")}
               </Button>
+
               <p className="texto-registro mt-3">
-                ¿NO TIENES CUENTA?{" "}
+                {t("noAccount")}{" "}
                 <a 
                   href="#" 
                   className="enlace-dorado fw-bold text-decoration-none"
                   onClick={manejarClickRegistro}
                 >
-                  REGÍSTRATE AQUÍ
+                  {t("registerHere")}
                 </a>
               </p>
             </div>
+
           </Form>
         </Col>
       </Row>
