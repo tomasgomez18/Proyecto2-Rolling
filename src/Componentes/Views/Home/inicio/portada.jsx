@@ -6,7 +6,7 @@ const Portada = () => {
       <div className="portada-imagen-wrapper">
         <img
           className="portada-imagen"
-          src="Portada\Royal-Enfield-Classic-500-Pegasus-Edition-1.jpg"
+          src="Portada/Royal-Enfield-Classic-500-Pegasus-Edition-1.jpg"
           alt="Royal Enfield Moto"
         />
       </div>

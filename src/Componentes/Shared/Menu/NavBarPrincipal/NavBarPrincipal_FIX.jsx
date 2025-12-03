@@ -53,7 +53,7 @@ export const NavBarPrincipal = ({ onAbrirRegistro, onAbrirLogin }) => {
       <Container>
         <Navbar.Brand as={Link} to="/" className="marca-royal">
           <img
-            src="Logo\logo_convertido.png"
+            src="Logo/logo_convertido.png"
             alt="Rolling Motors"
             height="40"
           />
