@@ -609,6 +609,11 @@ const AdminPanel = () => {
           >
             🌍 Mapa
           </button>
+          <button onClick={() => setVistaActiva("recomendaciones")}>
+            💬 Recomendaciones
+          </button>
+
+          <button onClick={() => setVistaActiva("pedidos")}>📦 Pedidos</button>
         </nav>
 
         <div className="controles-encabezado">
@@ -956,9 +961,77 @@ const AdminPanel = () => {
         </div>
       )}
       ,
+      {vistaActiva === "recomendaciones" && (
+        <div className="contenedor-tabla">
+          <h2>💬Recomendaciones de Usuarios</h2>
+
+          <form
+            className="form-comentario"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!nuevoComentario.trim()) return;
+
+              setRecomendaciones([
+                ...recomendaciones,
+                { id: Date.now(), texto: nuevoComentario },
+              ]);
+
+              setNuevoComentario("");
+            }}
+          >
+            <textarea
+              className="input-textarea"
+              placeholder="Escribe una recomendación..."
+              value={nuevoComentario}
+              onChange={(e) => setNuevoComentario(e.target.value)}
+            />
+
+            <button className="boton-agregar" type="submit">
+              ➕ Añadir Recomendación
+            </button>
+          </form>
+
+          <div className="tabla-responsive">
+            <table className="tabla-administracion">
+              <thead>
+                <tr>
+                  <th>Comentario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {recomendaciones.map((r) => (
+                  <tr key={r.id}>
+                    <td data-label="Comentario">{r.texto}</td>
+
+                    <td data-label="Acciones">
+                      <button
+                        className="boton-eliminar"
+                        onClick={() =>
+                          setRecomendaciones(
+                            recomendaciones.filter((x) => x.id !== r.id)
+                          )
+                        }
+                      >
+                        🗑️ Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {recomendaciones.length === 0 && (
+              <div className="sin-datos">📭 No hay recomendaciones aún</div>
+            )}
+          </div>
+        </div>
+      )}
+      ,
       {vistaActiva === "pedidos" && (
         <div className="contenedor-tabla">
-          <h2>:paquete: Gestión de Pedidos del Administrador</h2>
+          <h2>📦Gestión de Pedidos del Administrador</h2>
           <form
             className="form-comentario"
             onSubmit={(e) => {
@@ -1005,8 +1078,8 @@ const AdminPanel = () => {
             />
             <button className="boton-agregar" type="submit">
               {modoPedido === "agregar"
-                ? ":signo_de_suma_grueso: Crear pedido"
-                : ":lápiz2: Guardar cambios"}
+                ? "Crear pedido"
+                : "Guardar cambios"}
             </button>
           </form>
           <div className="tabla-responsive">
@@ -1031,7 +1104,7 @@ const AdminPanel = () => {
                           setModoPedido("editar");
                         }}
                       >
-                        :lápiz2: Editar
+                        Editar
                       </button>
                       <button
                         className="boton-eliminar"
@@ -1039,7 +1112,7 @@ const AdminPanel = () => {
                           setPedidos(pedidos.filter((x) => x.id !== p.id))
                         }
                       >
-                        :papelera: Eliminar
+                        Eliminar
                       </button>
                     </td>
                   </tr>
@@ -1048,7 +1121,7 @@ const AdminPanel = () => {
             </table>
             {pedidos.length === 0 && (
               <div className="sin-datos">
-                :buzón_sin_cartas: No hay pedidos creados
+                No hay pedidos creados
               </div>
             )}
           </div>

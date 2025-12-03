@@ -8,7 +8,6 @@
   --color-bronce: #8c6a2f;
 }
 
-/* Estilos generales */
 .panel-administracion {
   padding: 20px;
   max-width: 1400px;
@@ -18,7 +17,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Encabezado */
 .encabezado-administracion {
   margin-bottom: 30px;
   border-bottom: 3px solid var(--color-dorado);
@@ -43,7 +41,6 @@
   padding-bottom: 15px;
 }
 
-/* Navegación */
 .navegacion-administracion {
   display: flex;
   gap: 12px;
@@ -80,7 +77,6 @@
   transform: translateY(-2px);
 }
 
-/* Controles */
 .controles-encabezado {
   display: flex;
   justify-content: center;
@@ -109,7 +105,6 @@
   box-shadow: 0 6px 15px rgba(140, 106, 47, 0.4);
 }
 
-/* Contenedores de tabla */
 .contenedor-tabla {
   background: var(--color-oscuro);
   border-radius: 12px;
@@ -130,7 +125,6 @@
   letter-spacing: 1px;
 }
 
-/* Tarjetas de resumen */
 .tabla-resumen {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -170,7 +164,6 @@
   letter-spacing: 0.8px;
 }
 
-/* Encabezado de productos */
 .encabezado-productos {
   display: flex;
   justify-content: space-between;
@@ -200,7 +193,6 @@
   box-shadow: 0 6px 15px rgba(200, 155, 43, 0.4);
 }
 
-/* TABLA RESPONSIVE */
 .tabla-responsive {
   overflow-x: auto;
   border-radius: 8px;
@@ -245,7 +237,6 @@
   text-overflow: ellipsis;
 }
 
-/* Estilos específicos de celdas */
 .info-usuario {
   display: flex;
   flex-direction: column;
@@ -308,7 +299,6 @@
   border: 1px solid var(--color-bronce);
 }
 
-/* Estilos para productos */
 .info-producto {
   display: flex;
   flex-direction: column;
@@ -379,7 +369,6 @@
   border: 1px solid var(--color-metal);
 }
 
-/* Estilos para campo de imagen en formulario */
 .campo-formulario .vista-previa-imagen {
   margin-top: 10px;
   border: 1px solid var(--color-metal);
@@ -403,7 +392,6 @@
   font-size: 0.9rem;
 }
 
-/* Estilos para imagen en tabla */
 .contenedor-imagen-tabla {
   width: 80px;
   height: 60px;
@@ -449,7 +437,6 @@
   gap: 5px;
 }
 
-/* Estados del producto */
 .estados-producto {
   display: flex;
   flex-direction: column;
@@ -498,7 +485,6 @@
   white-space: nowrap;
 }
 
-/* Detalles adicionales del producto */
 .detalles-adicionales {
   display: flex;
   flex-wrap: wrap;
@@ -517,7 +503,6 @@
   gap: 4px;
 }
 
-/* Botones de acción */
 .acciones {
   display: flex;
   gap: 8px;
@@ -586,7 +571,6 @@
   box-shadow: 0 4px 8px rgba(95, 95, 95, 0.3);
 }
 
-/* Sin datos */
 .sin-datos {
   text-align: center;
   color: var(--color-metal);
@@ -598,7 +582,6 @@
   border: 1px solid var(--color-metal);
 }
 
-/* Modales */
 .superposicion-formulario {
   position: fixed;
   top: 0;
@@ -637,7 +620,6 @@
   font-size: 1.4rem;
 }
 
-/* Campos del formulario */
 .campo-formulario {
   margin-bottom: 18px;
 }
@@ -686,14 +668,12 @@
   color: var(--color-metal);
 }
 
-/* Grid para campos lado a lado */
 .grid-campos {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
 }
 
-/* Checkbox label */
 .checkbox-label {
   display: flex;
   align-items: center;
@@ -714,7 +694,6 @@
   font-size: 0.9rem;
 }
 
-/* Botones del formulario */
 .botones-formulario {
   display: flex;
   gap: 12px;
@@ -765,7 +744,6 @@
   box-shadow: 0 4px 12px rgba(95, 95, 95, 0.3);
 }
 
-/* Acceso denegado */
 .acceso-denegado {
   text-align: center;
   padding: 60px;
@@ -790,7 +768,6 @@
   line-height: 1.6;
 }
 
-/* Mapa */
 .mapa-contenedor {
   background: var(--color-oscuro);
   border-radius: 12px;
@@ -799,9 +776,7 @@
   color: var(--color-crema);
 }
 
-/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
-  /* Diseño general */
   .panel-administracion {
     padding: 10px;
   }
@@ -817,7 +792,6 @@
     padding-bottom: 8px;
   }
   
-  /* Navegación */
   .navegacion-administracion {
     flex-direction: column;
     gap: 6px;
@@ -831,7 +805,6 @@
     min-width: auto;
   }
   
-  /* Controles */
   .controles-encabezado {
     width: 100%;
   }
@@ -842,7 +815,6 @@
     font-size: 0.8rem;
   }
   
-  /* Contenedores */
   .contenedor-tabla {
     padding: 15px 12px;
     margin-bottom: 15px;
@@ -855,7 +827,6 @@
     padding-bottom: 8px;
   }
   
-  /* Tarjetas de resumen */
   .tabla-resumen {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -869,7 +840,6 @@
     font-size: 1.8rem;
   }
   
-  /* Encabezado de productos */
   .encabezado-productos {
     flex-direction: column;
     align-items: stretch;
@@ -884,7 +854,6 @@
     font-size: 0.85rem;
   }
   
-  /* Tabla responsive para móvil */
   .tabla-responsive {
     border: none;
     background: transparent;
@@ -960,7 +929,6 @@
     line-height: 1.2;
   }
   
-  /* Celdas especiales */
   .tabla-administracion td[data-label="Acciones"] {
     flex-direction: column;
     align-items: stretch;
@@ -1011,7 +979,6 @@
     letter-spacing: 0.5px;
   }
   
-  /* Mejora para contenido largo */
   .tabla-administracion td[data-label="Email"],
   .tabla-administracion td[data-label="Usuario"],
   .tabla-administracion td[data-label="Nombre"],
@@ -1027,7 +994,6 @@
     min-width: 0;
   }
   
-  /* Formularios */
   .contenedor-formulario {
     padding: 20px 15px;
     margin: 10px;
@@ -1058,8 +1024,7 @@
     width: 100%;
     padding: 12px 15px;
   }
-  
-  /* Sin datos en móvil */
+
   .sin-datos {
     padding: 30px 20px;
     font-size: 1rem;
@@ -1068,7 +1033,6 @@
 }
 
 @media (max-width: 480px) {
-  /* Diseño extra pequeño */
   .panel-administracion {
     padding: 8px;
   }
@@ -1110,7 +1074,6 @@
     padding: 3px 6px;
   }
   
-  /* Acciones en móvil muy pequeño */
   .acciones {
     flex-direction: column;
     gap: 6px;
@@ -1123,7 +1086,6 @@
     font-size: 0.7rem;
   }
   
-  /* Estilo mejorado para acciones */
   .tabla-administracion td[data-label="Acciones"] {
     padding: 10px;
   }
@@ -1139,13 +1101,11 @@
   }
 }
 
-/* Estados hover para todos los botones */
 button:active {
   transform: translateY(0) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Scroll personalizado */
 .contenedor-formulario::-webkit-scrollbar,
 .tabla-responsive::-webkit-scrollbar {
   width: 8px;
@@ -1167,11 +1127,48 @@ button:active {
   background: var(--color-bronce);
 }
 
-/* Focus states para accesibilidad */
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   outline: 3px solid var(--color-dorado);
   outline-offset: 2px;
+}
+
+.form-comentario {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.input-admin {
+  width: 250px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #c2a13e;
+  background: #ffffff;
+  color: #000;
+}
+
+.textarea-admin {
+  width: 350px;
+  height: 70px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #c2a13e;
+  background: #ffffff;
+  color: #000;
+  resize: none;
+}
+
+.boton-agregar {
+  padding: 12px 25px;
+  border-radius: 8px;
+  border: none;
+  background: #c2a13e;
+  cursor: pointer;
+  white-space: nowrap;
 }
