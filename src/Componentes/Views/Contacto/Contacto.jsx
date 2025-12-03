@@ -1,5 +1,4 @@
 import Form from 'react-bootstrap/Form';
-import emailjs from '@emailjs/browser';
 import { useRef, useState } from "react";
 import './Contacto.css';
 import { Toaster } from "react-hot-toast";
