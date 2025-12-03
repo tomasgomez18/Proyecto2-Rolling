@@ -10,7 +10,6 @@ const Portada = () => {
           alt="Royal Enfield Moto"
         />
       </div>
-
       <h2 className="portada-titulo">
         UNA MOTOR QUE REALMENTE ESTÁ CONSTRUIDA COMO UN ARMA <br />Y VA COMO UNA
         BALA
