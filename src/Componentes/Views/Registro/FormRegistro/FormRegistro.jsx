@@ -20,9 +20,6 @@ const FormRegistro = ({ onSubmit, onClose }) => {
   });
 
   const procesarEnvio = (data) => {
-    console.log("📤 Datos válidos del formulario:", data);
-    
-    // Pasar los datos tal cual al onSubmit
     onSubmit?.(data);
   };
 

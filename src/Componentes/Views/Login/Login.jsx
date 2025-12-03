@@ -11,14 +11,12 @@ const Login = ({ onClose, onAbrirRegistro }) => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("📤 Datos de login:", data);
       const resultado = await login(data);
 
       if (resultado.login) {
         toast.success("Login exitoso ✔");
         onClose();
 
-        // Si es admin, mostrar el toast especial después de un momento
         if (resultado.usuario.role === "admin") {
           setTimeout(() => {
             toast.custom(
@@ -39,7 +37,6 @@ const Login = ({ onClose, onAbrirRegistro }) => {
                     zIndex: 9999
                   }}
                 >
-                  {/* Barra superior dorada */}
                   <div style={{
                     position: 'absolute',
                     top: '0',
@@ -54,7 +51,6 @@ const Login = ({ onClose, onAbrirRegistro }) => {
                     alignItems: 'center',
                     marginBottom: '1rem'
                   }}>
-                    {/* Icono de admin */}
                     <div style={{
                       background: '#c89b2b',
                       color: '#111111',
@@ -136,7 +132,6 @@ const Login = ({ onClose, onAbrirRegistro }) => {
                     <button
                       onClick={() => {
                         toast.dismiss(t.id);
-                        // Redirigir al panel de admin
                         navigate("/admin");
                       }}
                       style={{
@@ -165,7 +160,6 @@ const Login = ({ onClose, onAbrirRegistro }) => {
                     </button>
                   </div>
                   
-                  {/* Tiempo restante */}
                   <div style={{
                     marginTop: '1rem',
                     fontSize: '0.8rem',
@@ -183,13 +177,12 @@ const Login = ({ onClose, onAbrirRegistro }) => {
                 id: 'admin-toast',
               }
             );
-          }, 800); // Esperar 800ms para que se cierre el modal primero
+          }, 800);
         }
       } else {
         toast.error(resultado.mensaje || "Credenciales incorrectas");
       }
     } catch (error) {
-      console.error("💥 Error en login:", error);
       toast.error("Error inesperado");
     }
   };

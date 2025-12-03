@@ -28,7 +28,6 @@ export const PAISES_VALIDOS = [
 export const FECHA_MINIMA = new Date(1945, 0, 1);
 export const FECHA_MAXIMA = new Date(2006, 11, 31);
 
-// Schema para registro
 export const registroSchema = z.object({
   nombreDeUsuario: z
     .string()
