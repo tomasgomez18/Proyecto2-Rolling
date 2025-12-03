@@ -23,14 +23,26 @@ const AdminPanel = () => {
     editarProducto,
     eliminarProducto,
     cargarProductos,
-    obtenerEstadisticas
+    obtenerEstadisticas,
   } = useProductos();
 
   const [vistaActiva, setVistaActiva] = useState("usuarios");
   const [usuarioEditando, setUsuarioEditando] = useState(null);
   const [productoEditando, setProductoEditando] = useState(null);
   const [mostrarFormProducto, setMostrarFormProducto] = useState(false);
-  const [modoFormularioProducto, setModoFormularioProducto] = useState("agregar");
+  const [modoFormularioProducto, setModoFormularioProducto] =
+    useState("agregar");
+
+  const [recomendaciones, setRecomendaciones] = useState([]);
+  const [nuevoComentario, setNuevoComentario] = useState("");
+
+  const [pedidos, setPedidos] = useState([]);
+  const [pedidoActual, setPedidoActual] = useState({
+    id: null,
+    titulo: "",
+    descripcion: "",
+  });
+  const [modoPedido, setModoPedido] = useState("agregar");
 
   const estadisticas = obtenerEstadisticas();
 
@@ -55,16 +67,23 @@ const AdminPanel = () => {
   }, []);
 
   // Función para manejar eliminación de producto
-  const manejarEliminarProducto = useCallback(async (id) => {
-    if (window.confirm("¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer.")) {
-      const resultado = await eliminarProducto(id);
-      if (resultado.exito) {
-        alert("✅ Producto eliminado correctamente");
-      } else {
-        alert("❌ Error: " + resultado.mensaje);
+  const manejarEliminarProducto = useCallback(
+    async (id) => {
+      if (
+        window.confirm(
+          "¿Estás seguro de eliminar este producto? Esta acción no se puede deshacer."
+        )
+      ) {
+        const resultado = await eliminarProducto(id);
+        if (resultado.exito) {
+          alert("✅ Producto eliminado correctamente");
+        } else {
+          alert("❌ Error: " + resultado.mensaje);
+        }
       }
-    }
-  }, [eliminarProducto]);
+    },
+    [eliminarProducto]
+  );
 
   const ImagenProducto = ({ imagen, nombre }) => {
     const [error, setError] = useState(false);
@@ -78,11 +97,11 @@ const AdminPanel = () => {
         {error ? (
           <div className="imagen-error">❌ Error</div>
         ) : (
-          <img 
-            src={imagen} 
-            alt={nombre} 
+          <img
+            src={imagen}
+            alt={nombre}
             onError={() => setError(true)}
-            onClick={() => window.open(imagen, '_blank')}
+            onClick={() => window.open(imagen, "_blank")}
             title="Click para ver imagen completa"
           />
         )}
@@ -104,7 +123,7 @@ const AdminPanel = () => {
   const FormularioProducto = () => {
     const esEdicion = modoFormularioProducto === "editar";
     const producto = esEdicion ? productoEditando : null;
-    
+
     const [datosFormulario, setDatosFormulario] = useState({
       nombre: producto?.nombre || "",
       precio: producto?.precio || "",
@@ -117,7 +136,7 @@ const AdminPanel = () => {
       ubicacion: producto?.ubicacion || "",
       imagen: producto?.imagen || "",
       destacado: producto?.destacado || false,
-      stock: producto?.stock !== undefined ? producto.stock : true
+      stock: producto?.stock !== undefined ? producto.stock : true,
     });
 
     const [errorImagen, setErrorImagen] = useState(false);
@@ -126,10 +145,13 @@ const AdminPanel = () => {
     const manejarEnvio = async (e) => {
       e.preventDefault();
       setEnviando(true);
-      
+
       try {
         if (esEdicion) {
-          const resultado = await editarProducto(productoEditando.id, datosFormulario);
+          const resultado = await editarProducto(
+            productoEditando.id,
+            datosFormulario
+          );
           if (resultado.exito) {
             alert("✅ Producto actualizado correctamente");
           } else {
@@ -143,7 +165,7 @@ const AdminPanel = () => {
             alert("❌ Error: " + resultado.mensaje);
           }
         }
-        
+
         cerrarFormulario();
       } catch (error) {
         alert("❌ Error inesperado: " + error.message);
@@ -156,19 +178,19 @@ const AdminPanel = () => {
       setMostrarFormProducto(false);
       setProductoEditando(null);
       setModoFormularioProducto("agregar");
-      setDatosFormulario({ 
-        nombre: "", 
-        precio: "", 
-        descripcion: "", 
-        categoria: "", 
-        marca: "", 
+      setDatosFormulario({
+        nombre: "",
+        precio: "",
+        descripcion: "",
+        categoria: "",
+        marca: "",
         modelo: "",
         año: "",
         kilometros: "",
         ubicacion: "",
         imagen: "",
         destacado: false,
-        stock: true
+        stock: true,
       });
       setErrorImagen(false);
     };
@@ -263,9 +285,9 @@ const AdminPanel = () => {
                       ❌ Error al cargar la imagen
                     </div>
                   ) : (
-                    <img 
-                      src={datosFormulario.imagen} 
-                      alt="Vista previa" 
+                    <img
+                      src={datosFormulario.imagen}
+                      alt="Vista previa"
                       onError={() => setErrorImagen(true)}
                       onLoad={() => setErrorImagen(false)}
                     />
@@ -422,17 +444,20 @@ const AdminPanel = () => {
             </div>
 
             <div className="botones-formulario">
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="boton-guardar"
                 disabled={enviando}
               >
-                {enviando ? "⏳ Procesando..." : 
-                  esEdicion ? "💾 Guardar Cambios" : "➕ Agregar Producto"}
+                {enviando
+                  ? "⏳ Procesando..."
+                  : esEdicion
+                  ? "💾 Guardar Cambios"
+                  : "➕ Agregar Producto"}
               </button>
-              <button 
-                type="button" 
-                onClick={cerrarFormulario} 
+              <button
+                type="button"
+                onClick={cerrarFormulario}
                 className="boton-cancelar"
                 disabled={enviando}
               >
@@ -503,7 +528,10 @@ const AdminPanel = () => {
                 type="text"
                 value={datosFormulario.pais}
                 onChange={(e) =>
-                  setDatosFormulario({ ...datosFormulario, pais: e.target.value })
+                  setDatosFormulario({
+                    ...datosFormulario,
+                    pais: e.target.value,
+                  })
                 }
                 required
               />
@@ -529,9 +557,9 @@ const AdminPanel = () => {
               <button type="submit" className="boton-guardar">
                 💾 Guardar Cambios
               </button>
-              <button 
-                type="button" 
-                onClick={() => setUsuarioEditando(null)} 
+              <button
+                type="button"
+                onClick={() => setUsuarioEditando(null)}
                 className="boton-cancelar"
               >
                 ❌ Cancelar
@@ -585,6 +613,12 @@ const AdminPanel = () => {
           >
             🌍 Mapa
           </button>
+
+          <button onClick={() => setVistaActiva("recomendaciones")}>
+            💬 Recomendaciones
+          </button>
+
+          <button onClick={() => setVistaActiva("pedidos")}>📦 Pedidos</button>
         </nav>
 
         <div className="controles-encabezado">
@@ -593,17 +627,20 @@ const AdminPanel = () => {
           </button>
         </div>
       </header>
-
       {vistaActiva === "usuarios" && (
         <div className="contenedor-tabla">
           <h2>👥 Usuarios Activos</h2>
           <div className="tabla-resumen">
             <div className="tarjeta-resumen">
-              <span className="numero-resumen">{usuarios.filter(u => u.role === 'admin').length}</span>
+              <span className="numero-resumen">
+                {usuarios.filter((u) => u.role === "admin").length}
+              </span>
               <span className="texto-resumen">Administradores</span>
             </div>
             <div className="tarjeta-resumen">
-              <span className="numero-resumen">{usuarios.filter(u => u.role === 'user').length}</span>
+              <span className="numero-resumen">
+                {usuarios.filter((u) => u.role === "user").length}
+              </span>
               <span className="texto-resumen">Usuarios Normales</span>
             </div>
             <div className="tarjeta-resumen">
@@ -611,7 +648,7 @@ const AdminPanel = () => {
               <span className="texto-resumen">Total Activos</span>
             </div>
           </div>
-          
+
           <div className="tabla-responsive">
             <table className="tabla-administracion">
               <thead>
@@ -629,28 +666,36 @@ const AdminPanel = () => {
                   <tr key={u.id}>
                     <td data-label="Usuario">
                       <div className="info-usuario">
-                        <span className="nombre-usuario">{u.nombreDeUsuario}</span>
+                        <span className="nombre-usuario">
+                          {u.nombreDeUsuario}
+                        </span>
                       </div>
                     </td>
                     <td data-label="Email">{u.email}</td>
                     <td data-label="Rol">
-                      <span className={`badge-rol ${u.role === 'admin' ? 'badge-admin' : 'badge-user'}`}>
-                        {u.role === 'admin' ? '👑 Admin' : '👤 Usuario'}
+                      <span
+                        className={`badge-rol ${
+                          u.role === "admin" ? "badge-admin" : "badge-user"
+                        }`}
+                      >
+                        {u.role === "admin" ? "👑 Admin" : "👤 Usuario"}
                       </span>
                     </td>
-                    <td data-label="País">{u.pais || 'No especificado'}</td>
-                    <td data-label="Fecha Nac">{new Date(u.fechaNacimiento).toLocaleDateString()}</td>
+                    <td data-label="País">{u.pais || "No especificado"}</td>
+                    <td data-label="Fecha Nac">
+                      {new Date(u.fechaNacimiento).toLocaleDateString()}
+                    </td>
                     <td data-label="Acciones">
                       <div className="acciones">
-                        <button 
+                        <button
                           className="boton-editar"
                           onClick={() => setUsuarioEditando(u)}
                           title="Editar usuario"
                         >
                           ✏️ Editar
                         </button>
-                        {u.role !== 'admin' && (
-                          <button 
+                        {u.role !== "admin" && (
+                          <button
                             className="boton-suspender"
                             onClick={() => suspenderUsuario(u.id)}
                             title="Suspender usuario"
@@ -672,28 +717,33 @@ const AdminPanel = () => {
           </div>
         </div>
       )}
-
       {vistaActiva === "suspendidos" && (
         <div className="contenedor-tabla">
           <h2>⚠️ Usuarios Suspendidos</h2>
           <div className="tabla-resumen">
             <div className="tarjeta-resumen">
-              <span className="numero-resumen">{usuariosSuspendidos.length}</span>
+              <span className="numero-resumen">
+                {usuariosSuspendidos.length}
+              </span>
               <span className="texto-resumen">Total Suspendidos</span>
             </div>
             <div className="tarjeta-resumen">
               <span className="numero-resumen">
-                {usuariosSuspendidos.filter(u => {
-                  const fechaSuspension = new Date(u.fechaSuspension);
-                  const hoy = new Date();
-                  const diffDias = Math.floor((hoy - fechaSuspension) / (1000 * 60 * 60 * 24));
-                  return diffDias > 30;
-                }).length}
+                {
+                  usuariosSuspendidos.filter((u) => {
+                    const fechaSuspension = new Date(u.fechaSuspension);
+                    const hoy = new Date();
+                    const diffDias = Math.floor(
+                      (hoy - fechaSuspension) / (1000 * 60 * 60 * 24)
+                    );
+                    return diffDias > 30;
+                  }).length
+                }
               </span>
               <span className="texto-resumen">Más de 30 días</span>
             </div>
           </div>
-          
+
           <div className="tabla-responsive">
             <table className="tabla-administracion">
               <thead>
@@ -709,33 +759,45 @@ const AdminPanel = () => {
                 {usuariosSuspendidos.map((u) => {
                   const fechaSuspension = new Date(u.fechaSuspension);
                   const hoy = new Date();
-                  const diffDias = Math.floor((hoy - fechaSuspension) / (1000 * 60 * 60 * 24));
-                  
+                  const diffDias = Math.floor(
+                    (hoy - fechaSuspension) / (1000 * 60 * 60 * 24)
+                  );
+
                   return (
                     <tr key={u.id}>
                       <td data-label="Usuario">
                         <div className="info-usuario">
-                          <span className="nombre-usuario">{u.nombreDeUsuario}</span>
+                          <span className="nombre-usuario">
+                            {u.nombreDeUsuario}
+                          </span>
                           <span className="rol-usuario">{u.role}</span>
                         </div>
                       </td>
                       <td data-label="Email">{u.email}</td>
-                      <td data-label="Fecha Suspensión">{fechaSuspension.toLocaleDateString()}</td>
+                      <td data-label="Fecha Suspensión">
+                        {fechaSuspension.toLocaleDateString()}
+                      </td>
                       <td data-label="Días Suspendido">
-                        <span className={`badge-dias ${diffDias > 30 ? 'badge-peligro' : 'badge-advertencia'}`}>
+                        <span
+                          className={`badge-dias ${
+                            diffDias > 30
+                              ? "badge-peligro"
+                              : "badge-advertencia"
+                          }`}
+                        >
                           {diffDias} días
                         </span>
                       </td>
                       <td data-label="Acciones">
                         <div className="acciones">
-                          <button 
+                          <button
                             className="boton-reactivar"
                             onClick={() => reactivarUsuario(u.id)}
                             title="Reactivar usuario"
                           >
                             ✅ Reactivar
                           </button>
-                          <button 
+                          <button
                             className="boton-eliminar"
                             onClick={() => eliminarUsuarioSuspendido(u.id)}
                             title="Eliminar permanentemente"
@@ -750,19 +812,16 @@ const AdminPanel = () => {
               </tbody>
             </table>
             {usuariosSuspendidos.length === 0 && (
-              <div className="sin-datos">
-                ✅ No hay usuarios suspendidos
-              </div>
+              <div className="sin-datos">✅ No hay usuarios suspendidos</div>
             )}
           </div>
         </div>
       )}
-
       {vistaActiva === "productos" && (
         <div className="contenedor-tabla">
           <div className="encabezado-productos">
             <h2>📦 Gestión de Productos</h2>
-            <button 
+            <button
               className="boton-agregar"
               onClick={() => {
                 setModoFormularioProducto("agregar");
@@ -772,7 +831,7 @@ const AdminPanel = () => {
               ➕ Agregar Producto
             </button>
           </div>
-          
+
           <div className="tabla-resumen">
             <div className="tarjeta-resumen">
               <span className="numero-resumen">{estadisticas.total}</span>
@@ -780,7 +839,10 @@ const AdminPanel = () => {
             </div>
             <div className="tarjeta-resumen">
               <span className="numero-resumen">
-                ${productos.reduce((total, p) => total + (parseFloat(p.precio) || 0), 0).toFixed(2)}
+                $
+                {productos
+                  .reduce((total, p) => total + (parseFloat(p.precio) || 0), 0)
+                  .toFixed(2)}
               </span>
               <span className="texto-resumen">Valor Total</span>
             </div>
@@ -793,7 +855,7 @@ const AdminPanel = () => {
               <span className="texto-resumen">En Stock</span>
             </div>
           </div>
-          
+
           <div className="tabla-responsive">
             <table className="tabla-administracion">
               <thead>
@@ -818,13 +880,20 @@ const AdminPanel = () => {
                         <strong className="nombre-producto">{p.nombre}</strong>
                         <div className="detalles-adicionales">
                           {p.año && <span className="detalle">📅 {p.año}</span>}
-                          {p.kilometros && <span className="detalle">📏 {p.kilometros}</span>}
-                          {p.ubicacion && <span className="detalle">📍 {p.ubicacion}</span>}
+                          {p.kilometros && (
+                            <span className="detalle">📏 {p.kilometros}</span>
+                          )}
+                          {p.ubicacion && (
+                            <span className="detalle">📍 {p.ubicacion}</span>
+                          )}
                         </div>
                         {p.descripcion && (
-                          <div className="descripcion-corta" title={p.descripcion}>
-                            {p.descripcion.length > 60 
-                              ? `${p.descripcion.substring(0, 60)}...` 
+                          <div
+                            className="descripcion-corta"
+                            title={p.descripcion}
+                          >
+                            {p.descripcion.length > 60
+                              ? `${p.descripcion.substring(0, 60)}...`
                               : p.descripcion}
                           </div>
                         )}
@@ -847,7 +916,10 @@ const AdminPanel = () => {
                     <td data-label="Estado">
                       <div className="estados-producto">
                         {p.destacado && (
-                          <span className="badge-destacado" title="Producto destacado">
+                          <span
+                            className="badge-destacado"
+                            title="Producto destacado"
+                          >
                             ⭐ Destacado
                           </span>
                         )}
@@ -865,14 +937,14 @@ const AdminPanel = () => {
                     </td>
                     <td data-label="Acciones">
                       <div className="acciones">
-                        <button 
+                        <button
                           className="boton-editar"
                           onClick={() => manejarEditarProducto(p)}
                           title="Editar producto"
                         >
                           ✏️ Editar
                         </button>
-                        <button 
+                        <button
                           className="boton-eliminar"
                           onClick={() => manejarEliminarProducto(p.id)}
                           title="Eliminar producto"
@@ -893,7 +965,181 @@ const AdminPanel = () => {
           </div>
         </div>
       )}
+      ,
+      {vistaActiva === "recomendaciones" && (
+        <div className="contenedor-tabla">
+          <h2>💬 Recomendaciones de Usuarios</h2>
 
+          <form
+            className="form-comentario"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!nuevoComentario.trim()) return;
+
+              setRecomendaciones([
+                ...recomendaciones,
+                { id: Date.now(), texto: nuevoComentario },
+              ]);
+
+              setNuevoComentario("");
+            }}
+          >
+            <textarea
+              className="input-textarea"
+              placeholder="Escribe una recomendación..."
+              value={nuevoComentario}
+              onChange={(e) => setNuevoComentario(e.target.value)}
+            />
+
+            <button className="boton-agregar" type="submit">
+              ➕ Añadir Recomendación
+            </button>
+          </form>
+
+          <div className="tabla-responsive">
+            <table className="tabla-administracion">
+              <thead>
+                <tr>
+                  <th>Comentario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {recomendaciones.map((r) => (
+                  <tr key={r.id}>
+                    <td data-label="Comentario">{r.texto}</td>
+
+                    <td data-label="Acciones">
+                      <button
+                        className="boton-eliminar"
+                        onClick={() =>
+                          setRecomendaciones(
+                            recomendaciones.filter((x) => x.id !== r.id)
+                          )
+                        }
+                      >
+                        🗑️ Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {recomendaciones.length === 0 && (
+              <div className="sin-datos">📭 No hay recomendaciones aún</div>
+            )}
+          </div>
+        </div>
+      )}
+      ,
+      {vistaActiva === "pedidos" && (
+        <div className="contenedor-tabla">
+          <h2>📦 Gestión de Pedidos del Administrador</h2>
+
+          <form
+            className="form-comentario"
+            onSubmit={(e) => {
+              e.preventDefault();
+
+              if (modoPedido === "agregar") {
+                setPedidos([
+                  ...pedidos,
+                  {
+                    id: Date.now(),
+                    titulo: pedidoActual.titulo,
+                    descripcion: pedidoActual.descripcion,
+                  },
+                ]);
+              } else {
+                setPedidos(
+                  pedidos.map((p) =>
+                    p.id === pedidoActual.id ? pedidoActual : p
+                  )
+                );
+              }
+
+              setPedidoActual({ id: null, titulo: "", descripcion: "" });
+              setModoPedido("agregar");
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Título del pedido"
+              className="input-textarea"
+              value={pedidoActual.titulo}
+              onChange={(e) =>
+                setPedidoActual({ ...pedidoActual, titulo: e.target.value })
+              }
+            />
+
+            <textarea
+              placeholder="Descripción del pedido"
+              className="input-textarea"
+              value={pedidoActual.descripcion}
+              onChange={(e) =>
+                setPedidoActual({
+                  ...pedidoActual,
+                  descripcion: e.target.value,
+                })
+              }
+            />
+
+            <button className="boton-agregar" type="submit">
+              {modoPedido === "agregar"
+                ? "➕ Crear pedido"
+                : "✏️ Guardar cambios"}
+            </button>
+          </form>
+
+          <div className="tabla-responsive">
+            <table className="tabla-administracion">
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Descripción</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {pedidos.map((p) => (
+                  <tr key={p.id}>
+                    <td data-label="Titulo">{p.titulo}</td>
+                    <td data-label="Descripción">{p.descripcion}</td>
+
+                    <td data-label="Acciones">
+                      <button
+                        className="boton-editar"
+                        onClick={() => {
+                          setPedidoActual(p);
+                          setModoPedido("editar");
+                        }}
+                      >
+                        ✏️ Editar
+                      </button>
+
+                      <button
+                        className="boton-eliminar"
+                        onClick={() =>
+                          setPedidos(pedidos.filter((x) => x.id !== p.id))
+                        }
+                      >
+                        🗑️ Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {pedidos.length === 0 && (
+              <div className="sin-datos">📭 No hay pedidos creados</div>
+            )}
+          </div>
+        </div>
+      )}
       {usuarioEditando && <ModalEditarUsuario />}
       {mostrarFormProducto && <FormularioProducto />}
       {vistaActiva === "mapa" && <MapaUsuarios />}
