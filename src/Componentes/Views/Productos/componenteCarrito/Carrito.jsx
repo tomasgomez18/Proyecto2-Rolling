@@ -24,23 +24,14 @@ const Carrito = () => {
     calcularTotalProductos,
   } = useCarrito();
 
-  // -----------------------------------------------------
-  // ESTADOS PARA EL DESCUENTO
-  // -----------------------------------------------------
   const [codigo, setCodigo] = useState("");
-  const [descuentoAplicado, setDescuentoAplicado] = useState(null); // porcentaje
-  const [totalConDescuento, setTotalConDescuento] = useState(null); // valor final con descuento
+  const [descuentoAplicado, setDescuentoAplicado] = useState(null); 
+  const [totalConDescuento, setTotalConDescuento] = useState(null); 
 
-  // -----------------------------------------------------
-  // CALCULOS BASE
-  // -----------------------------------------------------
   const envio = itemsCarrito.length > 0 ? 1500 : 0;
   const descuentos = 0;
   const total = calcularSubtotal() + envio - descuentos;
 
-  // -----------------------------------------------------
-  // RE-CALCULAR DESCUENTO CUANDO CAMBIA EL TOTAL
-  // -----------------------------------------------------
   useEffect(() => {
     if (descuentoAplicado) {
       const nuevoTotal = total - total * (descuentoAplicado / 100);
@@ -71,9 +62,6 @@ const Carrito = () => {
     alert("Redirigiendo al proceso de pago...");
   };
 
-  // -----------------------------------------------------
-  // APLICAR DESCUENTO ALEATORIO
-  // -----------------------------------------------------
   const handleAplicarCodigo = () => {
     if (!codigo.trim()) {
       alert("Ingresa un código de descuento");
@@ -90,9 +78,6 @@ const Carrito = () => {
     setTotalConDescuento(nuevoTotal);
   };
 
-  // -----------------------------------------------------
-  // SI EL CARRITO ESTÁ VACÍO
-  // -----------------------------------------------------
   if (itemsCarrito.length === 0) {
     return (
       <Container className="carrito-container py-5">
@@ -119,9 +104,6 @@ const Carrito = () => {
     );
   }
 
-  // -----------------------------------------------------
-  // CARRITO COMPLETO
-  // -----------------------------------------------------
   return (
     <Container className="carrito-container py-5">
       <h1 className="text-center mb-4 titulo-carrito">
@@ -130,7 +112,6 @@ const Carrito = () => {
       </h1>
 
       <Row>
-        {/* Columna de productos */}
         <Col lg={8} className="mb-4">
           <Card className="shadow-sm border-0 mb-3">
             <Card.Header className="bg-oscuro text-crema py-3">
@@ -223,7 +204,6 @@ const Carrito = () => {
           </div>
         </Col>
 
-        {/* Columna del resumen */}
         <Col lg={4}>
           <Card className="shadow-sm border-0 sticky-top resumen-card">
             <Card.Header className="bg-oscuro text-crema py-3">
@@ -244,7 +224,6 @@ const Carrito = () => {
                   <span>${envio.toLocaleString()}</span>
                 </ListGroup.Item>
 
-                {/* TOTAL + DESCUENTO */}
                 <ListGroup.Item className="py-3 total-item">
                   <div className="d-flex justify-content-between">
                     <strong className="fs-5">Total</strong>
@@ -277,7 +256,6 @@ const Carrito = () => {
                 </ListGroup.Item>
               </ListGroup>
 
-              {/* CÓDIGO DE DESCUENTO */}
               <div className="mb-3">
                 <Form.Label className="mb-2">
                   <i className="bi bi-ticket-perforated me-2"></i>Código de
@@ -317,7 +295,6 @@ const Carrito = () => {
             </Card.Body>
           </Card>
 
-          {/* Métodos de pago */}
           <Card className="shadow-sm border-0 mt-3">
             <Card.Body>
               <h6 className="mb-3">

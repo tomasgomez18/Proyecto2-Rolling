@@ -1,17 +1,16 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useCarrito } from '../../../../../Context/ContextoCarrito'; // Ajusta según tu estructura
+import { useCarrito } from '../../../../../Context/ContextoCarrito'; 
 import './DetalleProducto.css';
 
 const DetalleProducto = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { agregarAlCarrito } = useCarrito();
-  
-  // Obtener los datos del producto desde el estado de navegación
+
   const productoData = location.state?.producto || {
-    // Datos por defecto en caso de que se acceda directamente a la URL
-    id: null, // Asegúrate que aquí haya un id
+
+    id: null, 
     marca: "Royal Enfield",
     modelo: "Classic 350",
     año: 2020,
@@ -30,18 +29,13 @@ const DetalleProducto = () => {
       return;
     }
 
-    // Crear producto con ID garantizado
     const productoConId = {
       ...productoData,
-      id: productoData.id || Date.now().toString() // Si no tiene id, usa timestamp
+      id: productoData.id || Date.now().toString() 
     };
 
-    console.log('🎯 DetalleProducto - Producto a agregar (COMPRAR AHORA):', productoConId);
-    
-    // Agregar al carrito - CORREGIDO: eliminar "const" antes de la función
     agregarAlCarrito(productoConId, 1);
-    
-    // Redirigir al carrito
+  
     navigate('/carrito');
   };
 
@@ -51,24 +45,18 @@ const DetalleProducto = () => {
       return;
     }
 
-    // Crear producto con ID garantizado
     const productoConId = {
       ...productoData,
       id: productoData.id || Date.now().toString()
     };
 
-    console.log('🎯 DetalleProducto - Producto a agregar (AGREGAR AL CARRITO):', productoConId);
-    
-    // Agregar al carrito
     agregarAlCarrito(productoConId, 1);
     
-    // Mostrar confirmación
     alert(`${productoData.marca} ${productoData.modelo} agregado al carrito`);
   };
 
   return (
     <div className="detalle-producto">
-      {/* Header con gradiente */}
       <div className="detalle-header">
         <span className="detalle-marca">{productoData.marca}</span>
         <h1 className="detalle-modelo">{productoData.modelo}</h1>
@@ -76,7 +64,6 @@ const DetalleProducto = () => {
       </div>
 
       <div className="detalle-contenido">
-        {/* Columna izquierda - Imagen */}
         <div className="detalle-columna-imagen">
           <div className="imagen-contenedor">
             <img 
@@ -91,16 +78,13 @@ const DetalleProducto = () => {
             </div>
           </div>
         </div>
-
-        {/* Columna derecha - Información */}
         <div className="detalle-columna-info">
-          {/* Precio destacado */}
           <div className="precio-destacado">
             <span className="precio-label">PRECIO</span>
             <div className="precio-valor">${productoData.precio}</div>
           </div>
 
-          {/* Especificaciones */}
+
           <div className="especificaciones">
             <div className="especificacion">
               <i className="especificacion-icono">📍</i>
@@ -117,14 +101,10 @@ const DetalleProducto = () => {
               </div>
             </div>
           </div>
-
-          {/* Descripción (agregada) */}
           <div className="descripcion-detalle">
             <h3>Descripción</h3>
             <p>{productoData.descripcion}</p>
           </div>
-
-          {/* Botones de acción */}
           <div className="detalle-botones">
             <button 
               className={`btn-primario ${!productoData.stock ? 'btn-deshabilitado' : ''}`}
@@ -142,7 +122,6 @@ const DetalleProducto = () => {
             </button>
           </div>
 
-          {/* Info adicional */}
           <div className="info-adicional">
             <p className="info-texto">
               {productoData.stock 

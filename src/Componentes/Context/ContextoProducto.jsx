@@ -25,12 +25,11 @@ export const ProveedorProductos = ({ children }) => {
     stock: ''
   });
 
-  // Cargar productos desde json-server - memoizado para evitar loops
+
   const cargarProductos = useCallback(async () => {
     try {
       setCargando(true);
       setError(null);
-      console.log('🔍 Cargando productos de json-server...');
       
       const respuesta = await fetch('http://localhost:3001/productos');
       
@@ -39,31 +38,28 @@ export const ProveedorProductos = ({ children }) => {
       }
       
       const datos = await respuesta.json();
-      console.log(`✅ ${datos.length} productos cargados`);
+  
       setProductos(datos);
     } catch (error) {
-      console.error('❌ Error cargando productos:', error);
       setError('No se pudieron cargar los productos. Verifica que json-server esté ejecutándose en http://localhost:3001');
     } finally {
       setCargando(false);
     }
   }, []);
 
-  // Cargar productos al iniciar
   useEffect(() => {
     cargarProductos();
   }, [cargarProductos]);
 
-  // Filtrar productos según los filtros activos
+
   const productosFiltrados = productos.filter(producto => {
-    // 1. Filtrar por categoría
     if (filtros.categoria && producto.categoria) {
       if (producto.categoria.toLowerCase() !== filtros.categoria.toLowerCase()) {
         return false;
       }
     }
 
-    // 2. Filtrar por término de búsqueda
+
     if (filtros.terminoBusqueda) {
       const termino = filtros.terminoBusqueda.toLowerCase();
       const coincideNombre = producto.nombre?.toLowerCase().includes(termino);
@@ -76,7 +72,6 @@ export const ProveedorProductos = ({ children }) => {
       }
     }
 
-    // 3. Filtrar por precio
     const precioProducto = parseFloat(producto.precio) || 0;
     if (filtros.precioMin) {
       const precioMin = parseFloat(filtros.precioMin);
@@ -91,21 +86,20 @@ export const ProveedorProductos = ({ children }) => {
       }
     }
 
-    // 4. Filtrar por marca
+
     if (filtros.marca && producto.marca) {
       if (producto.marca.toLowerCase() !== filtros.marca.toLowerCase()) {
         return false;
       }
     }
 
-    // 5. Filtrar por modelo
+
     if (filtros.modelo && producto.modelo) {
       if (producto.modelo.toLowerCase() !== filtros.modelo.toLowerCase()) {
         return false;
       }
     }
 
-    // 6. Filtrar por destacado
     if (filtros.destacado !== '') {
       const esDestacado = producto.destacado?.toString() || 'false';
       if (esDestacado !== filtros.destacado) {
@@ -113,7 +107,7 @@ export const ProveedorProductos = ({ children }) => {
       }
     }
 
-    // 7. Filtrar por stock
+
     if (filtros.stock !== '') {
       const tieneStock = producto.stock?.toString() || 'true';
       if (tieneStock !== filtros.stock) {
@@ -124,12 +118,10 @@ export const ProveedorProductos = ({ children }) => {
     return true;
   });
 
-  // Función para actualizar filtros
   const actualizarFiltros = useCallback((nuevosFiltros) => {
     setFiltros(prev => ({ ...prev, ...nuevosFiltros }));
   }, []);
 
-  // Función para limpiar todos los filtros
   const limpiarFiltros = useCallback(() => {
     setFiltros({
       categoria: '',
@@ -143,7 +135,6 @@ export const ProveedorProductos = ({ children }) => {
     });
   }, []);
 
-  // Función específica para filtrar por categoría
   const filtrarPorCategoria = useCallback((categoria) => {
     setFiltros(prev => ({
       ...prev,
@@ -151,7 +142,6 @@ export const ProveedorProductos = ({ children }) => {
     }));
   }, []);
 
-  // Obtener todas las categorías únicas de los productos
   const obtenerCategoriasUnicas = useCallback(() => {
     const categorias = productos
       .map(p => p.categoria)
@@ -159,7 +149,6 @@ export const ProveedorProductos = ({ children }) => {
     return [...new Set(categorias)];
   }, [productos]);
 
-  // Obtener marcas únicas para una categoría específica
   const obtenerMarcasPorCategoria = useCallback((categoria) => {
     const productosCategoria = categoria 
       ? productos.filter(p => p.categoria === categoria)
@@ -171,7 +160,7 @@ export const ProveedorProductos = ({ children }) => {
     return [...new Set(marcas)];
   }, [productos]);
 
-  // Obtener todos los productos de una categoría específica
+
   const obtenerProductosPorCategoria = useCallback((categoria) => {
     if (!categoria) return productos;
     return productos.filter(producto => 
@@ -179,17 +168,16 @@ export const ProveedorProductos = ({ children }) => {
     );
   }, [productos]);
 
-  // Obtener estadísticas de productos
+  
   const obtenerEstadisticas = useCallback(() => {
     const productosPorCategoria = {};
     const productosPorMarca = {};
     
     productos.forEach(producto => {
-      // Por categoría
+    
       const categoria = producto.categoria || 'Sin categoría';
       productosPorCategoria[categoria] = (productosPorCategoria[categoria] || 0) + 1;
       
-      // Por marca
       const marca = producto.marca || 'Sin marca';
       productosPorMarca[marca] = (productosPorMarca[marca] || 0) + 1;
     });
@@ -206,7 +194,7 @@ export const ProveedorProductos = ({ children }) => {
     };
   }, [productos]);
 
-  // Obtener rango de precios
+
   const obtenerRangoPrecios = useCallback(() => {
     if (productos.length === 0) return { min: 0, max: 0 };
     
@@ -218,7 +206,6 @@ export const ProveedorProductos = ({ children }) => {
     };
   }, [productos]);
 
-  // Buscar productos por término (para autocompletar)
   const buscarSugerencias = useCallback((termino) => {
     if (!termino || termino.length < 2) return [];
     
@@ -234,7 +221,6 @@ export const ProveedorProductos = ({ children }) => {
       .slice(0, 5);
   }, [productos]);
 
-  // Agregar un nuevo producto
   const agregarProducto = useCallback(async (producto) => {
     try {
       const nuevoProducto = {
@@ -246,7 +232,6 @@ export const ProveedorProductos = ({ children }) => {
         precio: producto.precio.toString()
       };
 
-      console.log('📤 Agregando producto:', nuevoProducto);
 
       const respuesta = await fetch('http://localhost:3001/productos', {
         method: 'POST',
@@ -264,10 +249,9 @@ export const ProveedorProductos = ({ children }) => {
       const productoAgregado = await respuesta.json();
       setProductos(prev => [...prev, productoAgregado]);
       
-      console.log('✅ Producto agregado:', productoAgregado);
       return { exito: true, producto: productoAgregado };
     } catch (error) {
-      console.error('❌ Error agregando producto:', error);
+ 
       return { exito: false, mensaje: error.message };
     }
   }, []);
@@ -286,7 +270,6 @@ export const ProveedorProductos = ({ children }) => {
         precio: datosActualizados.precio?.toString() || productoExistente.precio
       };
 
-      console.log('📝 Editando producto:', productoActualizado);
 
       const respuesta = await fetch(`http://localhost:3001/productos/${id}`, {
         method: 'PUT',
@@ -306,18 +289,18 @@ export const ProveedorProductos = ({ children }) => {
         prev.map(p => p.id === id ? productoEditado : p)
       );
       
-      console.log('✅ Producto editado:', productoEditado);
+
       return { exito: true, producto: productoEditado };
     } catch (error) {
-      console.error('❌ Error editando producto:', error);
+
       return { exito: false, mensaje: error.message };
     }
   }, [productos]);
 
-  // Eliminar producto
+
   const eliminarProducto = useCallback(async (id) => {
     try {
-      console.log('🗑️ Eliminando producto ID:', id);
+
 
       const respuesta = await fetch(`http://localhost:3001/productos/${id}`, {
         method: 'DELETE'
@@ -329,37 +312,32 @@ export const ProveedorProductos = ({ children }) => {
       }
 
       setProductos(prev => prev.filter(p => p.id !== id));
-      console.log('✅ Producto eliminado');
+  
       return { exito: true };
     } catch (error) {
-      console.error('❌ Error eliminando producto:', error);
       return { exito: false, mensaje: error.message };
     }
   }, []);
 
-  // Obtener producto por ID
   const obtenerProductoPorId = useCallback((id) => {
     return productos.find(p => p.id === id);
   }, [productos]);
 
-  // Obtener productos destacados
   const obtenerProductosDestacados = useCallback(() => {
     return productos.filter(p => p.destacado);
   }, [productos]);
 
-  // Obtener productos con stock
   const obtenerProductosConStock = useCallback(() => {
     return productos.filter(p => p.stock);
   }, [productos]);
 
-  // Obtener productos recientes
   const obtenerProductosRecientes = useCallback((limite = 5) => {
     return [...productos]
       .sort((a, b) => new Date(b.fechaCreacion) - new Date(a.fechaCreacion))
       .slice(0, limite);
   }, [productos]);
 
-  // Actualizar estado de stock
+
   const actualizarStockProducto = useCallback(async (id, tieneStock) => {
     const producto = obtenerProductoPorId(id);
     if (!producto) return { exito: false, mensaje: 'Producto no encontrado' };
@@ -367,21 +345,19 @@ export const ProveedorProductos = ({ children }) => {
     return await editarProducto(id, { ...producto, stock: tieneStock });
   }, [editarProducto, obtenerProductoPorId]);
 
-  // Valor del contexto
+
   const valorContexto = {
-    // Datos
     productos,
     productosFiltrados,
     cargando,
     error,
     filtros,
     
-    // Funciones de filtrado
+
     actualizarFiltros,
     limpiarFiltros,
     filtrarPorCategoria,
     
-    // Funciones de obtención de datos
     obtenerCategoriasUnicas,
     obtenerMarcasPorCategoria,
     obtenerProductosPorCategoria,
@@ -393,7 +369,7 @@ export const ProveedorProductos = ({ children }) => {
     obtenerProductosConStock,
     obtenerProductosRecientes,
     
-    // Funciones CRUD
+
     cargarProductos,
     agregarProducto,
     editarProducto,

@@ -7,18 +7,16 @@ const Ofertas = ({
     modelo = "Classic 350",
     año = 2020,
     precio = "450000",
-    precioOriginal = "520000", // Nuevo prop para precio original
+    precioOriginal = "520000", 
     imagen = "https://images.pexels.com/photos/5192876/pexels-photo-5192876.jpeg",
     kilometros = "12,000",
     ubicacion = "Buenos Aires, AR",
     descripcion = "Mantenimiento al día. Color original. Algunos detalles estéticos mínimos.",
     destacado = true,
     stock = true,
-    finOferta = new Date().getTime() + 24 * 60 * 60 * 1000 // Por defecto 24 horas desde ahora
+    finOferta = new Date().getTime() + 24 * 60 * 60 * 1000 
 }) => {
     const navigate = useNavigate();
-    
-    // Función para calcular el tiempo restante
     const calcularTiempoRestante = () => {
         const ahora = new Date().getTime();
         const diferencia = finOferta - ahora;
@@ -48,7 +46,6 @@ const Ofertas = ({
         navigate('/detalle-producto');
     };
 
-    // Calcular descuento si hay precio original
     const calcularDescuento = () => {
         if (!precioOriginal) return 0;
         const precioNum = parseFloat(precio.replace(/[^\d]/g, ''));
@@ -61,7 +58,7 @@ const Ofertas = ({
 
     return (
         <div className={`card-moto ${destacado ? 'destacada' : ''} ${!stock ? 'sin-stock' : ''} ${ofertaActiva ? 'con-oferta' : ''}`} style={{ maxWidth: '320px', margin: '10px' }}>
-            {/* Badge de descuento */}
+
             {ofertaActiva && (
                 <div className="badge-descuento">-{descuento}%</div>
             )}
@@ -93,7 +90,6 @@ const Ofertas = ({
                 </div>
                 <p className="descripcion-moto">{descripcion}</p>
 
-                {/* Temporizador */}
                 {ofertaActiva && (
                     <div className="contenedor-temporizador">
                         <div className="icono-temporizador">⏰</div>
@@ -108,7 +104,7 @@ const Ofertas = ({
                 )}
 
                 <div className="contenedor-precio">
-                    {/* Mostrar precio original tachado si hay oferta */}
+
                     {precioOriginal && ofertaActiva && (
                         <div className="precio-original">
                             ${precioOriginal}

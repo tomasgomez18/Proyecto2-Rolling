@@ -62,7 +62,6 @@ const CardProducto = ({
       stock
     };
 
-    console.log('🎯 CardProducto - Producto a agregar:', productoData);
 
     agregarAlCarrito(productoData, 1);
 

@@ -1,4 +1,3 @@
-/* Carrito.css */
 :root {
   --color-crema: #f8f4e9;
   --color-dorado: #d4af37;
@@ -38,7 +37,6 @@
   color: var(--color-metal) !important;
 }
 
-/* Estilos para productos */
 .imagen-producto-carrito {
   border: 2px solid var(--color-crema);
   border-radius: 8px;
@@ -59,7 +57,6 @@
   font-size: 1.1rem;
 }
 
-/* Botones personalizados */
 .btn-outline-oscuro {
   color: var(--color-oscuro);
   border-color: var(--color-oscuro);
@@ -105,7 +102,6 @@
   color: var(--color-oscuro);
 }
 
-/* Botones de cantidad */
 .boton-cantidad {
   width: 36px;
   height: 36px;
@@ -125,7 +121,6 @@
   box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
 }
 
-/* Botón eliminar */
 .btn-eliminar {
   text-decoration: none;
   font-size: 0.85rem;
@@ -135,7 +130,6 @@
   text-decoration: underline;
 }
 
-/* Resumen del pedido */
 .resumen-card {
   top: 20px;
 }
@@ -145,7 +139,6 @@
   background-color: rgba(212, 175, 55, 0.05);
 }
 
-/* Botón proceder al pago */
 .btn-proceder {
   background: linear-gradient(135deg, var(--color-oscuro), #2a2a2a);
   border: none;
@@ -161,19 +154,16 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Botón aplicar descuento */
 .btn-aplicar {
   white-space: nowrap;
   font-weight: 600;
 }
 
-/* Estilos para listas */
 .list-group-item {
   border-color: rgba(138, 138, 138, 0.2);
   background-color: transparent;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .carrito-container {
     padding-left: 15px;

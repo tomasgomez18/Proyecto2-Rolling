@@ -17,7 +17,6 @@ const PaginaProductos = () => {
     }
   }, [location, filtrarPorCategoria]);
 
-  // Obtener todas las categorías para mostrar estadísticas
   const categorias = obtenerCategoriasUnicas();
 
   return (
@@ -32,7 +31,6 @@ const PaginaProductos = () => {
               Filtra y encuentra la motocicleta que se adapte a tu estilo de vida
             </p>
             
-            {/* Muestra la categoría actual si hay una seleccionada */}
             {location.state?.categoriaSeleccionada && (
               <div className="categoria-actual-badge">
                 <span className="badge bg-primary">
