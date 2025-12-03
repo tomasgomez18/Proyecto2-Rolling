@@ -17,6 +17,7 @@ import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/Pa
 import Productos from "./Componentes/Views/Productos/Productos";
 import Carrito from "./Componentes/Views/Productos/ComponenteCarrito/Carrito";
 import { CarritoProvider } from "./Componentes/Context/ContextoCarrito";
+import Footer from "./Componentes/Shared/Footer/Footer";
 function App() {
   useEffect(() => {
     UserStorage.Backup().then((resultado) => {
@@ -49,6 +50,7 @@ function App() {
                 }
               />
             </Routes>
+            <Footer/>
           </BrowserRouter>
         </UserProvider>
       </ProveedorProductos>

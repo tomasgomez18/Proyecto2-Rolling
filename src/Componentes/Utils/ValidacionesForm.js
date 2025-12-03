@@ -25,8 +25,9 @@ export const PAISES_VALIDOS = [
   "Venezuela",
 ].sort();
 
-export const FECHA_MINIMA = new Date(1945, 0, 1);
-export const FECHA_MAXIMA = new Date(2006, 11, 31);
+// CAMBIA ESTAS FECHAS ↓↓↓
+export const FECHA_MINIMA = new Date(1955, 0, 1);  
+export const FECHA_MAXIMA = new Date(2007, 11, 31); 
 
 export const registroSchema = z.object({
   nombreDeUsuario: z
@@ -53,7 +54,7 @@ export const registroSchema = z.object({
     .refine((fecha) => {
       const fechaNac = new Date(fecha);
       return fechaNac >= FECHA_MINIMA && fechaNac <= FECHA_MAXIMA;
-    }, "Debes tener entre 18 y 68 años"),
+    }, "Debes tener entre 18 y 70 años (nacido entre 1955 y 2007)"), 
 
   contrasena: z
     .string()

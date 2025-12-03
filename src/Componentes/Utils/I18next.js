@@ -17,6 +17,25 @@ i18n.use(initReactI18next).init({
         shoppingCart: "Shopping Cart",
         userMenu: "User Menu",
 
+        // === TRADUCCIONES PARA LOGIN ===
+        loginTitle: "LOGIN",
+        loginSubtitle: "Enter your credentials to access your account",
+        usernameOrEmail: "USERNAME OR EMAIL",
+        usernameOrEmailPlaceholder: "username123 or example@mail.com",
+        password: "PASSWORD",
+        passwordPlaceholder: "Enter your password",
+        forgotPassword: "FORGOT YOUR PASSWORD?",
+        cancel: "CANCEL",
+        loggingIn: "LOGGING IN...",
+        createAccount: "CREATE NEW ACCOUNT",
+        noAccount: "DON'T HAVE AN ACCOUNT?",
+        registerHere: "REGISTER HERE",
+        showPassword: "Show password",
+        hidePassword: "Hide password",
+        close: "Close",
+        loginErrorMessage: "Incorrect credentials. Please verify your data.",
+
+        // === TRADUCCIONES PARA REGISTRO (las dejas dentro de form si quieres) ===
         form: {
           title: "REGISTER",
           subtitle: "Complete all fields to create your account",
@@ -56,6 +75,25 @@ i18n.use(initReactI18next).init({
         shoppingCart: "Carrito de compras",
         userMenu: "Menú de usuario",
 
+        // === TRADUCCIONES PARA LOGIN (al nivel raíz) ===
+        loginTitle: "INICIAR SESIÓN",
+        loginSubtitle: "Ingresa tus credenciales para acceder a tu cuenta",
+        usernameOrEmail: "USUARIO O EMAIL",
+        usernameOrEmailPlaceholder: "usuario123 o ejemplo@correo.com",
+        password: "CONTRASEÑA",
+        passwordPlaceholder: "Ingresa tu contraseña",
+        forgotPassword: "¿OLVIDASTE TU CONTRASEÑA?",
+        cancel: "CANCELAR",
+        loggingIn: "INICIANDO SESIÓN...",
+        createAccount: "CREAR NUEVA CUENTA",
+        noAccount: "¿NO TIENES UNA CUENTA?",
+        registerHere: "REGISTRARSE AQUÍ",
+        showPassword: "Mostrar contraseña",
+        hidePassword: "Ocultar contraseña",
+        close: "Cerrar",
+        loginErrorMessage: "Credenciales incorrectas. Por favor verifica tus datos.",
+
+        // === TRADUCCIONES PARA REGISTRO (dentro de form) ===
         form: {
           title: "REGISTRO",
           subtitle: "Completa todos los campos para crear tu cuenta",
@@ -78,23 +116,6 @@ i18n.use(initReactI18next).init({
           registering: "REGISTRANDO...",
 
           passwordMismatch: "Las contraseñas no coinciden",
-
-          loginTitle: "LOGIN",
-          loginSubtitle: "Enter your credentials to access your account",
-          usernameOrEmail: "USERNAME OR EMAIL",
-          usernameOrEmailPlaceholder: "username123 or example@mail.com",
-          password: "PASSWORD",
-          passwordPlaceholder: "Enter your password",
-          forgotPassword: "FORGOT YOUR PASSWORD?",
-          cancel: "CANCEL",
-          loggingIn: "LOGGING IN...",
-          createAccount: "CREATE NEW ACCOUNT",
-          noAccount: "DON'T HAVE AN ACCOUNT?",
-          registerHere: "REGISTER HERE",
-          showPassword: "Show password",
-          hidePassword: "Hide password",
-          close: "Close",
-          loginErrorMessage: "Incorrect credentials. Please verify your data.",
         },
       },
     },

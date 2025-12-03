@@ -11,7 +11,10 @@ const Login = ({ onClose, onAbrirRegistro }) => {
 
   const onSubmit = async (data) => {
     try {
+      console.log("Login.jsx - Datos recibidos:", data);
+      
       const resultado = await login(data);
+      console.log("Login.jsx - Resultado del login:", resultado);
 
       if (resultado.login) {
         toast.success("Login exitoso ✔");
@@ -178,12 +181,17 @@ const Login = ({ onClose, onAbrirRegistro }) => {
               }
             );
           }, 800);
+        } else {
+          setTimeout(() => {
+            navigate("/");
+          }, 500);
         }
       } else {
-        toast.error(resultado.mensaje || "Credenciales incorrectas");
+        console.log("Login fallido:", resultado.mensaje);
       }
     } catch (error) {
-      toast.error("Error inesperado");
+      console.error("Login.jsx - Error completo:", error);
+      toast.error("Error inesperado: " + error.message);
     }
   };
 

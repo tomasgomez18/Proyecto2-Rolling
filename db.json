@@ -10,15 +10,6 @@
       "role": "admin"
     },
     {
-      "id": "3",
-      "nombreDeUsuario": "maria_garcia",
-      "email": "maria.garcia@correo.com",
-      "pais": "España",
-      "fechaNacimiento": "1995-11-08",
-      "contrasena": "MariaG456#",
-      "role": "usuario"
-    },
-    {
       "id": "4",
       "nombreDeUsuario": "carlos_lopez",
       "email": "carlos.lopez@mail.com",
@@ -190,6 +181,25 @@
       "contrasena": "",
       "role": "usuario",
       "fechaSuspension": "2025-12-03T04:52:04.048Z"
+    },
+    {
+      "id": "835b8faa-2d86-4baa-8d5a-1b670150b8f0",
+      "nombreDeUsuario": "MatiasLazarte",
+      "email": "asmatias94@gmail.com",
+      "pais": "Argentina",
+      "fechaNacimiento": "1996-06-13",
+      "contrasena": "Lazarte1@",
+      "role": "usuario"
+    },
+    {
+      "id": "3",
+      "nombreDeUsuario": "maria_garcia",
+      "email": "maria.garcia@correo.com",
+      "pais": "España",
+      "fechaNacimiento": "1995-11-08",
+      "contrasena": "MariaG456#",
+      "role": "usuario",
+      "fechaSuspension": "2025-12-03T18:29:24.776Z"
     }
   ],
   "usuariosSuspendidos": [],

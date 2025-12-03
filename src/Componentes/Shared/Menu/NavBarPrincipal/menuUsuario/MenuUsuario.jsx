@@ -25,7 +25,7 @@ const MenuUsuario = () => {
   };
 
   const manejarSoporte = () => {
-    navigate("/soporte");
+    navigate("/404");
   };
 
   if (!usuarioActual) {

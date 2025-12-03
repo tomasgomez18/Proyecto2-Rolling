@@ -1,210 +1,282 @@
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import ValidacionesForm, {
+import {
+  registroSchema,
   PAISES_VALIDOS,
-  FECHA_MINIMA,
-  FECHA_MAXIMA,
 } from "../../../Utils/ValidacionesForm";
 import "./FormRegistro.css";
 import { useState, useEffect } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
-const FormRegistro = ({ onSubmit, onClose }) => {
+export const FormRegistro = ({ onSubmit, onClose, onAbrirLogin }) => {
   const { t } = useTranslation();
+
+  const [mostrarContrasena, setMostrarContrasena] = useState(false);
+  const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
+  const [estaEnviando, setEstaEnviando] = useState(false);
+  const [errorGeneral, setErrorGeneral] = useState(null);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isValid, isDirty },
     watch,
-    trigger
+    trigger,
+    reset,
   } = useForm({
-    resolver: zodResolver(ValidacionesForm),
-    mode: "onChange"
+    resolver: zodResolver(registroSchema),
+    mode: "onChange",
+    defaultValues: {
+      nombreDeUsuario: "",
+      email: "",
+      pais: "",
+      fechaNacimiento: "",
+      contrasena: "",
+      confirmarContrasena: "",
+    },
   });
 
-  const [caracteresUsuario, setCaracteresUsuario] = useState(0);
-  const [caracteresContrasena, setCaracteresContrasena] = useState(0);
-  const [caracteresConfirmar, setCaracteresConfirmar] = useState(0);
-  const [caracteresEmail, setCaracteresEmail] = useState(0);
+  const nombreDeUsuario = watch("nombreDeUsuario");
+  const email = watch("email");
+  const contrasena = watch("contrasena");
+  const confirmarContrasena = watch("confirmarContrasena");
 
-  const nombreUsuario = watch("nombreDeUsuario") || "";
-  const email = watch("email") || "";
-  const contrasena = watch("contrasena") || "";
-  const confirmarContrasena = watch("confirmarContrasena") || "";
+  useEffect(() => {
+    if (errorGeneral) {
+      setErrorGeneral(null);
+    }
+  }, [nombreDeUsuario, email, contrasena, confirmarContrasena]);
 
-  useEffect(() => setCaracteresUsuario(nombreUsuario.length), [nombreUsuario]);
-  useEffect(() => setCaracteresEmail(email.length), [email]);
-  useEffect(() => setCaracteresContrasena(contrasena.length), [contrasena]);
-  useEffect(() => setCaracteresConfirmar(confirmarContrasena.length), [confirmarContrasena]);
+  const procesarEnvio = async (data) => {
+    setEstaEnviando(true);
+    setErrorGeneral(null);
 
-  const limitarCaracteres = (e, maxLength, setCaracteres) => {
-    const value = e.target.value;
-    if (value.length > maxLength) {
-      e.target.value = value.slice(0, maxLength);
-      setCaracteres(maxLength);
-    } else {
-      setCaracteres(value.length);
+    try {
+      const esValido = await trigger();
+      if (esValido) {
+        console.log("Datos de registro válidos:", data);
+        await onSubmit?.(data);
+      }
+    } catch (error) {
+      console.error("Error en registro:", error);
+      setErrorGeneral(error.message || t("registerErrorMessage"));
+    } finally {
+      setEstaEnviando(false);
     }
   };
 
-  const procesarEnvio = async (data) => {
-    const isValid = await trigger();
-    if (isValid) onSubmit?.(data);
+  const toggleMostrarContrasena = () => {
+    setMostrarContrasena(!mostrarContrasena);
+  };
+
+  const toggleMostrarConfirmar = () => {
+    setMostrarConfirmar(!mostrarConfirmar);
+  };
+
+  const limitarCaracteres = (e, maxLength) => {
+    if (e.target.value.length > maxLength) {
+      e.target.value = e.target.value.slice(0, maxLength);
+    }
   };
 
   return (
-    <Container fluid className="d-flex justify-content-center align-items-center py-4 py-md-5">
+    <Container
+      fluid
+      className="d-flex justify-content-center align-items-center py-4 py-md-5"
+    >
       <Row className="w-100 justify-content-center mx-0">
         <Col xs={12} sm={11} md={10} lg={9} xl={8} className="px-3 px-md-4">
-          <Form onSubmit={handleSubmit(procesarEnvio)} className="contenedor-formulario p-4 p-md-5 rounded" noValidate>
-            
+          <Form
+            onSubmit={handleSubmit(procesarEnvio)}
+            className="contenedor-formulario p-4 p-md-5 rounded"
+            noValidate
+          >
             <div className="text-center mb-4">
-              <h4 className="texto-dorado mb-0">{t("form.title")}</h4>
-              <p className="texto-blanco mt-2 mb-0" style={{ fontSize: '0.9rem' }}>
-                {t("form.subtitle")}
+              <h4 className="texto-dorado mb-0">{t("registerTitle")}</h4>
+              <p
+                className="texto-blanco mt-2 mb-0"
+                style={{ fontSize: "0.9rem" }}
+              >
+                {t("registerSubtitle")}
               </p>
             </div>
 
-            {/* NOMBRE DE USUARIO */}
-            <Form.Group className="mb-3">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <Form.Label className="texto-dorado mb-0">
-                  {t("form.username")}
-                </Form.Label>
-                <span className={`contador-caracteres ${caracteresUsuario === 20 ? 'maximo' : 'normal'}`}>
-                  {caracteresUsuario}/20
-                </span>
+            {errorGeneral && (
+              <div
+                className="alert alert-danger alert-dismissible fade show mb-4"
+                role="alert"
+              >
+                {errorGeneral}
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setErrorGeneral(null)}
+                  aria-label={t("close")}
+                ></button>
               </div>
+            )}
+
+            <Form.Group className="mb-4">
+              <Form.Label className="form-label mb-2 texto-dorado">
+                {t("username")}
+              </Form.Label>
               <Form.Control
                 type="text"
                 {...register("nombreDeUsuario")}
                 maxLength={20}
-                onInput={(e) => limitarCaracteres(e, 20, setCaracteresUsuario)}
+                onInput={(e) => limitarCaracteres(e, 20)}
                 isInvalid={!!errors.nombreDeUsuario}
-                placeholder={t("form.placeholderUsername")}
+                placeholder={t("usernamePlaceholder")}
                 className="entrada-personalizada"
-                size="lg"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.nombreDeUsuario?.message}
               </Form.Control.Feedback>
+              <div className="d-flex justify-content-end mt-1">
+                <small className="texto-blanco">
+                  {nombreDeUsuario?.length || 0}/20
+                </small>
+              </div>
             </Form.Group>
 
-            {/* EMAIL */}
-            <Form.Group className="mb-3">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <Form.Label className="texto-dorado mb-0">{t("form.email")}</Form.Label>
-                <span className={`contador-caracteres ${caracteresEmail === 50 ? 'maximo' : 'normal'}`}>
-                  {caracteresEmail}/50
-                </span>
-              </div>
+            <Form.Group className="mb-4">
+              <Form.Label className="form-label mb-2 texto-dorado">
+                {t("email")}
+              </Form.Label>
               <Form.Control
                 type="email"
                 {...register("email")}
-                maxLength={50}
-                onInput={(e) => limitarCaracteres(e, 50, setCaracteresEmail)}
+                maxLength={100}
+                onInput={(e) => limitarCaracteres(e, 100)}
                 isInvalid={!!errors.email}
-                placeholder={t("form.placeholderEmail")}
+                placeholder={t("emailPlaceholder")}
                 className="entrada-personalizada"
-                size="lg"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.email?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* PAÍS */}
-            <Form.Group className="mb-3">
-              <Form.Label className="texto-dorado mb-2">{t("form.country")}</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Label className="form-label mb-2 texto-dorado">
+                {t("country")}
+              </Form.Label>
               <Form.Select
                 {...register("pais")}
                 isInvalid={!!errors.pais}
-                defaultValue=""
                 className="entrada-personalizada"
-                size="lg"
               >
-                <option value="" disabled>{t("form.countrySelect")}</option>
+                <option value="">{t("selectCountry")}</option>
                 {PAISES_VALIDOS.map((pais) => (
-                  <option key={pais} value={pais}>{pais}</option>
+                  <option key={pais} value={pais}>
+                    {pais}
+                  </option>
                 ))}
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.pais?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* FECHA */}
-            <Form.Group className="mb-3">
-              <Form.Label className="texto-dorado mb-2">{t("form.birthday")}</Form.Label>
+            <Form.Group className="mb-4">
+              <Form.Label className="form-label mb-2 texto-dorado">
+                {t("birthDate")}
+              </Form.Label>
               <Form.Control
                 type="date"
                 {...register("fechaNacimiento")}
                 isInvalid={!!errors.fechaNacimiento}
-                min={FECHA_MINIMA.toISOString().split("T")[0]}
-                max={FECHA_MAXIMA.toISOString().split("T")[0]}
                 className="entrada-personalizada"
-                size="lg"
+                min="1955-01-01"
+                max="2007-12-31"
               />
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.fechaNacimiento?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* CONTRASEÑA */}
-            <Form.Group className="mb-3">
+            <Form.Group className="mb-4">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <Form.Label className="texto-dorado mb-0">{t("form.password")}</Form.Label>
-                <span className={`contador-caracteres ${caracteresContrasena === 50 ? 'maximo' : 'normal'}`}>
-                  {caracteresContrasena}/50
-                </span>
+                <Form.Label className="form-label mb-0 texto-dorado">
+                  {t("password")}
+                </Form.Label>
+                <small className="texto-blanco">
+                  {contrasena?.length || 0}/50
+                </small>
               </div>
-              <Form.Control
-                type="password"
-                {...register("contrasena")}
-                maxLength={50}
-                onInput={(e) => limitarCaracteres(e, 50, setCaracteresContrasena)}
-                isInvalid={!!errors.contrasena}
-                placeholder={t("form.placeholderPassword")}
-                className="entrada-personalizada"
-                size="lg"
-              />
-              <Form.Control.Feedback type="invalid">
+
+              <div className="input-group">
+                <Form.Control
+                  type={mostrarContrasena ? "text" : "password"}
+                  {...register("contrasena")}
+                  maxLength={50}
+                  onInput={(e) => limitarCaracteres(e, 50)}
+                  isInvalid={!!errors.contrasena}
+                  placeholder={t("passwordPlaceholder")}
+                  className="entrada-personalizada"
+                />
+                <button
+                  type="button"
+                  className="input-group-text"
+                  onClick={toggleMostrarContrasena}
+                  aria-label={
+                    mostrarContrasena ? t("hidePassword") : t("showPassword")
+                  }
+                >
+                  {mostrarContrasena ? (
+                    <FaEyeSlash className="texto-dorado" />
+                  ) : (
+                    <FaEye className="texto-dorado" />
+                  )}
+                </button>
+              </div>
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.contrasena?.message}
               </Form.Control.Feedback>
             </Form.Group>
 
-            {/* CONFIRMAR CONTRASEÑA */}
             <Form.Group className="mb-4">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <Form.Label className="texto-dorado mb-0">{t("form.confirmPassword")}</Form.Label>
-                <span className={`contador-caracteres ${caracteresConfirmar === 50 ? 'maximo' : 'normal'}`}>
-                  {caracteresConfirmar}/50
-                </span>
+                <Form.Label className="form-label mb-0 texto-dorado">
+                  {t("confirmPassword")}
+                </Form.Label>
+                <small className="texto-blanco">
+                  {confirmarContrasena?.length || 0}/50
+                </small>
               </div>
-              <Form.Control
-                type="password"
-                {...register("confirmarContrasena")}
-                maxLength={50}
-                onInput={(e) => limitarCaracteres(e, 50, setCaracteresConfirmar)}
-                isInvalid={!!errors.confirmarContrasena}
-                placeholder={t("form.placeholderConfirmPassword")}
-                className="entrada-personalizada"
-                size="lg"
-              />
-              <Form.Control.Feedback type="invalid">
+
+              <div className="input-group">
+                <Form.Control
+                  type={mostrarConfirmar ? "text" : "password"}
+                  {...register("confirmarContrasena")}
+                  maxLength={50}
+                  onInput={(e) => limitarCaracteres(e, 50)}
+                  isInvalid={!!errors.confirmarContrasena}
+                  placeholder={t("confirmPasswordPlaceholder")}
+                  className="entrada-personalizada"
+                />
+                <button
+                  type="button"
+                  className="input-group-text"
+                  onClick={toggleMostrarConfirmar}
+                  aria-label={
+                    mostrarConfirmar ? t("hidePassword") : t("showPassword")
+                  }
+                >
+                  {mostrarConfirmar ? (
+                    <FaEyeSlash className="texto-dorado" />
+                  ) : (
+                    <FaEye className="texto-dorado" />
+                  )}
+                </button>
+              </div>
+              <Form.Control.Feedback type="invalid" className="d-block mt-1">
                 {errors.confirmarContrasena?.message}
               </Form.Control.Feedback>
-
-              {contrasena && confirmarContrasena && contrasena !== confirmarContrasena && (
-                <Form.Text className="text-danger d-block mt-1">
-                  {t("form.passwordMismatch")}
-                </Form.Text>
-              )}
             </Form.Group>
 
-            {/* BOTONES */}
             <Row className="g-3 mt-4">
               <Col xs={12} sm={6}>
                 <Button
@@ -212,24 +284,30 @@ const FormRegistro = ({ onSubmit, onClose }) => {
                   onClick={onClose}
                   type="button"
                   className="w-100 py-3 boton-personalizado boton-cancelar"
-                  disabled={isSubmitting}
+                  disabled={estaEnviando}
                 >
-                  {t("form.cancel")}
+                  {t("cancel")}
                 </Button>
               </Col>
 
               <Col xs={12} sm={6}>
-                <Button 
-                  variant="warning" 
-                  type="submit" 
+                <Button
+                  variant="warning"
+                  type="submit"
                   className="w-100 py-3 boton-personalizado boton-enviar"
-                  disabled={isSubmitting || !isValid}
+                  disabled={estaEnviando || !isValid || !isDirty}
                 >
-                  {isSubmitting ? t("form.registering") : t("form.register")}
+                  {estaEnviando ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2"></span>
+                      {t("registering")}
+                    </>
+                  ) : (
+                    t("register")
+                  )}
                 </Button>
               </Col>
             </Row>
-
           </Form>
         </Col>
       </Row>

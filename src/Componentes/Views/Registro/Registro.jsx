@@ -5,14 +5,17 @@ import FormRegistro from "./FormRegistro/FormRegistro";
 import { UserStorage } from "../../Utils/UsuarioStorage";
 import { useUser } from "../../Context/ContextoUsuario";
 import "./Registro.css";
-export const Registro = ({ onClose }) => {
+
+export const Registro = ({ onClose, onAbrirLogin }) => {
   const navigate = useNavigate();
   const { setUsuarioActual } = useUser();
 
   const onSubmit = async (data) => {
     try {
+      console.log("Registro.jsx - Datos recibidos:", data);
       
       const resultado = await UserStorage.VerificarRegistrarUsuario(data);
+      console.log("Registro.jsx - Resultado:", resultado);
 
       if (resultado.registrado) {
         toast.success("¡Registro exitoso! Bienvenido a Rolling Motors");
@@ -50,6 +53,7 @@ export const Registro = ({ onClose }) => {
         toast.error(resultado.mensaje || "No se pudo registrar el usuario");
       }
     } catch (error) {
+      console.error("Registro.jsx - Error:", error);
       toast.error("Error inesperado: " + error.message);
     }
   };
@@ -69,7 +73,11 @@ export const Registro = ({ onClose }) => {
       </Modal.Header>
 
       <Modal.Body className="cuerpo-modal-personalizado p-0">
-        <FormRegistro onSubmit={onSubmit} onClose={onClose} />
+        <FormRegistro 
+          onSubmit={onSubmit} 
+          onClose={onClose} 
+          onAbrirLogin={onAbrirLogin}
+        />
       </Modal.Body>
     </Modal>
   );
