@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
 :root {
   --color-crema: #e8e1c4;
   --color-dorado: #c89b2b;
@@ -12,9 +14,6 @@
   --font-body: 'Montserrat', 'Arial', sans-serif;
   --font-accent: 'Cinzel', 'Garamond', serif;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
 
 .pagina-productos {
   min-height: 100vh;
