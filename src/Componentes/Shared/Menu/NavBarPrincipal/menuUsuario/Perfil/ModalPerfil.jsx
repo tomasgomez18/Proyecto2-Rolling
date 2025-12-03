@@ -220,7 +220,6 @@ const ModalPerfil = ({ mostrar, onCerrar }) => {
               </div>
             </div>
 
-            {/* Mensaje informativo para administradores */}
             {esAdministrador && (
               <Alert variant="info" className="alert-info-admin">
                 <Alert.Heading>
