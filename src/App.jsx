@@ -8,16 +8,16 @@ import PaginaProductos from "./Componentes/Views/Productos/ComponenteProducto/Pa
 import Contacto from "./Componentes/Views/Contacto/Contacto";
 import AdminPanel from "./Componentes/Admin/AdminPanel";
 import RutaProtegida from "./Componentes/Utils/RutaProtegida";
+import Productos from "./Componentes/Views/Productos/Productos";
+import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/Detalle-Producto/DetalleProducto";
+import Carrito from "./Componentes/Views/Productos/componenteCarrito/Carrito";
+import Footer from "./Componentes/Shared/Footer/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { UserStorage } from "./Componentes/Utils/UsuarioStorage";
 import { UserProvider } from "./Componentes/Context/ContextoUsuario";
 import { ProveedorProductos } from "./Componentes/Context/ContextoProducto";
-import DetalleProducto from "./Componentes/Views/Productos/ComponenteProducto/PaginaProductos/Detalle-Producto/DetalleProducto";
-import Productos from "./Componentes/Views/Productos/Productos";
-import Carrito from "./Componentes/Views/Productos/ComponenteCarrito/Carrito";
 import { CarritoProvider } from "./Componentes/Context/ContextoCarrito";
-import Footer from "./Componentes/Shared/Footer/Footer";
 function App() {
   useEffect(() => {
     UserStorage.Backup().then((resultado) => {
