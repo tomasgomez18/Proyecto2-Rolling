@@ -43,7 +43,7 @@ function App() {
               <Route path="/productos-todos" element={<Productos />} />
               <Route path="/detalle-producto" element={<DetalleProducto />} />
               <Route path="/carrito" element={<Carrito />} />
-              <Route path="/404" element={<Pagina404 />} />
+              <Route path="*" element={<Pagina404 />} />
               <Route
                 path="/admin"
                 element={
