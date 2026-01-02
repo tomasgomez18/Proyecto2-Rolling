@@ -118,7 +118,7 @@
 
 .input-cantidad:focus {
   border-color: var(--color-dorado);
-  box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(211, 175, 55, 0.25);
 }
 
 .btn-eliminar {
