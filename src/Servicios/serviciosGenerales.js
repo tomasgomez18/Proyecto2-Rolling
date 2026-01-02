@@ -1,4 +1,3 @@
-/** --------------------------------- USUARIOS --------------------------------- */
 
 export const obtenerUsuarios = () => {
   const usuarios = localStorage.getItem("usuarios");
@@ -16,7 +15,6 @@ export const obtenerUsuarioPorId = (id) => {
 export const agregarUsuario = (usuario) => {
   const usuarios = obtenerUsuarios();
 
-  // Validar duplicados
   if (usuarios.some(u => u.email.toLowerCase() === usuario.email.toLowerCase())) {
     return { exito: false, mensaje: "El email ya está registrado" };
   }
@@ -49,8 +47,6 @@ export const eliminarUsuario = (id) => {
     return { exito: false, mensaje: "Usuario no encontrado" };
   return { exito: true };
 };
-
-/** ---------------------------- USUARIOS SUSPENDIDOS ---------------------------- */
 
 export const obtenerUsuariosSuspendidos = () => {
   const suspendidos = localStorage.getItem("usuariosSuspendidos");
@@ -108,7 +104,6 @@ export const eliminarUsuarioSuspendido = (id) => {
   return { exito: true };
 };
 
-/** --------------------------------- LOGIN --------------------------------- */
 
 export const loginUsuario = (credencial, contrasena) => {
   console.log("=== LOGIN USUARIO ===");
@@ -143,7 +138,6 @@ export const registrarUsuario = (datosUsuario) => {
   return agregarUsuario(datosUsuario);
 };
 
-/** --------------------------------- PRODUCTOS --------------------------------- */
 
 export const obtenerProductos = () => {
   const productos = localStorage.getItem("productos");
